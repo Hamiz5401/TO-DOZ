@@ -40,7 +40,7 @@ Students have many things to do within deadlines, normally teachers take them to
     ```
    pip install -r requirements.txt
     ```
-4. Type this command to migrate the KUIZ database.
+4. Type this command to migrate the TO-DOZ database.
 
     ```
    py manage.py migrate
