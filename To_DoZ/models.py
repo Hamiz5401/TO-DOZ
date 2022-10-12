@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 
@@ -19,4 +20,4 @@ class Task(models.Model):
     to_do_list = models.ForeignKey(ToDoList, on_delete=models.CASCADE)
     
     def is_late(self):
-        pass
+        return timezone.localtime() > self.deadline
