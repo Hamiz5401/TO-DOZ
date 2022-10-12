@@ -12,15 +12,26 @@ from .models import ToDoList, Task
 
 import os.path
 
+
 def home(request):
     to_do_list = ToDoList.objects.order_by('subject_text')[:5]
     output = ', '.join([l.subject_text for l in to_do_list])
     return HttpResponse(output)
 
-def history(request):
-    to_do_list = ToDoList.objects.order_by('subject_text')[:5]
-    output = ', '.join([l.subject_text for l in to_do_list])
-    return HttpResponse("This is history page.")
+
+class HistoryView(generic.ListView):
+
+    template_name = 'To_DoZ/history.html'
+    context_object_name = 'tasks_passed_deadline'
+
+    def get_queryset(self):
+        return Task.objects.filter(deadline__lte=timezone.now()).order_by('-deadline')
+
+# def history(request):
+#     to_do_list = ToDoList.objects.order_by('subject_text')[:5]
+#     output = ', '.join([l.subject_text for l in to_do_list])
+#     return HttpResponse("This is history page.")
+
 
 def detail(request, pk_list, pk_task):
     to_do_list = ToDoList.objects.order_by('subject_text')[:5]
