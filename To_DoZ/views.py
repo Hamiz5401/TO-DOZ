@@ -22,15 +22,19 @@ def home(request):
 class HistoryView(generic.ListView):
 
     template_name = 'To_DoZ/history.html'
+    context_object_name = 'tasks_finished'
+
+    def get_queryset(self):
+        return Task.objects.filter(status=True).order_by('-deadline')
+
+
+class MissingView(generic.ListView):
+
+    template_name = 'To_Doz/missing.html'
     context_object_name = 'tasks_passed_deadline'
 
     def get_queryset(self):
-        return Task.objects.filter(deadline__lte=timezone.now()).order_by('-deadline')
-
-# def history(request):
-#     to_do_list = ToDoList.objects.order_by('subject_text')[:5]
-#     output = ', '.join([l.subject_text for l in to_do_list])
-#     return HttpResponse("This is history page.")
+        return Task.objects.filter(deadline__lte=timezone.localtime()).order_by('-deadline')
 
 
 def detail(request, pk_list, pk_task):
