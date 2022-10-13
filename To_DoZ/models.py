@@ -10,6 +10,10 @@ class ToDoList(models.Model):
     classroom_API = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
+    def __str__(self):
+        return f"List: {self.subject_text}."
+        # return f"List: {self.subject_text} of User: {self.user.USERNAME_FIELD}."
+    
 
 class Task(models.Model):
     title = models.CharField(max_length=200)
@@ -21,3 +25,6 @@ class Task(models.Model):
     
     def is_late(self):
         return timezone.localtime() > self.deadline
+    
+    def __str__(self):
+        return f"Task: {self.title}."
