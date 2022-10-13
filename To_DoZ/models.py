@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class ToDoList(models.Model):
     """List Model."""
-    subject_text = models.CharField(max_length=200)
+    subject = models.CharField(max_length=200)
     classroom_API = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
