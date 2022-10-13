@@ -2,16 +2,16 @@
 
 <link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
 
-<h1>History</h1>
+<h1>Missing</h1>
 
-{% if tasks_finished %}
+{% if tasks_passed_deadline %}
     <ul>
-        {% for task in tasks_finished %}
+        {% for task in tasks_passed_deadline %}
         <li>
             {{ task.title }}
         </li>
         {% endfor %}
     </ul>
 {% else %}
-    <p>No task has been done yet.</p>
+    <p>No Missing tasks.</p>
 {% endif %}
