@@ -8,10 +8,11 @@
     <ul>
         {% for task in tasks_finished %}
         <li>
-            {{ task.title }}
+            {{ task.title }} <a href="{% url 'To_DoZ:done' task.pk task.pk %}">redone</a> <!-- first parameter is still omited -->
         </li>
         {% endfor %}
     </ul>
 {% else %}
     <p>No task has been done yet.</p>
 {% endif %}
+<a href="{% url 'To_DoZ:home' %}">Home page</a>
