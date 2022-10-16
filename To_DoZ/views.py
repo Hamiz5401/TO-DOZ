@@ -13,10 +13,10 @@ from .models import ToDoList, Task
 import os.path
 
 
-def home(request):
-    to_do_list = ToDoList.objects.order_by('subject_text')[:5]
-    output = ', '.join([l.subject_text for l in to_do_list])
-    return HttpResponse(output)
+class HomeView(generic.ListView):
+    model = ToDoList
+    template_name = "To_DoZ/home.html"
+    context_object_name = "todolist_list"
 
 
 class HistoryView(generic.ListView):
