@@ -11,7 +11,7 @@ class ToDoList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
-        return f"List: {self.subject_text}."
+        return f"List: {self.subject}."
         # return f"List: {self.subject_text} of User: {self.user.USERNAME_FIELD}."
     
 

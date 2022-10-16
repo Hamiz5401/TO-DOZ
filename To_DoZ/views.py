@@ -28,15 +28,6 @@ class HistoryView(generic.ListView):
         return Task.objects.filter(status=True).order_by('-deadline')
 
 
-class MissingView(generic.ListView):
-
-    template_name = 'To_Doz/missing.html'
-    context_object_name = 'tasks_passed_deadline'
-
-    def get_queryset(self):
-        return Task.objects.filter(deadline__lte=timezone.localtime()).order_by('-deadline')
-
-
 def detail(request, pk_list, pk_task):
     to_do_list = ToDoList.objects.order_by('subject_text')[:5]
     return HttpResponse(f"This is detail page for task: {pk_task} of list: {pk_list}.")
