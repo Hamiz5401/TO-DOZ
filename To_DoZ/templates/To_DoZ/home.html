@@ -3,9 +3,15 @@
 {% for todolist in todolist_list %}
 <h3>{{todolist.subject}}</h3>
 <ul>
-    {% for task in todolist.task_set.all %}
-    <li>{{task.title}}</li>
-    {% endfor %}
+    {% if todolist.task_set.all %}
+        {% for task in todolist.task_set.all %}
+            {% if task.status == False %}
+                <li>{{task.title}} <a href="{% url 'To_DoZ:done' todolist.pk task.pk %}">Done</a></li>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+    No tasks
+    {% endif %}
 </ul>
 <hr>
 {% endfor %}
