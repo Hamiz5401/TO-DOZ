@@ -7,19 +7,21 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .models import ToDoList, Task
 
 import os.path
 
 
+@method_decorator(login_required, name="dispatch")
 class HomeView(generic.ListView):
     model = ToDoList
     template_name = "To_DoZ/home.html"
     context_object_name = "todolist_list"
-    
 
 
+@method_decorator(login_required, name="dispatch")
 class HistoryView(generic.ListView):
 
     template_name = 'To_DoZ/history.html'
@@ -29,10 +31,13 @@ class HistoryView(generic.ListView):
         return Task.objects.filter(status=True).order_by('-deadline')
 
 
+@method_decorator(login_required, name="dispatch")
 def detail(request, pk_list, pk_task):
     to_do_list = ToDoList.objects.order_by('subject_text')[:5]
     return HttpResponse(f"This is detail page for task: {pk_task} of list: {pk_list}.")
 
+
+@method_decorator(login_required, name="dispatch")
 def done(request, pk_list, pk_task):
     print("hello op")
     task_object = Task.objects.get(pk=pk_task)

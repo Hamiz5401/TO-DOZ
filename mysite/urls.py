@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('To-Doz/', include('To_DoZ.urls')),
     path("", RedirectView.as_view(url="/To-Doz/")),
+    path('accounts/', include('allauth.urls')),
 ]

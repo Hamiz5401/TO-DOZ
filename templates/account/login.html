@@ -1,0 +1,24 @@
+{% load socialaccount %}
+<html>
+  <head>
+    <title>Login page</title>
+  </head>
+  <body>
+        <h1>Login Page</h1>
+        <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+            <button onclick="document.location='{% provider_login_url 'google' %}'">
+            Login with Google
+            </button>
+          <p>
+            <button type="submit" class="input_button">Login</button>
+          </p>
+          <input type="hidden" name="next" value="{{next}}"/>
+       </form>
+      {# If you have a password_reset template, then add here #}
+      <p>
+        <a href="{% url 'account_reset_password' %}" class="input_button">Forgot password?</a>
+      </p>
+  </body>
+</html>
