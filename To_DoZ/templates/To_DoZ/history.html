@@ -1,18 +1,19 @@
-{% load static %}
-
-<link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
-
-<h1>History</h1>
-
-{% if tasks_finished %}
-    <ul>
-        {% for task in tasks_finished %}
-        <li>
-            {{ task.title }} <a href="{% url 'To_DoZ:done' task.pk task.pk %}">redone</a> <!-- first parameter is still omited -->
-        </li>
+<h1>History page</h1>
+<hr>
+{% for todolist in todolist_list %}
+<h3>{{todolist.subject}}</h3>
+<ul>
+    {% if todolist.task_set.all %}
+        {% for task in todolist.task_set.all %}
+            {% if task.status == True %}
+                <li>{{task.title}} <a href="{% url 'To_DoZ:done' todolist.pk task.pk %}">Redone</a></li>
+            {% endif %}
         {% endfor %}
-    </ul>
-{% else %}
-    <p>No task has been done yet.</p>
-{% endif %}
+    {% else %}
+    No tasks
+    {% endif %}
+</ul>
+<hr>
+{% endfor %}
+
 <a href="{% url 'To_DoZ:home' %}">Home page</a>
