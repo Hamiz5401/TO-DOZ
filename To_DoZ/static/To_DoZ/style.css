@@ -4,3 +4,13 @@ li a {
 body {
     background: white url("images/background.png") no-repeat;
 }
+
+h1 {
+background-color: #EDEDED;
+padding: 20px;
+}
+
+h3 {
+background-color: #D3D0CB;
+padding: 10px;
+}

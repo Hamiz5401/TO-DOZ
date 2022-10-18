@@ -1,0 +1,15 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
+
+<h1>Home page</h1>
+<hr>
+{% for todolist in todolist_list %}
+<h3>{{todolist.subject}}</h3>
+<ul>
+    {% for task in todolist.task_set.all %}
+    <li>{{task.title}}</li>
+    {% endfor %}
+</ul>
+<hr>
+{% endfor %}
