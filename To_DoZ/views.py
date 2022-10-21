@@ -34,14 +34,20 @@ class HistoryView(generic.ListView):
         return ToDoList.objects.filter(user=user)
 
 
-@login_required
-def detail(request, pk_list, pk_task):
-    to_do_list = ToDoList.objects.order_by('subject_text')[:5]
-    return HttpResponse(f"This is detail page for task: {pk_task} of list: {pk_list}.")
+# @login_required
+# def detail(request, pk_list, pk_task):
+#     to_do_list = ToDoList.objects.order_by('subject_text')[:5]
+#     return HttpResponse(f"This is detail page for task: {pk_task} of list: {pk_list}.")
 
+class DetailView(generic.DetailView):
+    model = Task
+    template_name = 'To_DoZ/detail.html'
+    context_object_name = 'task'
+
+    
 @login_required
-def done(request, pk_list, pk_task):
-    task_object = ToDoList.objects.get(pk=pk_list).task_set.all().get(pk=pk_task)
+def done(request, pk_task):
+    task_object = Task.objects.get(pk=pk_task)
     if task_object.status:
         task_object.status = False
         task_object.save()
