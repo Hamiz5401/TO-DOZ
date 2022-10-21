@@ -43,6 +43,11 @@ class DetailView(generic.DetailView):
     model = Task
     template_name = 'To_DoZ/detail.html'
     context_object_name = 'task'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['subject'] = self.kwargs['subject']
+        return context
 
     
 @login_required
