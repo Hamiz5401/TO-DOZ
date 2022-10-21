@@ -1,0 +1,12 @@
+<h1>Details page</h1>
+<hr>
+<h3>{{task.title}}</h3>
+<p>
+    deadline: {{task.deadline}}
+</p>
+<p>
+    detail: {{task.detail}}
+</p>
+<p>edit</p>
+<a href="{% url 'To_DoZ:done' task.pk %}">Done</a>
+<a href="{% url 'To_DoZ:home' %}">Home page</a>
