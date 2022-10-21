@@ -6,7 +6,7 @@
     {% if todolist.task_set.all %}
         {% for task in todolist.task_set.all %}
             {% if task.status == False %}
-                <li><a href="{% url 'To_DoZ:detail' task.pk %}">{{task.title}}</a> <a href="{% url 'To_DoZ:done' task.pk %}">Done</a></li>
+                <li><a href="{% url 'To_DoZ:detail' todolist.subject task.pk %}">{{task.title}}</a> <a href="{% url 'To_DoZ:done' task.pk %}">Done</a></li>
             {% endif %}
         {% endfor %}
     {% else %}
