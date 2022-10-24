@@ -1,0 +1,194 @@
+[
+    {
+        "id": "491093090343",
+        "name": "Economics for better living",
+        "descriptionHeading": "Economics for better living",
+        "description": "2-2565",
+        "ownerId": "104179976607043758771",
+        "creationTime": "2022-10-20T04:04:31.439Z",
+        "updateTime": "2022-10-20T04:04:58.322Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NDkxMDkzMDkwMzQz",
+        "teacherGroupEmail": "Economics_for_better_living_teachers_341d3cb7@ku.th",
+        "courseGroupEmail": "Economics_for_better_living_e1ee72d5@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroom209c8293@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "501899095997",
+        "name": "01219214  ProbStat for SKE",
+        "section": "Section 450, Academic Year 2565",
+        "descriptionHeading": "01219214  ProbStat for SKE Section 450, Academic Year 2565",
+        "ownerId": "111705903408590822796",
+        "creationTime": "2022-09-27T09:42:44.036Z",
+        "updateTime": "2022-09-27T09:54:51.585Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NTAxODk5MDk1OTk3",
+        "teacherGroupEmail": "01219214_ProbStat_for_SKE_Section_450_Academic_Year_2565_teachers_078f95d5@ku.th",
+        "courseGroupEmail": "01219214_ProbStat_for_SKE_Section_450_Academic_Year_2565_eacfaa93@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroomcf762e97@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "497669488153",
+        "name": "2022-1st 01219224 Computer Network",
+        "descriptionHeading": "2022-1st 01219224 Computer Network",
+        "ownerId": "114270309110811980408",
+        "creationTime": "2022-08-19T01:30:01.803Z",
+        "updateTime": "2022-08-19T01:30:01.803Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NDk3NjY5NDg4MTUz",
+        "teacherGroupEmail": "2022_1st_01219224_Computer_Network_teachers_32413a67@ku.th",
+        "courseGroupEmail": "2022_1st_01219224_Computer_Network_d92269ea@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroom2e3529e9@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "497373223619",
+        "name": "65/1 01219217 Data Structure & Algorithm I",
+        "section": "450  Tu 13:00-16:00",
+        "descriptionHeading": "65/1 01219217 Data Structure & Algorithm I",
+        "room": "503 (Building 15)",
+        "ownerId": "115636970878233548373",
+        "creationTime": "2022-08-08T15:58:18.878Z",
+        "updateTime": "2022-08-16T06:18:57.655Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NDk3MzczMjIzNjE5",
+        "teacherGroupEmail": "65_1_01219217_Data_Structure_Algorithm_I_teachers_e908952f@ku.th",
+        "courseGroupEmail": "65_1_01219217_Data_Structure_Algorithm_I_2fb5f1bf@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroom7d8a8901@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "538235602466",
+        "name": "2022-1st 01219214",
+        "section": "450",
+        "descriptionHeading": "2022-1st 01219214 450",
+        "ownerId": "114270309110811980408",
+        "creationTime": "2022-08-10T09:59:58.854Z",
+        "updateTime": "2022-08-10T09:59:58.854Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NTM4MjM1NjAyNDY2",
+        "teacherGroupEmail": "2022_1st_01219214_450_teachers_f076d3ed@ku.th",
+        "courseGroupEmail": "2022_1st_01219214_450_38089bdf@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroombd0029a0@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "496764734621",
+        "name": "Aj Prathana's Eng 119",
+        "section": "450",
+        "descriptionHeading": "Aj Prathana's Eng 119 450",
+        "room": "LH4-804",
+        "ownerId": "111171867370895925429",
+        "creationTime": "2022-06-27T10:50:38.319Z",
+        "updateTime": "2022-06-27T10:51:30.310Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NDk2NzY0NzM0NjIx",
+        "teacherGroupEmail": "Aj_Prathana_s_Eng_119_450_teachers_854433bd@ku.th",
+        "courseGroupEmail": "Aj_Prathana_s_Eng_119_450_0db99476@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroomc8ccca15@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "496895014582",
+        "name": "219245 ISP",
+        "section": "2022",
+        "descriptionHeading": "219245 ISP 2022",
+        "room": "E204",
+        "ownerId": "102624657296985207669",
+        "creationTime": "2022-07-05T03:23:54.648Z",
+        "updateTime": "2022-09-08T05:37:11.555Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NDk2ODk1MDE0NTgy",
+        "teacherGroupEmail": "219245_ISP_2022_teachers_ad5cc6be@ku.th",
+        "courseGroupEmail": "219245_ISP_2022_d0089105@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classrooma80382a5@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "497311758261",
+        "name": "01999041 (ENG)",
+        "section": "400+",
+        "descriptionHeading": "01999041 (ENG) 400+",
+        "room": "IUP E17201",
+        "ownerId": "112327761715858838576",
+        "creationTime": "2022-08-04T08:18:45.044Z",
+        "updateTime": "2022-09-19T07:39:10.941Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NDk3MzExNzU4MjYx",
+        "teacherGroupEmail": "01999041_ENG_400_teachers_143a9e7c@ku.th",
+        "courseGroupEmail": "01999041_ENG_400_4c2a8760@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroomdbac3a6b@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "538036802869",
+        "name": "01999023Monday-1-2022",
+        "section": "450",
+        "descriptionHeading": "01999023Monday-1-2022",
+        "ownerId": "118207977852126822290",
+        "creationTime": "2022-08-08T04:17:05.364Z",
+        "updateTime": "2022-08-10T13:46:52.589Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NTM4MDM2ODAyODY5",
+        "teacherGroupEmail": "01999023Monday_1_2022_teachers_d4261969@ku.th",
+        "courseGroupEmail": "01999023Monday_1_2022_96e93c77@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroomf0ade6bf@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    },
+    {
+        "id": "496760647541",
+        "name": "\u0e19\u0e34\u0e2a\u0e34\u0e15\u0e43\u0e19\u0e17\u0e35\u0e48\u0e1b\u0e23\u0e36\u0e01\u0e29\u0e32 \u0e2d.\u0e01\u0e24\u0e29\u0e13\u0e30",
+        "descriptionHeading": "\u0e19\u0e34\u0e2a\u0e34\u0e15\u0e43\u0e19\u0e17\u0e35\u0e48\u0e1b\u0e23\u0e36\u0e01\u0e29\u0e32 \u0e2d.\u0e01\u0e24\u0e29\u0e13\u0e30",
+        "ownerId": "112038593190015650430",
+        "creationTime": "2022-06-27T06:07:02.868Z",
+        "updateTime": "2022-06-28T05:26:32.858Z",
+        "courseState": "ACTIVE",
+        "alternateLink": "https://classroom.google.com/c/NDk2NzYwNjQ3NTQx",
+        "teacherGroupEmail": "teachers_f114e85c@ku.th",
+        "courseGroupEmail": "bb52427b@ku.th",
+        "guardiansEnabled": false,
+        "calendarId": "c_classroom18215f72@group.calendar.google.com",
+        "gradebookSettings": {
+            "calculationType": "TOTAL_POINTS",
+            "displaySetting": "HIDE_OVERALL_GRADE"
+        }
+    }
+]
