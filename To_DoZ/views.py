@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+import datetime
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -16,7 +18,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-import json
+
 import os.path
 
 SCOPES = [
@@ -53,6 +55,7 @@ try:
         print('No courses found.')
     for course in courses:
         classwork = service.courses().courseWork().list(courseId=course['id']).execute()
+        # print(classwork['courseWork'])
 
 except HttpError as error:
     print('An error occurred: %s' % error)
@@ -65,18 +68,20 @@ class HomeView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        for g_data in courses:
-            g_classroom_todo = ToDoList.objects.create(user=user, subject=g_data['name'])
-            # print(classwork)
-            try:
-                for g_task in classwork['courseWork']:
-                    print(g_task)
-                    # Task.objects.create(title=g_task['title'],
-                    #                     detail=g_task['description'],
-                    #                     # deadline will be added later
-                    #                     to_do_list=g_classroom_todo)
-            except KeyError:
-                print(f"    No classwork")
+        if user.socialaccount_set.exists():
+            for g_data in courses:
+                if not ToDoList.objects.filter(user=user, subject=g_data['name']).exists():
+                    g_classroom_todo = ToDoList.objects.create(user=user, subject=g_data['name'])
+                    try:
+                        for g_task in classwork['courseWork']:
+                            if not Task.objects.filter(title=g_task['title'],
+                                                       to_do_list=g_classroom_todo).exists():
+                                Task.objects.create(title=g_task['title'],
+                                                    detail=g_task['description'],
+                                                    # deadline=timezone.now() + datetime.timedelta(days=30),
+                                                    to_do_list=g_classroom_todo)
+                    except KeyError:
+                        print(g_data['name'])
         return ToDoList.objects.filter(user=user)
 
 
