@@ -59,6 +59,11 @@ class DetailView(generic.DetailView):
         context['subject'] = self.kwargs['subject']
         return context
 
+
+class TaskCreateView(generic.edit.CreateView):
+    model = Task
+    fields = ['title']
+
     
 @login_required
 def done(request, pk_task):
