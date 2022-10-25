@@ -53,12 +53,32 @@ try:
 
     if not courses:
         print('No courses found.')
-    for course in courses:
-        classwork = service.courses().courseWork().list(courseId=course['id']).execute()
-        # print(classwork['courseWork'])
 
 except HttpError as error:
     print('An error occurred: %s' % error)
+
+
+def create_classroom_data(user):
+    if user.socialaccount_set.exists():
+        for g_data in courses:
+            if not ToDoList.objects.filter(user=user, subject=g_data['name'].replace('/', "-")).exists():
+                ToDoList.objects.create(user=user, subject=g_data['name'].replace('/', "-"))
+            classwork = service.courses().courseWork().list(courseId=g_data['id']).execute()
+            if 'courseWork' in classwork:
+                print(classwork['courseWork'])
+                for work in classwork['courseWork']:
+                    if g_data['id'] != work['courseId']:
+                        continue
+                    print("g_data name: ", g_data['name'])
+                    print(Task.objects.filter(title=work['title']).exists())
+                    print("g_title:", work['title'])
+                    if not Task.objects.filter(title=work['title']).exists():
+                        g_classroom_todo = ToDoList.objects.get(user=user, subject=g_data['name'])
+                        print("g_todo:", g_classroom_todo)
+                        Task.objects.create(title=work['title'],
+                                            detail=work['description'] if 'description' in work else "No description",
+                                            # deadline=timezone.now() + datetime.timedelta(days=30),
+                                            to_do_list=g_classroom_todo)
 
 
 @method_decorator(login_required, name="dispatch")
@@ -68,20 +88,7 @@ class HomeView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.socialaccount_set.exists():
-            for g_data in courses:
-                if not ToDoList.objects.filter(user=user, subject=g_data['name']).exists():
-                    g_classroom_todo = ToDoList.objects.create(user=user, subject=g_data['name'])
-                    try:
-                        for g_task in classwork['courseWork']:
-                            if not Task.objects.filter(title=g_task['title'],
-                                                       to_do_list=g_classroom_todo).exists():
-                                Task.objects.create(title=g_task['title'],
-                                                    detail=g_task['description'],
-                                                    # deadline=timezone.now() + datetime.timedelta(days=30),
-                                                    to_do_list=g_classroom_todo)
-                    except KeyError:
-                        print(g_data['name'])
+        create_classroom_data(user)
         return ToDoList.objects.filter(user=user)
 
 
