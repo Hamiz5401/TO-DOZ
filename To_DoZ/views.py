@@ -1,4 +1,5 @@
-from __future__ import print_function
+from re import T
+from django.views.generic.edit import CreateView
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
@@ -56,15 +57,26 @@ class DetailView(generic.DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['subject'] = self.kwargs['subject']
+        context['subject'] = ToDoList.objects.get(pk=self.kwargs["pk_list"])
         return context
-
-
-class TaskCreateView(generic.edit.CreateView):
-    model = Task
-    fields = ['title']
-
     
+
+class TaskCreateView(CreateView):
+    model = Task
+    template_name = "To_DoZ/task_form.html"
+    fields = ["title", "detail", "priority", "status", "deadline", "to_do_list"]
+
+    def get_initial(self):
+        super(TaskCreateView, self).get_initial()
+        to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
+        self.initial = {'to_do_list':to_do_list}
+        return self.initial
+        
+    # def get_initial(self):
+    #     to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
+    #     return {'to_do_list':to_do_list}
+
+
 @login_required
 def done(request, pk_task):
     task_object = Task.objects.get(pk=pk_task)

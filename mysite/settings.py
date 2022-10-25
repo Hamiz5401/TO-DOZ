@@ -139,7 +139,7 @@ AUTHENTICATION_BACKENDS = (
  'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 5
+SITE_ID = 4
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
