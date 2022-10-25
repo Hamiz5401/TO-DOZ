@@ -31,6 +31,20 @@
     text-align: center;
     }
 
+    .user{
+    background-color: ffffff;
+    color: #363431; 
+    padding: 0.5rem;
+    width: 7rem;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 2rem;
+    border-radius: 2rem;
+    text-align: center;
+    text-align: center;
+    float:right;
+    }
+
     .subject_list {
     background-color: #a9d1ad;
     }
@@ -130,6 +144,7 @@
 <div class="header">
     <div class="logo">TO-DOZ</div>
     <div class="page">HOME</div>
+    <div class="user">{{user}}</div>
 </div>
 <hr>
 {% for todolist in todolist_list %}
