@@ -49,18 +49,10 @@ try:
     results = service.courses().list(pageSize=10).execute()
     courses = results.get('courses', [])
 
-    # classwork = service.courses.courseWork.list().execute
-
     if not courses:
         print('No courses found.')
-    # Prints the names of the first 10 courses.
-    classroom_data = []
     for course in courses:
         classwork = service.courses().courseWork().list(courseId=course['id']).execute()
-        classroom_data.append(course)
-
-    with open("google_classroom.json", "a") as outfile:
-        json.dump(classroom_data, outfile, indent=4)
 
 except HttpError as error:
     print('An error occurred: %s' % error)
@@ -73,9 +65,7 @@ class HomeView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        data = open('google_classroom.json', "r")
-        classroom_data_json = json.load(data)
-        for g_data in classroom_data_json:
+        for g_data in courses:
             g_classroom_todo = ToDoList.objects.create(user=user, subject=g_data['name'])
             # print(classwork)
             try:
