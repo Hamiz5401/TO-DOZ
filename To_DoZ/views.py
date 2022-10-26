@@ -45,11 +45,6 @@ class HistoryView(generic.ListView):
         return context
 
 
-# @login_required
-# def detail(request, pk_list, pk_task):
-#     to_do_list = ToDoList.objects.order_by('subject_text')[:5]
-#     return HttpResponse(f"This is detail page for task: {pk_task} of list: {pk_list}.")
-
 class DetailView(generic.DetailView):
     model = Task
     template_name = 'To_DoZ/detail.html'
@@ -66,15 +61,26 @@ class TaskCreateView(CreateView):
     template_name = "To_DoZ/task_form.html"
     fields = ["title", "detail", "priority", "status", "deadline"]
 
-    def get_initial(self):
-        super(TaskCreateView, self).get_initial()
-        to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
-        self.initial = {'to_do_list':to_do_list}
-        return self.initial
+    def get_success_url(self) -> str:
+        return reverse("To_DoZ:home")
+    
+    def form_valid(self, form):
+        form.instance.to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
+        return super(TaskCreateView, self).form_valid(form)
+
+    
+class ListCreateView(CreateView):
+    model = ToDoList
+    template_name = "To_DoZ/list_form.html"
+    fields = ["subject"]
 
     def get_success_url(self) -> str:
         return reverse("To_DoZ:home")
     
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(ListCreateView, self).form_valid(form)
+
 
 @login_required
 def done(request, pk_task):
