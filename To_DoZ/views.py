@@ -1,10 +1,10 @@
 from re import T
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
+from django.views import generic
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -31,7 +31,6 @@ class HomeView(generic.ListView):
 
 @method_decorator(login_required, name="dispatch")
 class HistoryView(generic.ListView):
-
     template_name = 'To_DoZ/history.html'
     context_object_name = 'todolist_list'
 
@@ -50,15 +49,10 @@ class DetailView(generic.DetailView):
     template_name = 'To_DoZ/detail.html'
     context_object_name = 'task'
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['subject'] = ToDoList.objects.get(pk=self.kwargs["pk_list"])
-        return context
-    
 
 class TaskCreateView(CreateView):
     model = Task
-    template_name = "To_DoZ/task_form.html"
+    template_name = "To_DoZ/task_create_form.html"
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
@@ -71,7 +65,7 @@ class TaskCreateView(CreateView):
     
 class ListCreateView(CreateView):
     model = ToDoList
-    template_name = "To_DoZ/list_form.html"
+    template_name = "To_DoZ/list_create_form.html"
     fields = ["subject"]
 
     def get_success_url(self) -> str:
@@ -80,6 +74,15 @@ class ListCreateView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(ListCreateView, self).form_valid(form)
+
+
+class TaskUpdateView(UpdateView):
+    model = Task
+    template_name_suffix = "_update_form"
+    fields = ["title", "detail", "priority", "status", "deadline"]
+
+    def get_success_url(self) -> str:
+        return reverse("To_DoZ:detail", args=(self.kwargs["pk_list"], self.kwargs["pk"]))
 
 
 @login_required
