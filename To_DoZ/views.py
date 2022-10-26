@@ -22,7 +22,7 @@ class HomeView(generic.ListView):
     def get_queryset(self):
         user = self.request.user
         return ToDoList.objects.filter(user=user)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
@@ -37,7 +37,7 @@ class HistoryView(generic.ListView):
     def get_queryset(self):
         user = self.request.user
         return ToDoList.objects.filter(user=user)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
@@ -48,7 +48,7 @@ class DetailView(generic.DetailView):
     model = Task
     template_name = 'To_DoZ/detail.html'
     context_object_name = 'task'
-    
+
 
 class TaskCreateView(CreateView):
     model = Task
@@ -57,12 +57,13 @@ class TaskCreateView(CreateView):
 
     def get_success_url(self) -> str:
         return reverse("To_DoZ:home")
-    
+
     def form_valid(self, form):
-        form.instance.to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
+        form.instance.to_do_list = ToDoList.objects.get(
+            pk=self.kwargs["pk_list"])
         return super(TaskCreateView, self).form_valid(form)
 
-    
+
 class ListCreateView(CreateView):
     model = ToDoList
     template_name = "To_DoZ/list_create_form.html"
@@ -70,7 +71,7 @@ class ListCreateView(CreateView):
 
     def get_success_url(self) -> str:
         return reverse("To_DoZ:home")
-    
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(ListCreateView, self).form_valid(form)
@@ -78,11 +79,20 @@ class ListCreateView(CreateView):
 
 class TaskUpdateView(UpdateView):
     model = Task
-    template_name_suffix = "_update_form"
+    template_name = "To_DoZ/task_update_form.html"
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
         return reverse("To_DoZ:detail", args=(self.kwargs["pk_list"], self.kwargs["pk"]))
+
+
+class ListUpdateView(UpdateView):
+    model = ToDoList
+    template_name = "To_DoZ/list_create_form.html"
+    fields = ["subject"]
+
+    def get_success_url(self) -> str:
+        return reverse("To_DoZ:home")
 
 
 @login_required

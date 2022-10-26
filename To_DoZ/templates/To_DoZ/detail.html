@@ -9,5 +9,9 @@
     detail: {{task.detail}}
 </p>
 <a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">edit</a>
+{% if task.status == True%}
+<a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
+{% else %}
 <a href="{% url 'To_DoZ:done' task.pk %}">Done</a>
+{% endif %}
 <a href="{% url 'To_DoZ:home' %}">Home page</a>
