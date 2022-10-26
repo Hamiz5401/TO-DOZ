@@ -64,7 +64,7 @@ class DetailView(generic.DetailView):
 class TaskCreateView(CreateView):
     model = Task
     template_name = "To_DoZ/task_form.html"
-    fields = ["title", "detail", "priority", "status", "deadline", "to_do_list"]
+    fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_initial(self):
         super(TaskCreateView, self).get_initial()
