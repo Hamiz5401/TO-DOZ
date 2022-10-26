@@ -71,11 +71,10 @@ class TaskCreateView(CreateView):
         to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
         self.initial = {'to_do_list':to_do_list}
         return self.initial
-        
-    # def get_initial(self):
-    #     to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
-    #     return {'to_do_list':to_do_list}
 
+    def get_success_url(self) -> str:
+        return reverse("To_DoZ:home")
+    
 
 @login_required
 def done(request, pk_task):
