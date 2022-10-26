@@ -1,5 +1,4 @@
 <h1>History page</h1>
-<h1>{{user}}</h1>
 <hr>
 {% for todolist in todolist_list %}
 <h3>{{todolist.subject}}</h3>
@@ -7,7 +6,7 @@
     {% if todolist.task_set.all %}
         {% for task in todolist.task_set.all %}
             {% if task.status == True %}
-                <li>{{task.title}} <a href="{% url 'To_DoZ:done' task.pk %}">Redone</a></li>
+                <li><a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a> <a href="{% url 'To_DoZ:done' task.pk %}">Redone</a></li>
             {% endif %}
         {% endfor %}
     {% else %}

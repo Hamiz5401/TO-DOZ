@@ -154,12 +154,13 @@
     {% if todolist.task_set.all %}
         {% for task in todolist.task_set.all %}
             {% if task.status == False %}
-                <div class="each_task"><a href="{% url 'To_DoZ:detail' todolist.subject task.pk %}">{{task.title}}</a> <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Done</a></div>
+                <div class="each_task"><a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a> <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Done</a></div>
             {% endif %}
-        {% endfor %}
-    {% else %}
-    No tasks
-    {% endif %}
+            {% endfor %}
+            {% else %}
+            No tasks
+            {% endif %}
+        <a href="{% url 'To_DoZ:create' todolist.pk %}"><div>add</div></a>
 </div>
 </div>
 
