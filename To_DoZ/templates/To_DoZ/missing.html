@@ -5,13 +5,13 @@
 <h1>Missing</h1>
 
 {% if tasks_passed_deadline %}
-    <ul>
-        {% for task in tasks_passed_deadline %}
-        <li>
-            {{ task.title }}
-        </li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for task in tasks_passed_deadline %}
+    <li>
+        {{ task.title }}
+    </li>
+    {% endfor %}
+</ul>
 {% else %}
-    <p>No Missing tasks.</p>
+<p>No Missing tasks.</p>
 {% endif %}

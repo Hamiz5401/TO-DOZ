@@ -8,7 +8,12 @@
 <p>
     detail: {{task.detail}}
 </p>
-<a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">edit</a>
+<a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">
+    <div>edit</div>
+</a>
+<a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}">
+    <div>delete</div>
+</a>
 {% if task.status == True%}
 <a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
 {% else %}

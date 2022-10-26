@@ -4,11 +4,12 @@
 <h3>{{todolist.subject}}</h3>
 <ul>
     {% if todolist.task_set.all %}
-        {% for task in todolist.task_set.all %}
-            {% if task.status == True %}
-                <li><a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a> <a href="{% url 'To_DoZ:done' task.pk %}">Redone</a></li>
-            {% endif %}
-        {% endfor %}
+    {% for task in todolist.task_set.all %}
+    {% if task.status == True %}
+    <li><a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a> <a
+            href="{% url 'To_DoZ:done' task.pk %}">Redone</a></li>
+    {% endif %}
+    {% endfor %}
     {% else %}
     No tasks
     {% endif %}
