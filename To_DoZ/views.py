@@ -58,7 +58,7 @@ class DetailView(generic.DetailView):
 
 class TaskCreateView(CreateView):
     model = Task
-    template_name = "To_DoZ/task_form.html"
+    template_name = "To_DoZ/task_create_form.html"
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
@@ -71,7 +71,7 @@ class TaskCreateView(CreateView):
     
 class ListCreateView(CreateView):
     model = ToDoList
-    template_name = "To_DoZ/list_form.html"
+    template_name = "To_DoZ/list_create_form.html"
     fields = ["subject"]
 
     def get_success_url(self) -> str:
