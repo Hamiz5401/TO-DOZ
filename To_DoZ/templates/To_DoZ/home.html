@@ -160,12 +160,13 @@
             {% else %}
             No tasks
             {% endif %}
-        <a href="{% url 'To_DoZ:create' todolist.pk %}"><div>add</div></a>
+        <a href="{% url 'To_DoZ:create_task' todolist.pk %}"><div>add</div></a>
 </div>
 </div>
 
 <hr>
 {% endfor %}
+<a href="{% url 'To_DoZ:create_list' %}"><div>add</div></a>
 
 <a href="{% url 'To_DoZ:history' %}" class="history_button">History page</a>
 <a href="{% url 'account_logout' %}" class="logout_button">Log out</a>
