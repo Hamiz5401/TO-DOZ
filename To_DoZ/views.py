@@ -1,17 +1,11 @@
-from re import T
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import generic
 
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.utils import timezone
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import ToDoList, Task
-
-import os.path
 
 
 @method_decorator(login_required, name="dispatch")
@@ -90,6 +84,22 @@ class ListUpdateView(UpdateView):
     model = ToDoList
     template_name = "To_DoZ/list_create_form.html"
     fields = ["subject"]
+
+    def get_success_url(self) -> str:
+        return reverse("To_DoZ:home")
+
+
+class TaskDeleteView(DeleteView):
+    model = Task
+    template_name = "To_DoZ/task_delete_form.html"
+
+    def get_success_url(self) -> str:
+        return reverse("To_DoZ:home")
+
+
+class ListDeleteView(DeleteView):
+    model = ToDoList
+    template_name = "To_DoZ/list_delete_form.html"
 
     def get_success_url(self) -> str:
         return reverse("To_DoZ:home")
