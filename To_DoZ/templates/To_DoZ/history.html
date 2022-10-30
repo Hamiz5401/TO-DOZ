@@ -1,20 +1,191 @@
-<h1>History page</h1>
-<hr>
-{% for todolist in todolist_list %}
-<h3>{{todolist.subject}}</h3>
-<ul>
-    {% if todolist.task_set.all %}
-    {% for task in todolist.task_set.all %}
-    {% if task.status == True %}
-    <li><a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a> <a
-            href="{% url 'To_DoZ:done' task.pk %}">Redone</a></li>
-    {% endif %}
-    {% endfor %}
-    {% else %}
-    No tasks
-    {% endif %}
-</ul>
-<hr>
-{% endfor %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-<a href="{% url 'To_DoZ:home' %}">Home page</a>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Roboto', sans-serif;
+}
+body {
+	background: linear-gradient(90deg, #C7C5F4, #776BCC);
+}
+.container {
+margin: 0 auto;
+}
+nav {
+height: 80px;
+display: flex;
+justify-content: space-between;
+align-items:center;
+background-color:#deb9b6;
+}
+nav ul{
+display: flex;
+list-style: none;
+width: 250px;
+justify-content: space-between;
+}
+
+nav ul li a{
+text-decoration: none;
+padding-top:13px;
+font-size: 20px;
+}
+.header-info{
+margin-top:40;
+}
+
+.logo{
+text-align:center;
+background-color: #fff;
+}
+.page{
+text-align:center;
+background-color: #c27a97;
+height:60px;
+opacity:0.7;
+}
+.page h1{
+font-size:24px;
+padding-top:15px;
+padding-left:152px;
+}
+
+.account {
+text-align: center;
+width: 160px;
+height: 26px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.account a {
+display:inline-block;
+font-size: 20px;
+}
+    .nav_button {
+            background-color: #4CAF50;
+        color: ffffff;
+        width:200;
+        height: 80px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 24px;
+        cursor: pointer;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #4CAF50;
+        padding-top: 23px;
+        transition: background-color 0.2s;
+    }
+
+    .nav_button:hover {
+        background-color: ffffff;
+        color: #4CAF50;
+    }
+
+    .nav_button:active {
+        opacity: 0.5;
+    }
+
+       .solid_button {
+       background-color: #fff;
+        color: black;
+        width:175px;
+        height: 40px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .account{
+    background-color: #fff;
+    color:black;
+    width:100px;
+    height:40px;
+    }
+    .mother {
+        border-width: 1px;
+        border-style: solid;
+        border-color: red;
+        margin-bottom: 20px;
+        background-color:#c0ccab;
+        }
+    .mother h3{
+    color:red;
+    font-size: 24px;
+    margin-bottom:20px;
+    background-color: #4CAF50;
+    padding:5px;
+    }
+    .child-list{
+    border-width:1px;
+    border-style:solid;
+    border-color:blue;
+    }
+
+
+
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!--    <link rel="stylesheet" href="style.css">-->
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
+                <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
+            </ul>
+            <div class="logo">
+                <a href="{% url 'To_DoZ:home' %}" class="solid_button">TO-DOZ</a>
+            </div>
+            <div class="account">
+                <a>{{user}}</a>
+            </div>
+        </nav>
+
+            <div class="page">
+                <h1>HISTORY PAGE</h1>
+            </div>
+
+        <section class="header-info">
+            {% for todolist in todolist_list %}
+            <div class="mother">
+                <h3>{{todolist.subject}}</h3>
+                <div class="child">
+                    <ul>
+                        {% if todolist.task_set.all %}
+                        {% for task in todolist.task_set.all %}
+                        {% if task.status == True %}
+                        <li><a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a> <a
+                                href="{% url 'To_DoZ:done' task.pk %}">Redone</a></li>
+                        {% endif %}
+
+                        {% endfor %}
+                        {% else %}
+                        No tasks
+                        {% endif %}
+                    </ul>
+                </div>
+                <hr>
+            </div>
+            {% endfor %}
+
+
+        </section>
+    </div>
+</header>
+</body>
+</html>
