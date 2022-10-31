@@ -1,20 +1,184 @@
-<h1>Home page</h1>
+<style>
+    .header {
+        background-color: #363431;
+        padding: 1.5rem;
+        position: relative;
+        display: block;
+    }
+
+    .logo {
+        color: ffffff;
+        font-size: 2rem;
+        font-family: Arial;
+        font-weight: bold;
+        display: inline-block;
+        margin: 0px;
+        width: 8rem;
+    }
+
+    .page {
+        background-color: ffffff;
+        color: #363431;
+        padding: 0.5rem;
+        width: 7rem;
+        font-weight: bold;
+        font-family: Arial;
+        font-size: 2rem;
+        border-radius: 2rem;
+        text-align: center;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .user {
+        background-color: ffffff;
+        color: #363431;
+        padding: 0.5rem;
+        width: 7rem;
+        font-weight: bold;
+        font-family: Arial;
+        font-size: 2rem;
+        border-radius: 2rem;
+        text-align: center;
+        text-align: center;
+        float: right;
+    }
+
+    .subject_list {
+        background-color: #a9d1ad;
+    }
+
+    .each_subject {
+        display: inline-block;
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+
+    .each_task {
+        display: inline-block;
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+
+    .done_button {
+        background-color: ffffff;
+        color: #4CAF50;
+        ;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #4CAF50;
+
+        transition: background-color 0.2s;
+    }
+
+    .done_button:hover {
+        background-color: #4CAF50;
+        color: ffffff;
+    }
+
+    .done_button:active {
+        opacity: 0.5;
+    }
+
+    .history_button {
+        background-color: ffffff;
+        color: #94d4e0;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #94d4e0;
+
+        transition: background-color 0.2s;
+    }
+
+    .history_button:hover {
+        background-color: #94d4e0;
+        color: ffffff;
+    }
+
+    .history_button:active {
+        opacity: 0.5;
+    }
+
+    .logout_button {
+        background-color: ffffff;
+        color: #d43b61;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #d43b61;
+
+        transition: background-color 0.2s;
+    }
+
+    .logout_button:hover {
+        background-color: #d43b61;
+        color: ffffff;
+    }
+
+    .logout_button:active {
+        opacity: 0.5;
+    }
+</style>
+
+<div class="header">
+    <div class="logo">TO-DOZ</div>
+    <div class="page">HOME</div>
+    <div class="user">{{user}}</div>
+</div>
 <hr>
 {% for todolist in todolist_list %}
-<h3>{{todolist.subject}}</h3>
-<ul>
+<div class="subject_list">
+    <h3 class="each_subject">{{todolist.subject}}</h3>
+    <a href="{% url 'To_DoZ:update_list' todolist.pk %}" class="history_button">
+        <div>edit</div>
+    </a>
+    <a href="{% url 'To_DoZ:delete_list' todolist.pk %}" class="history_button">
+        <div>delete</div>
+    </a>
+</div>
+<div>
     {% if todolist.task_set.all %}
-        {% for task in todolist.task_set.all %}
-            {% if task.status == False %}
-                <li><a href="{% url 'To_DoZ:detail' todolist.subject task.pk %}">{{task.title}}</a> <a href="{% url 'To_DoZ:done' task.pk %}">Done</a></li>
-            {% endif %}
-        {% endfor %}
+    {% for task in todolist.task_set.all %}
+    {% if task.status == False %}
+    <div class="each_task">
+        <a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a>
+        <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Done</a>
+    </div>
+    {% endif %}
+    {% endfor %}
     {% else %}
     No tasks
     {% endif %}
-</ul>
+    <a href="{% url 'To_DoZ:create_task' todolist.pk %}" class="logout_button">
+        <div>add</div>
+    </a>
+</div>
+
 <hr>
 {% endfor %}
-
-<a href="{% url 'To_DoZ:history' %}">History page</a>
-<a href="{% url 'account_logout' %}">Log out</a>
+<a href="{% url 'To_DoZ:create_list' %}" class="logout_button">
+    <div>add</div>
+</a>
+<hr>
+<a href="{% url 'To_DoZ:history' %}" class="history_button">History page</a>
+<a href="{% url 'account_logout' %}" class="logout_button">Log out</a>

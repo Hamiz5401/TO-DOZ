@@ -1,6 +1,6 @@
 <h1>Details page</h1>
 <hr>
-<h2>{{subject}}</h2>
+<h2>{{task.to_do_list.subject}}</h2>
 <h3>{{task.title}}</h3>
 <p>
     deadline: {{task.deadline}}
@@ -8,6 +8,15 @@
 <p>
     detail: {{task.detail}}
 </p>
-<p>edit</p>
+<a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">
+    <div>edit</div>
+</a>
+<a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}">
+    <div>delete</div>
+</a>
+{% if task.status == True%}
+<a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
+{% else %}
 <a href="{% url 'To_DoZ:done' task.pk %}">Done</a>
+{% endif %}
 <a href="{% url 'To_DoZ:home' %}">Home page</a>
