@@ -1,22 +1,198 @@
-<h1>Details page</h1>
-<hr>
-<h2>{{task.to_do_list.subject}}</h2>
-<h3>{{task.title}}</h3>
-<p>
-    deadline: {{task.deadline}}
-</p>
-<p>
-    detail: {{task.detail}}
-</p>
-<a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">
-    <div>edit</div>
-</a>
-<a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}">
-    <div>delete</div>
-</a>
-{% if task.status == True%}
-<a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
-{% else %}
-<a href="{% url 'To_DoZ:done' task.pk %}">Done</a>
-{% endif %}
-<a href="{% url 'To_DoZ:home' %}">Home page</a>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Roboto', sans-serif;
+}
+body {
+	background: linear-gradient(90deg, #C7C5F4, #776BCC);
+}
+.container {
+margin: 0 auto;
+}
+nav {
+height: 80px;
+display: flex;
+justify-content: space-between;
+align-items:center;
+background-color:#deb9b6;
+position:sticky;
+top:0;
+}
+nav ul{
+display: flex;
+list-style: none;
+width: 250px;
+justify-content: space-between;
+}
+
+nav ul li a{
+text-decoration: none;
+padding-top:13px;
+font-size: 20px;
+}
+.header-info{
+margin-top:40;
+}
+
+.logo{
+text-align:center;
+background-color: #fff;
+        cursor: pointer;
+        border-radius: 15px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: black;
+        padding:5px;
+}
+.page{
+text-align:center;
+background-color: #c27a97;
+height:60px;
+opacity:0.8;
+position:sticky;
+top:80px;
+}
+.page h1{
+font-size:24px;
+padding-top:15px;
+padding-left:108px;
+}
+
+.account {
+text-align: center;
+display:flex;
+align-items:center;
+justify-content:center;
+display:inline-block;
+font-size: 20px;
+}
+
+    .nav_button {
+            background-color: #4CAF50;
+        color: ffffff;
+        width:200;
+        height: 80px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 24px;
+        cursor: pointer;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #4CAF50;
+        padding-top: 23px;
+        transition: background-color 0.2s;
+    }
+
+    .nav_button:hover {
+        background-color: ffffff;
+        color: #4CAF50;
+    }
+
+    .nav_button:active {
+        opacity: 0.5;
+    }
+
+       .solid_button {
+        color: black;
+        width:175px;
+        height: 40px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 30px;
+        font-weight: bold;
+    }
+        .logout_button {
+        background-color: ffffff;
+        color: #d43b61;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 15px;
+        border-radius: 15px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #d43b61;
+        transition: background-color 0.2s;
+    }
+
+    .logout_button:hover {
+        background-color: #d43b61;
+        color: ffffff;
+    }
+
+    .logout_button:active {
+        opacity: 0.5;
+    }
+
+
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!--    <link rel="stylesheet" href="style.css">-->
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
+                <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
+            </ul>
+            <div class="logo">
+                <a href="{% url 'To_DoZ:home' %}" class="solid_button">TO-DOZ</a>
+            </div>
+            <div class="account">
+                <a>{{user}}</a>
+                <a href="{% url 'account_logout' %}" class="logout_button">Log out</a>
+            </div>
+
+        </nav>
+
+        <div class="page">
+            <h1>DETAIL PAGE</h1>
+        </div>
+
+        <section class="header-info">
+            <h1>Details page</h1>
+            <hr>
+            <h2>{{task.to_do_list.subject}}</h2>
+            <h3>{{task.title}}</h3>
+            <p>
+                deadline: {{task.deadline}}
+            </p>
+            <p>
+                detail: {{task.detail}}
+            </p>
+            <a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">
+                <div>edit</div>
+            </a>
+            <a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}">
+                <div>delete</div>
+            </a>
+            {% if task.status == True%}
+            <a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
+            {% else %}
+            <a href="{% url 'To_DoZ:done' task.pk %}">Done</a>
+            {% endif %}
+            <a href="{% url 'To_DoZ:home' %}">Home page</a>
+
+        </section>
+    </div>
+</header>
+</body>
+</html>
