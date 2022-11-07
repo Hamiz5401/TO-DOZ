@@ -34,4 +34,4 @@ jobs:
         source env/bin/activate
         coverage run manage.py test
         coverage report
-      
+        codecov/codecov-action@v3
