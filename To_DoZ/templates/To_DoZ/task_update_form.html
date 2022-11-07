@@ -1,4 +1,46 @@
-<form method="post">{% csrf_token %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!--    <link rel="stylesheet" href="style.css">-->
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
+                <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
+            </ul>
+            <div class="logo">
+                <a href="{% url 'To_DoZ:home' %}" class="solid_button">TO-DOZ</a>
+            </div>
+            <div class="account">
+                <a>{{user}}</a>
+                <a href="{% url 'account_logout' %}" class="logout_button">Log out</a>
+            </div>
+
+        </nav>
+
+        <div class="page">
+            <h1>HOME PAGE</h1>
+        </div>
+
+        <section class="header-info">
+            <form method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Update">
 </form>
+
+        </section>
+    </div>
+</header>
+</body>
+</html>
