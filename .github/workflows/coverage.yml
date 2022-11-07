@@ -42,3 +42,10 @@ jobs:
         contents: |
             coverage run manage.py test
             codecov/codecov-action@v3
+    - name: Commit & Push
+      uses: Andro999b/push@v1.3
+      with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: koakatta-workflow2
+          force: false
+          message: 'Overwritten by Github Actions'
