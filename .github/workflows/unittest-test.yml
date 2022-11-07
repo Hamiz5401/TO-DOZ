@@ -5,9 +5,9 @@ name: Test with unittest
 
 on:
   push:
-    branches: [ "unittest","koakatta-workflow" ]
+    branches: [ "unittest","koakatta-workflow","main"]
   pull_request:
-    branches: [ "unittest" ]
+    branches: [ "unittest","main" ]
 
 permissions:
   contents: read
