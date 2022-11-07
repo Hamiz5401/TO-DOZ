@@ -37,11 +37,12 @@ jobs:
     - name: Overwrite file
       uses: "DamianReeves/write-file-action@master"
       with:
-        path: GITHUB_PATH
+        path: .coverage
         write-mode: overwrite
         contents: |
+            run: |
             coverage run manage.py test
-            codecov/codecov-action@v3
+        
     - name: Commit & Push
       uses: Andro999b/push@v1.3
       with:
@@ -49,3 +50,6 @@ jobs:
           branch: koakatta-workflow2
           force: false
           message: 'Overwritten by Github Actions'
+    - name: upload
+      run: |
+        codecov/codecov-action@v3
