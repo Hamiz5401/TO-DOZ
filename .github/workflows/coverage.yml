@@ -40,8 +40,7 @@ jobs:
         path: .coverage
         write-mode: overwrite
         contents: |
-            run: |
-            coverage run manage.py test
+          GITHUB_PATH/.coverage
         
     - name: Commit & Push
       uses: Andro999b/push@v1.3
