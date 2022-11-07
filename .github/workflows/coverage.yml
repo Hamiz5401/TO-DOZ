@@ -9,7 +9,7 @@ on:
     branches: [ "unittest" ]
 
 permissions:
-  contents: read|write
+  contents: write
 
 jobs:
   build:
