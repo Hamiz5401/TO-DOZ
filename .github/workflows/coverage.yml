@@ -37,7 +37,7 @@ jobs:
     - name: Overwrite file
       uses: "DamianReeves/write-file-action@master"
       with:
-        path: ${{ env.home}}/.coverage
+        path: result/.coverage
         write-mode: overwrite
         contents: |
           GITHUB_PATH/.coverage
