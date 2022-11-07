@@ -1,4 +1,4 @@
 [run]
 branch = True
 source=To_Doz
-omit=To_Doz\migrations\*,manage.py,mysite\*
+omit=manage.py,mysite\*
