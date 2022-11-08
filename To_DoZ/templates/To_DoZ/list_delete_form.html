@@ -1,149 +1,21 @@
-
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;500&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Kanit', sans-serif;
+.detail {
+margin-left: 4rem;
+width: 90%;
 }
-body {
-	background: #fff;
-}
-.container {
-margin: 0 auto;
-}
-nav {
-height: 5rem;
-display: flex;
-justify-content: space-between;
-align-items:center;
-background-color: #10B981;
-position:sticky;
-top:0;
-box-shadow: 0rem 0.25rem 0.313rem #949191;
-}
-nav ul{
-display: flex;
-list-style: none;
-width: 15.625rem;
-justify-content: space-between;
-}
-
-nav ul li a{
-text-decoration: none;
-padding-top: 0.813rem;
-font-size: 1.25rem;
-}
-.header-info{
-margin-top:2.5rem;
-margin-left:3rem;
-}
-
-.header-info p{
-font-size: 1.875rem;
-}
-
-.nav_button {
-    background-color: #4CAF50;
-    color: #fff;
-    width:12.5rem;
-    height: 5rem;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.5rem;
-    cursor: pointer;
-    border-width: 0.063rem;
-    border-style: solid;
-    border-color: #4CAF50;
-    padding-top: 1.438rem;
-    transition: background-color 0.2s;
-}
-
-.nav_button:hover {
-    background-color: #fff;
-    color: #4CAF50;
-}
-
-.nav_button:active {
-    opacity: 0.5;
-}
-
-.logo{
-text-align:center;
-cursor: pointer;
-padding:0.5rem;
-}
-
-    .solid_button {
-     color: #fff;
-     text-align: center;
-     text-decoration: none;
-     display: inline-block;
-     font-size: 2.188rem;
-     font-weight: bold;
- }
-
-.page{
-box-shadow: 0rem 0.25rem 0.313rem #949191;
-text-align:center;
-background-color: #67c23a;
-height:3.75rem;
-opacity:0.8;
-position:sticky;
-top: 5rem;
-}
-
-.page h1{
-font-size:1.5rem;
-padding-top:0.75rem;
-padding-left:3rem;
-}
-
-.account {
-text-align: center;
-display:flex;
-align-items:center;
-justify-content:center;
-display:inline-block;
+.detail p{
 font-size: 1.5rem;
-font-weight: bold;
+margin-bottom:1rem;
 }
-
-    .logout_button {
-        background-color: #fff;
-        color: #d43b61;
-        padding: 0.625rem;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 1rem;
-        cursor: pointer;
-        margin-left: 2rem;
-        margin-right: 2rem;
-        border-radius: 1rem;
-        border-width: 0.125rem;
-        border-style: solid;
-        border-color: #d43b61;
-        transition: background-color 0.2s;
-    }
-
-    .logout_button:hover {
-        background-color: #d43b61;
-        color: #fff;
-    }
-
-    .logout_button:active {
-        opacity: 0.5;
-    }
 
 
 </style>
 
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -175,11 +47,14 @@ font-weight: bold;
         </div>
 
         <section class="header-info">
-            <form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    {{ form }}
-    <input type="submit" value="Confirm">
-</form>
+            <div class="detail">
+                <form method="post">
+                    {% csrf_token %}
+                    <p>Are you sure you want to delete "{{ object }}"?</p>
+
+                    <input type="submit" value="Confirm" class="done_button">
+                </form>
+            </div>
 
 
         </section>

@@ -1,6 +1,296 @@
-li a {
-    color: green;
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
 }
 body {
-    background: white url("images/background.png") no-repeat;
+	background: #fff;
 }
+.container {
+margin: 0 auto;
+}
+nav {
+height: 5rem;
+display: flex;
+justify-content: space-between;
+align-items:center;
+background-color: #10B981;
+position:sticky;
+top:0;
+box-shadow: 0rem 0.25rem 0.313rem #949191;
+}
+nav ul{
+display: flex;
+list-style: none;
+width: 15.625rem;
+justify-content: space-between;
+}
+
+nav ul li a{
+text-decoration: none;
+padding-top: 0.813rem;
+font-size: 1.25rem;
+}
+.header-info{
+margin-top:2.5rem;
+}
+
+.nav_button {
+    background-color: #4CAF50;
+    color: #fff;
+    width:9rem;
+    height: 5rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-width: 0.063rem;
+    border-style: solid;
+    border-color: #4CAF50;
+    padding-top: 1.438rem;
+    transition: background-color 0.2s;
+    font-size: 20px;
+}
+
+.nav_button:hover {
+    background-color: #fff;
+    color: #4CAF50;
+}
+
+
+.logo{
+text-align:center;
+cursor: pointer;
+padding:0.5rem;
+}
+
+
+
+    .solid_button {
+     color: #fff;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 2.188rem;
+     font-weight: bold;
+ }
+
+
+
+.page{
+box-shadow: 0rem 0.25rem 0.313rem #949191;
+text-align:center;
+background-color: #67c23a;
+height:3.75rem;
+opacity:0.8;
+position:sticky;
+top: 5rem;
+}
+
+.page h1{
+font-size:1.5rem;
+padding-top:0.75rem;
+padding-left:3rem;
+}
+
+.account {
+text-align: center;
+display:flex;
+align-items:center;
+justify-content:center;
+display:inline-block;
+font-size: 1.5rem;
+font-weight: bold;
+}
+ @media only screen and (max-width: 980px) {
+    .solid_button {
+        display: none;
+    }
+}
+ @media only screen and (max-width: 660px) {
+    .account {
+        display: none;
+    }
+}
+
+
+
+    .sec {
+        width: 95%;
+        margin-left: 4rem;
+        border-radius: 1rem;
+        border-width: 0.3rem;
+        border-style: solid;
+        border-color: #67c23a;
+        margin-bottom: 3rem;
+        background-color: #fff;
+        padding:1rem;
+        display:relative;
+        box-shadow: 0.188rem 0.25rem 0.313rem #949191;
+    }
+    .subject-list-title {
+        display:absolute;
+        padding:0.313rem;
+    }
+
+    .subject-list-title h3{
+        display: inline-block;
+        margin-right: 1.25rem;
+        margin-left: 1.25rem;
+    }
+    .task-list {
+    }
+    .each_task {
+        display: inline-block;
+        margin:1.25rem;
+        margin-bottom:0rem;
+        padding:1rem;
+        width: 360px;
+        box-shadow: 0.188rem 0.25rem 0.313rem #949191;
+    }
+    .each_task a {
+    text-decoration: none;
+    }
+    .card{
+    border-left:5px solid #67c23a;
+    padding:10px;
+    }
+    .task-name {
+    word-wrap: break-word;
+    }
+    .task-name a{
+    color: black;
+    }
+
+    .card-bottom-part {
+    margin-top:0.5rem;
+    }
+
+    .done_button {
+        background-color: #fff;
+        color: #4CAF50;
+        padding: 0.625rem;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 1rem;
+        border-width: 0.125rem;
+        border-style: solid;
+        border-color: #4CAF50;
+
+        transition: background-color 0.2s;
+    }
+
+    .done_button:hover {
+        background-color: #4CAF50;
+        color: #fff;
+    }
+
+    .history_button {
+        background-color: #fff;
+        color: #94d4e0;
+        padding: 0.625rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 1rem;
+        border-width: 0.125rem;
+        border-style: solid;
+        border-color: #94d4e0;
+
+        transition: background-color 0.2s;
+    }
+
+    .history_button:hover {
+        background-color: #94d4e0;
+        color: #fff;
+    }
+
+
+    .logout_button {
+        background-color: #fff;
+        color: #d43b61;
+        padding: 0.625rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        border-radius: 1rem;
+        border-width: 0.125rem;
+        border-style: solid;
+        border-color: #d43b61;
+        transition: background-color 0.2s;
+    }
+
+        .add_button {
+        background-color: #fff;
+        color: #d43b61;
+        padding: 0.625rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 1rem;
+        border-width: 0.125rem;
+        border-style: solid;
+        border-color: #d43b61;
+        transition: background-color 0.2s;
+    }
+
+        .add_todo_button {
+        margin-left: 4rem;
+        background-color: #fff;
+        color: #d43b61;
+        padding: 0.625rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 1rem;
+        border-width: 0.125rem;
+        border-style: solid;
+        border-color: #d43b61;
+        transition: background-color 0.2s;
+    }
+
+
+    .logout_button:hover,
+    .add_button:hover,
+    .add_todo_button:hover {
+        background-color: #d43b61;
+        color: #fff;
+    }
+    .nav_button:active,
+    .done_button:active,
+    .history_button:active,
+    .logout_button:active,
+    .add_button:active,
+    .add_todo_button:active {
+        opacity: 0.5;
+    }
+.detail {
+margin-left: 4rem;
+width: 90%;
+}
+.detail p{
+font-size: 1.5rem;
+margin-bottom:1rem;
+}
+
+
+

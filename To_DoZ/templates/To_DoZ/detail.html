@@ -1,154 +1,53 @@
 <style>
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;500&display=swap');
+.detail {
+margin-left: 4rem;
+width: 90%;
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Kanit', sans-serif;
 }
-body {
-	background: #fff;
+
+
+.detail-header-subject{
+
 }
-.container {
-margin: 0 auto;
-}
-nav {
-height: 5rem;
+.detail-header-task{
+height: 4rem;
+align-items:center;
 display: flex;
 justify-content: space-between;
-align-items:center;
-background-color: #10B981;
-position:sticky;
-top:0;
-box-shadow: 0rem 0.25rem 0.313rem #949191;
+
+
 }
-nav ul{
+.detail-header-task ul{
 display: flex;
 list-style: none;
-width: 15.625rem;
+width: 2rem;
 justify-content: space-between;
+margin-right:7rem;
 }
-
-nav ul li a{
+.detail-header-task ul li a{
 text-decoration: none;
-padding-top: 0.813rem;
-font-size: 1.25rem;
-}
-.header-info{
-margin-top:2.5rem;
-margin-left:3rem;
+margin-right:1rem;
 }
 
-.header-info p{
-font-size: 1.875rem;
+.detail-header-lower {
+margin-top:1rem;
 }
 
-.nav_button {
-    background-color: #4CAF50;
-    color: #fff;
-    width:12.5rem;
-    height: 5rem;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.5rem;
-    cursor: pointer;
-    border-width: 0.063rem;
-    border-style: solid;
-    border-color: #4CAF50;
-    padding-top: 1.438rem;
-    transition: background-color 0.2s;
+.detail-header-lower p {
+margin-bottom:1rem;
 }
-
-.nav_button:hover {
-    background-color: #fff;
-    color: #4CAF50;
-}
-
-.nav_button:active {
-    opacity: 0.5;
-}
-
-.logo{
-text-align:center;
-cursor: pointer;
-padding:0.5rem;
-}
-
-    .solid_button {
-     color: #fff;
-     text-align: center;
-     text-decoration: none;
-     display: inline-block;
-     font-size: 2.188rem;
-     font-weight: bold;
- }
-
-.page{
-box-shadow: 0rem 0.25rem 0.313rem #949191;
-text-align:center;
-background-color: #67c23a;
-height:3.75rem;
-opacity:0.8;
-position:sticky;
-top: 5rem;
-}
-
-.page h1{
-font-size:1.5rem;
-padding-top:0.75rem;
-padding-left:3rem;
-}
-
-.account {
-text-align: center;
-display:flex;
-align-items:center;
-justify-content:center;
-display:inline-block;
-font-size: 1.5rem;
-font-weight: bold;
-}
-
-    .logout_button {
-        background-color: #fff;
-        color: #d43b61;
-        padding: 0.625rem;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 1rem;
-        cursor: pointer;
-        margin-left: 2rem;
-        margin-right: 2rem;
-        border-radius: 1rem;
-        border-width: 0.125rem;
-        border-style: solid;
-        border-color: #d43b61;
-        transition: background-color 0.2s;
-    }
-
-    .logout_button:hover {
-        background-color: #d43b61;
-        color: #fff;
-    }
-
-    .logout_button:active {
-        opacity: 0.5;
-    }
-
-
 </style>
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <!--    <link rel="stylesheet" href="style.css">-->
 </head>
 <body>
 <header>
@@ -173,28 +72,44 @@ font-weight: bold;
         </div>
 
         <section class="header-info">
-            <h2>{{task.to_do_list.subject}}</h2>
+            <div class="detail">
+                <div class="detail-header-subject">
+                    <h1>{{task.title}}</h1>
+                </div>
+                <div class="detail-header-task">
 
-            <h3>{{task.title}}</h3>
-            <hr>
-            <p>
-                deadline: {{task.deadline}}
-            </p>
-            <p>
-                detail: {{task.detail}}
-            </p>
-            <a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">
-                <div>edit</div>
-            </a>
-            <a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}">
-                <div>delete</div>
-            </a>
-            {% if task.status == True%}
-            <a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
-            {% else %}
-            <a href="{% url 'To_DoZ:done' task.pk %}">Done</a>
-            {% endif %}
-            <a href="{% url 'To_DoZ:home' %}">Home page</a>
+
+                    <h3>{{task.to_do_list.subject}}</h3>
+                    <ul>
+                        <li><a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}" class="history_button">
+                            edit
+                        </a></li>
+
+                        <li><a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}" class="history_button">
+                            delete
+                        </a></li>
+
+                    </ul>
+                </div>
+                <hr>
+                <div class="detail-header-lower">
+                    <p>
+                        deadline: {{task.deadline}}
+                    </p>
+                    <p>
+                        detail: {{task.detail}}
+                    </p>
+
+                    {% if task.status == True%}
+                    <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Redone</a>
+                    {% else %}
+                    <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Done</a>
+                    {% endif %}
+                </div>
+
+
+            </div>
+
 
         </section>
     </div>
