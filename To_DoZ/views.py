@@ -16,6 +16,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from discordwebhook import Discord
 
 import os.path
 
@@ -24,6 +25,7 @@ SCOPES = [
     'https://www.googleapis.com/auth/classroom.coursework.me'
 ]
 
+discord = Discord(url="https://discord.com/api/webhooks/1039515198840651797/0phytK41IJoudw-YNU-tf3sDa4_21wv75QC0hQ3FTYM0STrMWpXOJdqlKSkq4zb4pnAC")
 
 @method_decorator(login_required, name="dispatch")
 class HomeView(generic.ListView):
@@ -169,7 +171,6 @@ def create_classroom_data(request):
                     ToDoList.objects.create(user=user, subject=g_data['name'].replace('/', "-"))
                 classwork = service.courses().courseWork().list(courseId=g_data['id']).execute()
                 if 'courseWork' in classwork:
-                    # print(classwork['courseWork'])
                     for work in classwork['courseWork']:
                         if g_data['id'] != work['courseId']:
                             continue
@@ -197,6 +198,7 @@ def create_classroom_data(request):
                                                 status=True if submit_data['state'] == "TURNED_IN"
                                                                or submit_data['state'] == "RETURNED" else False,
                                                 to_do_list=g_classroom_todo)
+            discord.post(content=f"{user} has update google classroom data.")
             return HttpResponseRedirect(reverse("To_DoZ:home"))
 
         except HttpError as error:
