@@ -4,11 +4,9 @@ from django.views import generic
 import datetime
 import pytz
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
-from django.utils import timezone
-from django.utils.timezone import make_aware
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -18,7 +16,6 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from django.utils.timezone import localtime
 
 import os.path
 
@@ -35,8 +32,6 @@ class HomeView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        # if user.socialaccount_set.exists():
-        #     create_classroom_data(user)
         return ToDoList.objects.filter(user=user)
 
     def get_context_data(self, **kwargs):
@@ -67,7 +62,6 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['task'] = self.kwargs['task']
         return context
 
 
@@ -146,17 +140,11 @@ def done(request, pk_task):
 
 def create_classroom_data(request):
     user = request.user
-    # print(user)
-    # print(user.socialaccount_set.exists())
     if user.socialaccount_set.exists():
 
         creds = None
-        # The file token.json stores the user's access and refresh tokens, and is
-        # created automatically when the authorization flow completes for the first
-        # time.
         if os.path.exists('token.json'):
             creds = Credentials.from_authorized_user_file('token.json', SCOPES)
-        # If there are no (valid) credentials available, let the user log in.
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
@@ -164,14 +152,12 @@ def create_classroom_data(request):
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'To_DoZ/credentials.json', SCOPES)
                 creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
             with open('token.json', 'w') as token:
                 token.write(creds.to_json())
 
         try:
             service = build('classroom', 'v1', credentials=creds)
 
-            # Call the Classroom API
             results = service.courses().list(pageSize=10).execute()
             courses = results.get('courses', [])
 
@@ -190,12 +176,8 @@ def create_classroom_data(request):
                         submit = service.courses().courseWork().studentSubmissions().list(courseId=g_data['id'],
                                                                                           courseWorkId=work[
                                                                                               'id']).execute()
-                        # print("g_data name: ", g_data['name'])
                         g_classroom_todo = ToDoList.objects.get(user=user, subject=g_data['name'].replace('/', "-"))
-                        # print(Task.objects.filter(title=work['title'], to_do_list=g_classroom_todo).exists())
-                        # print("g_title:", work['title'])
                         if not Task.objects.filter(title=work['title']).exists():
-                            # g_classroom_todo = ToDoList.objects.get(user=user, subject=g_data['name'].replace('/', "-"))
                             print("g_todo:", g_classroom_todo)
                             duetime = datetime.datetime(year=work['dueDate']['year'] if 'dueDate' in work else 9999,
                                                         month=work['dueDate']['month'] if 'dueDate' in work else 1,
