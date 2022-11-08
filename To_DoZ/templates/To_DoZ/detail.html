@@ -1,5 +1,41 @@
 <style>
+.detail {
+margin-left: 4rem;
+width: 90%;
 
+}
+
+
+.detail-header-subject{
+
+}
+.detail-header-task{
+height: 4rem;
+align-items:center;
+display: flex;
+justify-content: space-between;
+
+
+}
+.detail-header-task ul{
+display: flex;
+list-style: none;
+width: 2rem;
+justify-content: space-between;
+margin-right:7rem;
+}
+.detail-header-task ul li a{
+text-decoration: none;
+margin-right:1rem;
+}
+
+.detail-header-lower {
+margin-top:1rem;
+}
+
+.detail-header-lower p {
+margin-bottom:1rem;
+}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,28 +72,44 @@
         </div>
 
         <section class="header-info">
-            <h2>{{task.to_do_list.subject}}</h2>
+            <div class="detail">
+                <div class="detail-header-subject">
+                    <h1>{{task.title}}</h1>
+                </div>
+                <div class="detail-header-task">
 
-            <h3>{{task.title}}</h3>
-            <hr>
-            <p>
-                deadline: {{task.deadline}}
-            </p>
-            <p>
-                detail: {{task.detail}}
-            </p>
-            <a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">
-                <div>edit</div>
-            </a>
-            <a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}">
-                <div>delete</div>
-            </a>
-            {% if task.status == True%}
-            <a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
-            {% else %}
-            <a href="{% url 'To_DoZ:done' task.pk %}">Done</a>
-            {% endif %}
-            <a href="{% url 'To_DoZ:home' %}">Home page</a>
+
+                    <h3>{{task.to_do_list.subject}}</h3>
+                    <ul>
+                        <li><a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}" class="history_button">
+                            edit
+                        </a></li>
+
+                        <li><a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}" class="history_button">
+                            delete
+                        </a></li>
+
+                    </ul>
+                </div>
+                <hr>
+                <div class="detail-header-lower">
+                    <p>
+                        deadline: {{task.deadline}}
+                    </p>
+                    <p>
+                        detail: {{task.detail}}
+                    </p>
+
+                    {% if task.status == True%}
+                    <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Redone</a>
+                    {% else %}
+                    <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Done</a>
+                    {% endif %}
+                </div>
+
+
+            </div>
+
 
         </section>
     </div>

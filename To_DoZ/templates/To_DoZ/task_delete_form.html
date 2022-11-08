@@ -1,5 +1,12 @@
 <style>
-
+.detail {
+margin-left: 4rem;
+width: 90%;
+}
+.detail p{
+font-size: 1.5rem;
+margin-bottom:1rem;
+}
 </style>
 
 <!DOCTYPE html>
@@ -38,10 +45,13 @@
         </div>
 
         <section class="header-info">
-            <form method="post">{% csrf_token %}
+            <div class="detail">
+                            <form method="post">{% csrf_token %}
                 <p>Are you sure you want to delete "{{ object }}"?</p>
-                <input type="submit" value="Confirm">
+                <input type="submit" value="Confirm" class="done_button">
             </form>
+            </div>
+
 
         </section>
     </div>

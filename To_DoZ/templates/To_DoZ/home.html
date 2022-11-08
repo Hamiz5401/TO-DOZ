@@ -1,21 +1,7 @@
 <style>
-    .nav_button {
-    background-color: #4CAF50;
-    color: #fff;
-    width:9rem;
-    height: 5rem;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.5rem;
-    cursor: pointer;
-    border-width: 0.063rem;
-    border-style: solid;
-    border-color: #4CAF50;
-    padding-top: 1.438rem;
-    transition: background-color 0.2s;
-    font-size: 20px;
+
 }
+
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +30,7 @@
             <div class="account">
                 <a>{{user}}</a>
 
-                <a href="{% url 'account_logout' %}" class="logout_button">Log out</a>
+                <a href="{% url 'account_logout' %}" class="logout_button">LOGOUT</a>
             </div>
 
         </nav>
@@ -59,10 +45,10 @@
                 <div class="subject-list-title">
                     <h3>{{todolist.subject}}</h3>
                     <a href="{% url 'To_DoZ:update_list' todolist.pk %}" class="history_button">
-                        edit
+                        EDIT
                     </a>
                     <a href="{% url 'To_DoZ:delete_list' todolist.pk %}" class="history_button">
-                        delete
+                        DELETE
                     </a>
                 </div>
                 <hr>
@@ -77,10 +63,10 @@
                             </div>
 
                             <p>
-                deadline: {{task.deadline}}
-            </p>
+                                deadline: {{task.deadline}}
+                            </p>
                             <div class="card-bottom-part">
-                                <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Done</a>
+                                <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">DONE</a>
                             </div>
                         </div>
 
@@ -91,7 +77,7 @@
 
                     {% endif %}
                     <a href="{% url 'To_DoZ:create_task' todolist.pk %}" class="add_button">
-                        add task
+                        ADD TASK
                     </a>
                 </div>
             </div>
