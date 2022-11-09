@@ -49,3 +49,5 @@ jobs:
           branch: koakatta-workflow2
           force: false
           message: 'Overwritten by Github Actions'
+    - name: Upload coverage report using Github Action
+      uses: codecov/codecov-action@v3
