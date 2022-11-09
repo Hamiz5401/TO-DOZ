@@ -166,10 +166,9 @@ def create_classroom_data(request):
 
             for g_data in courses:
                 if not ToDoList.objects.filter(user=user, subject=g_data['name'].replace('/', "-")).exists():
-                    ToDoList.objects.create(user=user, subject=g_data['name'].replace('/', "-"))
+                    ToDoList.objects.create(user=user, subject=g_data['name'].replace('/', "-"), classroom_API=True)
                 classwork = service.courses().courseWork().list(courseId=g_data['id']).execute()
                 if 'courseWork' in classwork:
-                    # print(classwork['courseWork'])
                     for work in classwork['courseWork']:
                         if g_data['id'] != work['courseId']:
                             continue
@@ -177,19 +176,18 @@ def create_classroom_data(request):
                                                                                           courseWorkId=work[
                                                                                               'id']).execute()
                         g_classroom_todo = ToDoList.objects.get(user=user, subject=g_data['name'].replace('/', "-"))
+                        duetime = datetime.datetime(year=work['dueDate']['year'] if 'dueDate' in work else 9999,
+                                                    month=work['dueDate']['month'] if 'dueDate' in work else 1,
+                                                    day=work['dueDate']['day'] if 'dueDate' in work else 1,
+                                                    hour=(work['dueTime']['hours']) if 'dueTime' in work
+                                                                                       and 'hours' in work[
+                                                                                           'dueTime'] else 0,
+                                                    minute=work['dueTime']['minutes'] if 'dueTime' in work
+                                                                                         and 'minutes' in work[
+                                                                                             'dueTime'] else 0,
+                                                    tzinfo=pytz.timezone("UTC"))
+                        submit_data = submit['studentSubmissions'][0]
                         if not Task.objects.filter(title=work['title']).exists():
-                            print("g_todo:", g_classroom_todo)
-                            duetime = datetime.datetime(year=work['dueDate']['year'] if 'dueDate' in work else 9999,
-                                                        month=work['dueDate']['month'] if 'dueDate' in work else 1,
-                                                        day=work['dueDate']['day'] if 'dueDate' in work else 1,
-                                                        hour=(work['dueTime']['hours']) if 'dueTime' in work
-                                                                                               and 'hours' in work[
-                                                                                                   'dueTime'] else 0,
-                                                        minute=work['dueTime']['minutes'] if 'dueTime' in work
-                                                                                             and 'minutes' in work[
-                                                                                                 'dueTime'] else 0,
-                                                        tzinfo=pytz.timezone("UTC"))
-                            submit_data = submit['studentSubmissions'][0]
                             Task.objects.create(title=work['title'],
                                                 detail=work[
                                                     'description'] if 'description' in work else "No description",
@@ -197,9 +195,16 @@ def create_classroom_data(request):
                                                 status=True if submit_data['state'] == "TURNED_IN"
                                                                or submit_data['state'] == "RETURNED" else False,
                                                 to_do_list=g_classroom_todo)
-            return HttpResponseRedirect(reverse("To_DoZ:home"))
+                        if Task.objects.filter(title=work['title']).exists():
+                            Task.objects.filter(to_do_list=g_classroom_todo, title=work['title']).update(
+                                title=work['title'],
+                                detail=work['description'] if 'description' in work else "No description",
+                                deadline=duetime,
+                                status=True if submit_data['state'] == "TURNED_IN"
+                                               or submit_data['state'] == "RETURNED" else False, )
 
         except HttpError as error:
             print('An error occurred: %s' % error)
+        return HttpResponseRedirect(reverse("To_DoZ:home"))
     else:
         return HttpResponseRedirect(reverse("To_DoZ:home"))
