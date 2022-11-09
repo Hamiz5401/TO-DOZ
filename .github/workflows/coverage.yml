@@ -49,6 +49,3 @@ jobs:
           branch: koakatta-workflow2
           force: false
           message: 'Overwritten by Github Actions'
-    - name: upload
-      run: |
-        codecov/codecov-action@v3
