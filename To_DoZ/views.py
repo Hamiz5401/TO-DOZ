@@ -17,6 +17,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from discordwebhook import Discord
+from jobs import add_job
 
 import os.path
 
@@ -25,7 +26,10 @@ SCOPES = [
     'https://www.googleapis.com/auth/classroom.coursework.me'
 ]
 
-discord = Discord(url="https://discord.com/api/webhooks/1039515198840651797/0phytK41IJoudw-YNU-tf3sDa4_21wv75QC0hQ3FTYM0STrMWpXOJdqlKSkq4zb4pnAC")
+discord = Discord(
+    url="https://discord.com/api/webhooks/1039515198840651797/0phytK41IJoudw-YNU"
+        "-tf3sDa4_21wv75QC0hQ3FTYM0STrMWpXOJdqlKSkq4zb4pnAC") 
+
 
 @method_decorator(login_required, name="dispatch")
 class HomeView(generic.ListView):
@@ -184,8 +188,8 @@ def create_classroom_data(request):
                                                         month=work['dueDate']['month'] if 'dueDate' in work else 1,
                                                         day=work['dueDate']['day'] if 'dueDate' in work else 1,
                                                         hour=(work['dueTime']['hours']) if 'dueTime' in work
-                                                                                               and 'hours' in work[
-                                                                                                   'dueTime'] else 0,
+                                                                                           and 'hours' in work[
+                                                                                               'dueTime'] else 0,
                                                         minute=work['dueTime']['minutes'] if 'dueTime' in work
                                                                                              and 'minutes' in work[
                                                                                                  'dueTime'] else 0,
@@ -198,10 +202,11 @@ def create_classroom_data(request):
                                                 status=True if submit_data['state'] == "TURNED_IN"
                                                                or submit_data['state'] == "RETURNED" else False,
                                                 to_do_list=g_classroom_todo)
+                            add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title']))
             discord.post(content=f"{user} has update google classroom data.")
-            return HttpResponseRedirect(reverse("To_DoZ:home"))
 
         except HttpError as error:
             print('An error occurred: %s' % error)
+        return HttpResponseRedirect(reverse("To_DoZ:home"))
     else:
         return HttpResponseRedirect(reverse("To_DoZ:home"))
