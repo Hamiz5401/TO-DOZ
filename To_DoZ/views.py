@@ -41,6 +41,21 @@ class HomeView(generic.ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+class TableView(generic.ListView):
+    template_name = "To_DoZ/table.html"
+    context_object_name = "task_list"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Task.objects.filter(user=user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.request.user
+        return context
+
+
+@method_decorator(login_required, name="dispatch")
 class HistoryView(generic.ListView):
     template_name = 'To_DoZ/history.html'
     context_object_name = 'todolist_list'
@@ -55,6 +70,7 @@ class HistoryView(generic.ListView):
         return context
 
 
+@method_decorator(login_required, name="dispatch")
 class DetailView(generic.DetailView):
     model = Task
     template_name = 'To_DoZ/detail.html'
@@ -65,6 +81,7 @@ class DetailView(generic.DetailView):
         return context
 
 
+@method_decorator(login_required, name="dispatch")
 class TaskCreateView(CreateView):
     model = Task
     template_name = "To_DoZ/task_create_form.html"
@@ -74,11 +91,12 @@ class TaskCreateView(CreateView):
         return reverse("To_DoZ:home")
 
     def form_valid(self, form):
-        form.instance.to_do_list = ToDoList.objects.get(
-            pk=self.kwargs["pk_list"])
+        form.instance.to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
+        form.instance.user = self.request.user
         return super(TaskCreateView, self).form_valid(form)
 
 
+@method_decorator(login_required, name="dispatch")
 class ListCreateView(CreateView):
     model = ToDoList
     template_name = "To_DoZ/list_create_form.html"
@@ -92,6 +110,7 @@ class ListCreateView(CreateView):
         return super(ListCreateView, self).form_valid(form)
 
 
+@method_decorator(login_required, name="dispatch")
 class TaskUpdateView(UpdateView):
     model = Task
     template_name = "To_DoZ/task_update_form.html"
@@ -101,6 +120,7 @@ class TaskUpdateView(UpdateView):
         return reverse("To_DoZ:detail", args=(self.kwargs["pk_list"], self.kwargs["pk"]))
 
 
+@method_decorator(login_required, name="dispatch")
 class ListUpdateView(UpdateView):
     model = ToDoList
     template_name = "To_DoZ/list_create_form.html"
@@ -110,6 +130,7 @@ class ListUpdateView(UpdateView):
         return reverse("To_DoZ:home")
 
 
+@method_decorator(login_required, name="dispatch")
 class TaskDeleteView(DeleteView):
     model = Task
     template_name = "To_DoZ/task_delete_form.html"
@@ -118,6 +139,7 @@ class TaskDeleteView(DeleteView):
         return reverse("To_DoZ:home")
 
 
+@method_decorator(login_required, name="dispatch")
 class ListDeleteView(DeleteView):
     model = ToDoList
     template_name = "To_DoZ/list_delete_form.html"
@@ -166,8 +188,10 @@ def create_classroom_data(request):
 
             for g_data in courses:
                 if not ToDoList.objects.filter(user=user, subject=g_data['name'].replace('/', "-")).exists():
-                    ToDoList.objects.create(user=user, subject=g_data['name'].replace('/', "-"), classroom_API=True)
-                classwork = service.courses().courseWork().list(courseId=g_data['id']).execute()
+                    ToDoList.objects.create(
+                        user=user, subject=g_data['name'].replace('/', "-"), classroom_API=True)
+                classwork = service.courses().courseWork().list(
+                    courseId=g_data['id']).execute()
                 if 'courseWork' in classwork:
                     for work in classwork['courseWork']:
                         if g_data['id'] != work['courseId']:
@@ -175,7 +199,8 @@ def create_classroom_data(request):
                         submit = service.courses().courseWork().studentSubmissions().list(courseId=g_data['id'],
                                                                                           courseWorkId=work[
                                                                                               'id']).execute()
-                        g_classroom_todo = ToDoList.objects.get(user=user, subject=g_data['name'].replace('/', "-"))
+                        g_classroom_todo = ToDoList.objects.get(
+                            user=user, subject=g_data['name'].replace('/', "-"))
                         duetime = datetime.datetime(year=work['dueDate']['year'] if 'dueDate' in work else 9999,
                                                     month=work['dueDate']['month'] if 'dueDate' in work else 1,
                                                     day=work['dueDate']['day'] if 'dueDate' in work else 1,
@@ -193,7 +218,7 @@ def create_classroom_data(request):
                                                     'description'] if 'description' in work else "No description",
                                                 deadline=duetime,
                                                 status=True if submit_data['state'] == "TURNED_IN"
-                                                               or submit_data['state'] == "RETURNED" else False,
+                                                or submit_data['state'] == "RETURNED" else False,
                                                 to_do_list=g_classroom_todo)
                         if Task.objects.filter(title=work['title']).exists():
                             Task.objects.filter(to_do_list=g_classroom_todo, title=work['title']).update(
@@ -201,7 +226,7 @@ def create_classroom_data(request):
                                 detail=work['description'] if 'description' in work else "No description",
                                 deadline=duetime,
                                 status=True if submit_data['state'] == "TURNED_IN"
-                                               or submit_data['state'] == "RETURNED" else False, )
+                                or submit_data['state'] == "RETURNED" else False, )
 
         except HttpError as error:
             print('An error occurred: %s' % error)
