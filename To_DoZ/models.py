@@ -17,11 +17,12 @@ class ToDoList(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=200)
-    detail = models.CharField(max_length=1000)
+    detail = models.CharField(max_length=1000, default=None, null=True, blank=True)
     priority = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
     deadline = models.DateTimeField(null=True, blank=True)
     to_do_list = models.ForeignKey(ToDoList, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def is_late(self):
         return timezone.localtime() > self.deadline
