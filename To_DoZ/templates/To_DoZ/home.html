@@ -56,6 +56,30 @@
                     {% if todolist.task_set.all %}
                     {% for task in todolist.task_set.all %}
                     {% if task.status == False %}
+                    {% if task.is_late == True %}
+                    <div class="each_task">
+                        <div class="card-late">
+                            <div class="task-name">
+                                <a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a>
+                            </div>
+
+                            <p>
+                                deadline: {{task.deadline}}
+                            </p>
+                            <div class="card-bottom-part">
+                                <a href="{% url 'To_DoZ:done' task.pk %}" class="late_done_button">DONE</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+
+                    {% for task in todolist.task_set.all %}
+                    {% if task.status == False %}
+                    {% if task.is_late == False %}
                     <div class="each_task">
                         <div class="card">
                             <div class="task-name">
@@ -72,6 +96,7 @@
 
 
                     </div>
+                    {% endif %}
                     {% endif %}
                     {% endfor %}
 

@@ -94,7 +94,6 @@ top: 5rem;
 .page h1{
 font-size:1.5rem;
 padding-top:0.75rem;
-padding-left:3rem;
 }
 
 .account {
@@ -165,6 +164,10 @@ font-weight: bold;
     .task-name a{
     color: black;
     }
+    .card-late{
+    border-left:5px solid #d43b61;
+    padding:10px;
+    }
 
     .card-bottom-part {
     margin-top:0.5rem;
@@ -191,6 +194,30 @@ font-weight: bold;
 
     .done_button:hover {
         background-color: #4CAF50;
+        color: #fff;
+    }
+
+        .late_done_button {
+        background-color: #fff;
+        color: #d43b61;
+        padding: 0.625rem;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 1rem;
+        border-width: 0.125rem;
+        border-style: solid;
+        border-color: #d43b61;
+
+        transition: background-color 0.2s;
+    }
+
+    .late_done_button:hover {
+        background-color: #d43b61;
         color: #fff;
     }
 
@@ -236,6 +263,7 @@ font-weight: bold;
     }
 
         .add_button {
+        margin-left: 1.25rem;
         background-color: #fff;
         color: #d43b61;
         padding: 0.625rem;
@@ -277,6 +305,7 @@ font-weight: bold;
     }
     .nav_button:active,
     .done_button:active,
+    .late_done_button:active,
     .history_button:active,
     .logout_button:active,
     .add_button:active,
