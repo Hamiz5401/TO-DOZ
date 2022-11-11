@@ -6,6 +6,8 @@ class ToDozConfig(AppConfig):
     name = 'To_DoZ'
 
     def ready(self):
-        from aps_scheduler import scheduler
+        from .scheduler import scheduler
         scheduler.start()
+        from .jobs import add_job
+        from .jobs import add_noti_discord
 

@@ -1,13 +1,11 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views import generic
 
 import datetime
 import pytz
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import ToDoList, Task
@@ -17,7 +15,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from discordwebhook import Discord
-from jobs import add_job
+from .jobs import add_job
 
 import os.path
 
@@ -77,6 +75,7 @@ class TaskCreateView(CreateView):
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
+        add_job(self.object)
         return reverse("To_DoZ:home")
 
     def form_valid(self, form):
@@ -104,6 +103,7 @@ class TaskUpdateView(UpdateView):
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
+        add_job(self.object)
         return reverse("To_DoZ:detail", args=(self.kwargs["pk_list"], self.kwargs["pk"]))
 
 

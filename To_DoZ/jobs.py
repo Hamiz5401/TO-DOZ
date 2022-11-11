@@ -1,8 +1,9 @@
 import datetime
-from aps_scheduler import scheduler
+from .scheduler import scheduler
 from discordwebhook import Discord
 from apscheduler.triggers.date import DateTrigger
 from .models import Task
+from django.utils import timezone
 
 
 def add_noti_discord(task: Task):
@@ -13,11 +14,14 @@ def add_noti_discord(task: Task):
 
 
 def add_job(task: Task):
-    time_to_call = task.deadline - datetime.timedelta(hours=1)
-    if time_to_call > datetime.datetime.now():
-        noti = scheduler.add_job(func=add_noti_discord(task),
+    time_to_call = task.deadline - timezone.timedelta(hours=1)
+    print(time_to_call)
+    print(type(time_to_call))
+    if time_to_call > (timezone.localtime()):
+        noti = scheduler.add_job(func=add_noti_discord,
                                  trigger=DateTrigger(run_date=time_to_call),
                                  replace_existing=True,
                                  max_instances=1,
-                                 id=f"Noti - {task.pk} - {task.title}")
+                                 id=f"Noti - {task.pk} - {task.title}",
+                                 args=[task])
         print(f"{task.title} has set noti to trigger on {noti.next_run_time}")
