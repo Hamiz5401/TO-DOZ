@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/Hamiz5401/TO-DOZ/branch/main/graph/badge.svg?token=4CJU7ZB2JC)](https://codecov.io/gh/Hamiz5401/TO-DOZ)
 # TO-DOZ
 To-DoZ is a web application that lets students create their own to-do list and to-do list  according to the class that they enrolled in the google classroom.
 This app provides students with their classes in google classroom which will keep track of their task whether it’s being added or near the deadline and notify students when their work is near the due date via Discord.
