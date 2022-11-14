@@ -1,21 +1,21 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views import generic
 
 import datetime
 import pytz
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import ToDoList, Task
+from .models import ToDoList, Task, Discord_url
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from discordwebhook import Discord
+from .jobs import add_job, clear_job
 
 import os.path
 
@@ -107,6 +107,7 @@ class TaskCreateView(CreateView):
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
+        add_job(self.object, self.request.user)
         return reverse("To_DoZ:home")
 
     def form_valid(self, form):
@@ -136,6 +137,7 @@ class TaskUpdateView(UpdateView):
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
+        add_job(self.object, self.request.user)
         return reverse("To_DoZ:detail", args=(self.kwargs["pk_list"], self.kwargs["pk"]))
 
 
@@ -155,6 +157,7 @@ class TaskDeleteView(DeleteView):
     template_name = "To_DoZ/task_delete_form.html"
 
     def get_success_url(self) -> str:
+        clear_job(self.object)
         return reverse("To_DoZ:home")
 
 
@@ -199,7 +202,7 @@ def create_classroom_data(request):
         try:
             service = build('classroom', 'v1', credentials=creds)
 
-            results = service.courses().list(pageSize=10).execute()
+            results = service.courses().list(pageSize=1).execute()
             courses = results.get('courses', [])
 
             if not courses:
@@ -232,6 +235,17 @@ def create_classroom_data(request):
                                                     tzinfo=pytz.timezone("UTC"))
                         submit_data = submit['studentSubmissions'][0]
                         if not Task.objects.filter(title=work['title']).exists():
+                            duetime = datetime.datetime(year=work['dueDate']['year'] if 'dueDate' in work else 9999,
+                                                        month=work['dueDate']['month'] if 'dueDate' in work else 1,
+                                                        day=work['dueDate']['day'] if 'dueDate' in work else 1,
+                                                        hour=(work['dueTime']['hours']) if 'dueTime' in work
+                                                                                           and 'hours' in work[
+                                                                                               'dueTime'] else 0,
+                                                        minute=work['dueTime']['minutes'] if 'dueTime' in work
+                                                                                             and 'minutes' in work[
+                                                                                                 'dueTime'] else 0,
+                                                        tzinfo=pytz.timezone("UTC"))
+                            submit_data = submit['studentSubmissions'][0]
                             Task.objects.create(title=work['title'],
                                                 detail=work[
                                                     'description'] if 'description' in work else "No description",
@@ -239,6 +253,7 @@ def create_classroom_data(request):
                                                 status=True if submit_data['state'] == "TURNED_IN"
                                                 or submit_data['state'] == "RETURNED" else False,
                                                 to_do_list=g_classroom_todo)
+                            add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title']))
                         if Task.objects.filter(title=work['title']).exists():
                             Task.objects.filter(to_do_list=g_classroom_todo, title=work['title']).update(
                                 title=work['title'],
@@ -246,7 +261,11 @@ def create_classroom_data(request):
                                 deadline=duetime,
                                 status=True if submit_data['state'] == "TURNED_IN"
                                 or submit_data['state'] == "RETURNED" else False, )
-
+            if Discord_url.objects.filter(user=user).exists():
+                dis = Discord_url.objects.filter(user=user)
+                dis_url = dis[0]
+                discord = Discord(url=dis_url)
+                discord.post(content=f"{user} has update google classroom data.")
         except HttpError as error:
             print('An error occurred: %s' % error)
         return HttpResponseRedirect(reverse("To_DoZ:home"))
