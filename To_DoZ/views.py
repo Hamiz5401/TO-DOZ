@@ -8,14 +8,14 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import ToDoList, Task
+from .models import ToDoList, Task, Discord_url
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from discordwebhook import Discord
-from .jobs import add_job
+from .jobs import add_job, clear_job
 
 import os.path
 
@@ -23,10 +23,6 @@ SCOPES = [
     'https://www.googleapis.com/auth/classroom.courses.readonly',
     'https://www.googleapis.com/auth/classroom.coursework.me'
 ]
-
-discord = Discord(
-    url="https://discord.com/api/webhooks/1039515198840651797/0phytK41IJoudw-YNU"
-        "-tf3sDa4_21wv75QC0hQ3FTYM0STrMWpXOJdqlKSkq4zb4pnAC") 
 
 
 @method_decorator(login_required, name="dispatch")
@@ -75,7 +71,7 @@ class TaskCreateView(CreateView):
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
-        add_job(self.object)
+        add_job(self.object, self.request.user)
         return reverse("To_DoZ:home")
 
     def form_valid(self, form):
@@ -103,7 +99,7 @@ class TaskUpdateView(UpdateView):
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
-        add_job(self.object)
+        add_job(self.object, self.request.user)
         return reverse("To_DoZ:detail", args=(self.kwargs["pk_list"], self.kwargs["pk"]))
 
 
@@ -121,6 +117,7 @@ class TaskDeleteView(DeleteView):
     template_name = "To_DoZ/task_delete_form.html"
 
     def get_success_url(self) -> str:
+        clear_job(self.object)
         return reverse("To_DoZ:home")
 
 
@@ -164,7 +161,7 @@ def create_classroom_data(request):
         try:
             service = build('classroom', 'v1', credentials=creds)
 
-            results = service.courses().list(pageSize=10).execute()
+            results = service.courses().list(pageSize=1).execute()
             courses = results.get('courses', [])
 
             if not courses:
@@ -203,7 +200,11 @@ def create_classroom_data(request):
                                                                or submit_data['state'] == "RETURNED" else False,
                                                 to_do_list=g_classroom_todo)
                             add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title']))
-            discord.post(content=f"{user} has update google classroom data.")
+            if Discord_url.objects.filter(user=user).exists():
+                dis = Discord_url.objects.filter(user=user)
+                dis_url = dis[0]
+                discord = Discord(url=dis_url)
+                discord.post(content=f"{user} has update google classroom data.")
 
         except HttpError as error:
             print('An error occurred: %s' % error)
