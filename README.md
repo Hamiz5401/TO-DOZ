@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/Hamiz5401/TO-DOZ/branch/koakatta-workflow2/graph/badge.svg?token=4CJU7ZB2JC)](https://codecov.io/gh/Hamiz5401/TO-DOZ)
+[![codecov](https://codecov.io/gh/Hamiz5401/TO-DOZ/branch/main/graph/badge.svg?token=4CJU7ZB2JC)](https://codecov.io/gh/Hamiz5401/TO-DOZ)
 [![Test with unittest](https://github.com/Hamiz5401/TO-DOZ/actions/workflows/unittest-test.yml/badge.svg)](https://github.com/Hamiz5401/TO-DOZ/actions/workflows/unittest-test.yml)
 # TO-DOZ
 To-DoZ is a web application that lets students create their own to-do list and to-do list  according to the class that they enrolled in the google classroom.
