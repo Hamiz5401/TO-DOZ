@@ -47,11 +47,30 @@ class TableView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Task.objects.filter(user=user)
+        task = Task.objects.filter(user=user)
+        _list = self.request.GET.get('list', '')
+        sort_by = self.request.GET.get('sort_by', 'deadline')
+        status = self.request.GET.get('status', '')
+        priority = self.request.GET.get('priority', '')
+        
+        if status:
+            if status == 'True':
+                task = task.filter(status=True)
+            else:
+                task = task.filter(status=False)
+        if _list:
+            task = task.filter(to_do_list=_list)
+        if priority:
+            task = task.filter(priority=True)
+
+        task = task.order_by(sort_by)
+    
+        return task
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
+        context["lists" ] = ToDoList.objects.all()
         return context
 
 

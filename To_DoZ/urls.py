@@ -19,4 +19,5 @@ urlpatterns = [
     path('detail/<int:pk_list>/<int:pk>/delete', views.TaskDeleteView.as_view(), name='delete_task'),
     
     path('detail/<int:pk_task>/done', views.done, name='done'),
+    path('get_classroom_data', views.create_classroom_data, name='get_data')
 ]
