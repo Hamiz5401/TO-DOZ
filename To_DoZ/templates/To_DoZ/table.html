@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div>
+        {% for task in task_list %}
+        {{task.title}} : call "task" to get more infomation Ex. task.deadline
+        <br>
+        {% endfor %}
+        <form>
+            <label for="sort">Sort by</label>
+            <select name="sort_by" id="sort">
+                <option value="deadline">deadline</option>
+                <option value="-deadline">-deadline</option>
+            </select>
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option value="">All</option>
+                <option value="False">In progress</option>
+                <option value="True">Done</option>
+            </select>
+            <input type="checkbox" name="priority" value="True">
+            <label for="priority">Priority</label>
+            <label for="list">List</label>
+            <select name="list" id="list">
+                <option value="">All</option>
+                {% for list in lists %}
+                <option value="{{list.pk}}">{{list.subject}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit">
+        </form>
+    </div>
+    <div></div>
+</body>
+
+</html>
