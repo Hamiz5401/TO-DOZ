@@ -52,7 +52,7 @@ class TableView(generic.ListView):
         sort_by = self.request.GET.get('sort_by', 'deadline')
         status = self.request.GET.get('status', '')
         priority = self.request.GET.get('priority', '')
-        
+
         if status:
             if status == 'True':
                 task = task.filter(status=True)
@@ -64,13 +64,13 @@ class TableView(generic.ListView):
             task = task.filter(priority=True)
 
         task = task.order_by(sort_by)
-    
+
         return task
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
-        context["lists" ] = ToDoList.objects.all()
+        context["lists"] = ToDoList.objects.all()
         return context
 
 
@@ -107,7 +107,8 @@ class TaskCreateView(CreateView):
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
-        add_job(self.object, self.request.user)
+        if Discord_url.objects.filter(user=self.request.user).exists():
+            add_job(self.object, self.request.user)
         return reverse("To_DoZ:home")
 
     def form_valid(self, form):
@@ -137,7 +138,8 @@ class TaskUpdateView(UpdateView):
     fields = ["title", "detail", "priority", "status", "deadline"]
 
     def get_success_url(self) -> str:
-        add_job(self.object, self.request.user)
+        if Discord_url.objects.filter(user=self.request.user).exists():
+            add_job(self.object, self.request.user)
         return reverse("To_DoZ:detail", args=(self.kwargs["pk_list"], self.kwargs["pk"]))
 
 
@@ -157,7 +159,8 @@ class TaskDeleteView(DeleteView):
     template_name = "To_DoZ/task_delete_form.html"
 
     def get_success_url(self) -> str:
-        clear_job(self.object)
+        if Discord_url.objects.filter(user=self.request.user).exists():
+            clear_job(self.object)
         return reverse("To_DoZ:home")
 
 
@@ -263,19 +266,21 @@ def create_classroom_data(request):
                                 deadline=duetime,
                                 status=True if submit_data['state'] == "TURNED_IN"
                                                or submit_data['state'] == "RETURNED" else False, )
-                            add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
-                                    user)
+                            if Discord_url.objects.filter(user=user).exists():
+                                add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
+                                        user)
                         else:
                             Task.objects.create(title=work['title'],
                                                 detail=work[
                                                     'description'] if 'description' in work else "No description",
                                                 deadline=duetime,
                                                 status=True if submit_data['state'] == "TURNED_IN"
-                                                or submit_data['state'] == "RETURNED" else False,
+                                                               or submit_data['state'] == "RETURNED" else False,
                                                 to_do_list=g_classroom_todo,
                                                 user=user)
-                            add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
-                                    user)
+                            if Discord_url.objects.filter(user=user).exists():
+                                add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
+                                        user)
             if Discord_url.objects.filter(user=user).exists():
                 dis = Discord_url.objects.filter(user=user)
                 dis_url = dis[0]
