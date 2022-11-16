@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-DOZ</title>
 
+    <!--    <link rel="stylesheet" href="style.css">-->
 </head>
 <body>
 <header>
@@ -33,17 +34,19 @@
         </nav>
 
         <div class="page">
-            <h1>Subject Name</h1>
+            <h1>Discord Webhook</h1>
         </div>
 
         <section class="header-info">
             <div class="detail">
-                <form method="post">{% csrf_token %}
+                <form method="post">
+                    {% csrf_token %}
                     <p>
-                        <label for="id_subject">Subject :  </label>
-                        <input type="text" name="subject" maxlength="200" required id="id_subject">
+                        <label for="id_url">Discord Webhook URL: </label>
+                        <input type="text" name="url" id="id_url">
                     </p>
-                    <input type="submit" value="save" class="done_button">
+
+                    <input type="submit" value="Update" class="done_button">
                 </form>
             </div>
 

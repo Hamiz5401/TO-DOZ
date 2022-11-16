@@ -1,3 +1,9 @@
+<style>
+.image1{
+margin-left:4rem;
+display:relative;
+}
+</style>
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
@@ -7,7 +13,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>To-DOZ</title>
 
 </head>
 <body>
@@ -32,6 +38,11 @@
 
         <div class="page">
             <h1>HOME PAGE</h1>
+        </div>
+        <div class="image1">
+      <a href="{% url 'To_DoZ:table' %}">
+         <img src="https://www.clipartmax.com/png/small/265-2652368_calendar-icons-23-free-png-vector-eps-jpg-ai-format-calendar-icon.png" width="50" height="50">
+      </a>
         </div>
 
         <section class="header-info">
@@ -84,6 +95,7 @@
                             <p>
                                 deadline: {{task.deadline}}
                             </p>
+                            <hr>
                             <div class="card-bottom-part">
                                 <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">DONE</a>
                             </div>
