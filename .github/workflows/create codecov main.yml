@@ -56,7 +56,7 @@ jobs:
       uses: Andro999b/push@v1.3
       with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: koakatta-workflow2
+          branch: main
           force: false
           message: 'Overwritten by Github Actions'
     - name: Upload coverage report using Github Action
