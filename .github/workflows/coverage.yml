@@ -36,6 +36,7 @@ jobs:
   
         coverage run manage.py test
         coverage report
+        coverage xml
     - name: Overwrite file
       uses: "DamianReeves/write-file-action@master"
       with:
@@ -43,7 +44,14 @@ jobs:
         write-mode: overwrite
         contents: |
           GITHUB_PATH/.coverage
-        
+    - name: Overwrite file xml
+      uses: "DamianReeves/write-file-action@master"
+      with:
+        path: result/coverage.xml
+        write-mode: overwrite
+        contents: |
+          GITHUB_PATH/coverage.xml
+
     - name: Commit & Push
       uses: Andro999b/push@v1.3
       with:
