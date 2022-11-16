@@ -1,4 +1,6 @@
+
 from django.http import HttpResponseRedirect
+
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -20,6 +22,7 @@ class HomeViewTests(TestCase):
         response = self.client.get(reverse('To_DoZ:home'))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.context, None)
+
 
 class Donetest(TestCase):
     def test_done(self):
