@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_apscheduler',
 
     'django.contrib.sites',
 
@@ -139,7 +140,7 @@ AUTHENTICATION_BACKENDS = (
  'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 4
+SITE_ID = 5
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
