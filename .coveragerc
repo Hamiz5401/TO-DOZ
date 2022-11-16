@@ -1,0 +1,13 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+omit=To_Doz\__init__.py,To_Doz\migrations\*,manage.py,mysite\*
+[report]
+exclude_lines =
+    pragma: no cover
+    def get_queryset
+    def get_context_data
+    def get_success_url
+    def __str__
+    def form_valid
+    def create_classroom_data

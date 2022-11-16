@@ -1,22 +1,118 @@
-<h1>Details page</h1>
-<hr>
-<h2>{{task.to_do_list.subject}}</h2>
-<h3>{{task.title}}</h3>
-<p>
-    deadline: {{task.deadline}}
-</p>
-<p>
-    detail: {{task.detail}}
-</p>
-<a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}">
-    <div>edit</div>
-</a>
-<a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}">
-    <div>delete</div>
-</a>
-{% if task.status == True%}
-<a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
-{% else %}
-<a href="{% url 'To_DoZ:done' task.pk %}">Done</a>
-{% endif %}
-<a href="{% url 'To_DoZ:home' %}">Home page</a>
+<style>
+.detail {
+margin-left: 4rem;
+width: 90%;
+
+}
+
+
+.detail-header-subject{
+
+}
+.detail-header-task{
+height: 4rem;
+align-items:center;
+display: flex;
+justify-content: space-between;
+
+
+}
+.detail-header-task ul{
+display: flex;
+list-style: none;
+width: 2rem;
+justify-content: space-between;
+margin-right:7rem;
+}
+.detail-header-task ul li a{
+text-decoration: none;
+margin-right:1rem;
+}
+
+.detail-header-lower {
+margin-top:1rem;
+}
+
+.detail-header-lower p {
+margin-bottom:1rem;
+}
+</style>
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
+                <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
+            </ul>
+            <div class="logo">
+                <a href="{% url 'To_DoZ:home' %}" class="solid_button">TO-DOZ</a>
+            </div>
+            <div class="account">
+                <a>{{user}}</a>
+                <a href="{% url 'account_logout' %}" class="logout_button">Log out</a>
+            </div>
+
+        </nav>
+
+        <div class="page">
+            <h1>DETAIL PAGE</h1>
+        </div>
+
+        <section class="header-info">
+            <div class="detail">
+                <div class="detail-header-subject">
+                    <h1>{{task.title}}</h1>
+                </div>
+                <div class="detail-header-task">
+
+
+                    <h3>{{task.to_do_list.subject}}</h3>
+                    <ul>
+                        <li><a href="{% url 'To_DoZ:update_task' task.to_do_list.pk task.pk %}" class="history_button">
+                            edit
+                        </a></li>
+
+                        <li><a href="{% url 'To_DoZ:delete_task' task.to_do_list.pk task.pk %}" class="history_button">
+                            delete
+                        </a></li>
+
+                    </ul>
+                </div>
+                <hr>
+                <div class="detail-header-lower">
+                    <p>
+                        deadline: {{task.deadline}}
+                    </p>
+                    <p>
+                        detail: {{task.detail}}
+                    </p>
+
+                    {% if task.status == True%}
+                    <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Redone</a>
+                    {% else %}
+                    <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Done</a>
+                    {% endif %}
+                </div>
+
+
+            </div>
+
+
+        </section>
+    </div>
+</header>
+</body>
+</html>

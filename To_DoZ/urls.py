@@ -6,6 +6,7 @@ from . import views
 app_name = 'To_DoZ'
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
+    path('table/', views.TableView.as_view(), name='table'),
     path('history/', views.HistoryView.as_view(), name='history'),
     path('detail/<int:pk_list>/<int:pk>', views.DetailView.as_view(), name='detail'),
     
@@ -18,4 +19,5 @@ urlpatterns = [
     path('detail/<int:pk_list>/<int:pk>/delete', views.TaskDeleteView.as_view(), name='delete_task'),
     
     path('detail/<int:pk_task>/done', views.done, name='done'),
+    path('get_classroom_data', views.create_classroom_data, name='get_data')
 ]

@@ -1,20 +1,88 @@
-<h1>History page</h1>
-<hr>
-{% for todolist in todolist_list %}
-<h3>{{todolist.subject}}</h3>
-<ul>
-    {% if todolist.task_set.all %}
-    {% for task in todolist.task_set.all %}
-    {% if task.status == True %}
-    <li><a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a> <a
-            href="{% url 'To_DoZ:done' task.pk %}">Redone</a></li>
-    {% endif %}
-    {% endfor %}
-    {% else %}
-    No tasks
-    {% endif %}
-</ul>
-<hr>
-{% endfor %}
+<style>
 
-<a href="{% url 'To_DoZ:home' %}">Home page</a>
+    .history-card{
+    border-left:5px solid #36B2EB;
+    padding:10px;
+    }
+
+</style>
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!--    <link rel="stylesheet" href="style.css">-->
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
+                <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
+            </ul>
+            <div class="logo">
+                <a href="{% url 'To_DoZ:home' %}" class="solid_button">TO-DOZ</a>
+            </div>
+            <div class="account">
+                <a>{{user}}</a>
+                <a href="{% url 'account_logout' %}" class="logout_button">Log out</a>
+            </div>
+        </nav>
+
+        <div class="page">
+            <h1>HISTORY PAGE</h1>
+        </div>
+
+        <section class="header-info">
+            {% for todolist in todolist_list %}
+            <div class="sec">
+                <div class="subject-list-title">
+                    <h3>{{todolist.subject}}</h3>
+                </div>
+                <hr>
+                <div class="task-list">
+
+                        {% if todolist.task_set.all %}
+
+                        {% for task in todolist.task_set.all %}
+
+                            {% if task.status == True %}
+                        <div class="each_task">
+                            <div class="history-card">
+                                <div class="task-name">
+                                    <a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a>
+                                </div>
+                                <div class="card-bottom-part">
+                                    <a href="{% url 'To_DoZ:done' task.pk %}">Redone</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+
+
+                        {% endif %}
+
+                </div>
+            </div>
+            {% endfor %}
+
+
+        </section>
+    </div>
+</header>
+</body>
+</html>

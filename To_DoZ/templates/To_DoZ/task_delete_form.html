@@ -1,5 +1,60 @@
-<form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    {{ form }}
-    <input type="submit" value="Confirm">
-</form>
+<style>
+.detail {
+margin-left: 4rem;
+width: 90%;
+}
+.detail p{
+font-size: 1.5rem;
+margin-bottom:1rem;
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!--    <link rel="stylesheet" href="style.css">-->
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
+                <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
+            </ul>
+            <div class="logo">
+                <a href="{% url 'To_DoZ:home' %}" class="solid_button">TO-DOZ</a>
+            </div>
+            <div class="account">
+                <a>{{user}}</a>
+                <a href="{% url 'account_logout' %}" class="logout_button">Log out</a>
+            </div>
+
+        </nav>
+
+        <div class="page">
+            <h1>Delete Task</h1>
+        </div>
+
+        <section class="header-info">
+            <div class="detail">
+                            <form method="post">{% csrf_token %}
+                <p>Are you sure you want to delete "{{ object }}"?</p>
+                <input type="submit" value="Confirm" class="done_button">
+            </form>
+            </div>
+
+
+        </section>
+    </div>
+</header>
+</body>
+</html>
