@@ -16,6 +16,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from discordwebhook import Discord
 from .jobs import add_job, clear_job
+from django.utils import timezone
 
 import os.path
 
@@ -32,6 +33,7 @@ class HomeView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
+        Task.objects.filter(deadline=None).update(deadline=timezone.datetime(year=9999, month=1, day=1, hour=0, minute=0))
         return ToDoList.objects.filter(user=user)
 
     def get_context_data(self, **kwargs):
@@ -108,7 +110,8 @@ class TaskCreateView(CreateView):
 
     def get_success_url(self) -> str:
         if Discord_url.objects.filter(user=self.request.user).exists():
-            add_job(self.object, self.request.user)
+            if self.object.deadline != "":
+                add_job(self.object, self.request.user)
         return reverse("To_DoZ:home")
 
     def form_valid(self, form):
@@ -139,7 +142,8 @@ class TaskUpdateView(UpdateView):
 
     def get_success_url(self) -> str:
         if Discord_url.objects.filter(user=self.request.user).exists():
-            add_job(self.object, self.request.user)
+            if self.object.deadline != "":
+                add_job(self.object, self.request.user)
         return reverse("To_DoZ:detail", args=(self.kwargs["pk_list"], self.kwargs["pk"]))
 
 

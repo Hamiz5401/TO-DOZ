@@ -15,16 +15,17 @@ def add_noti_discord(task: Task, user, time):
 
 
 def add_job(task: Task, user):
-    for time in [1, 6, 24]:
-        time_to_call = task.deadline - timezone.timedelta(hours=time)
-        if time_to_call > (timezone.localtime()):
-            noti = scheduler.add_job(func=add_noti_discord,
-                                     trigger=DateTrigger(run_date=time_to_call),
-                                     replace_existing=True,
-                                     max_instances=1,
-                                     id=f"Noti - {task.pk} - {task.title} - {time}",
-                                     args=[task, user, time])
-            print(f"{task.title} has set noti to trigger on {noti.next_run_time}")
+    if task.deadline is not None:
+        for time in [1, 6, 24]:
+            time_to_call = task.deadline - timezone.timedelta(hours=time)
+            if time_to_call > (timezone.localtime()):
+                noti = scheduler.add_job(func=add_noti_discord,
+                                         trigger=DateTrigger(run_date=time_to_call),
+                                         replace_existing=True,
+                                         max_instances=1,
+                                         id=f"Noti - {task.pk} - {task.title} - {time}",
+                                         args=[task, user, time])
+                print(f"{task.title} has set noti to trigger on {noti.next_run_time}")
 
 
 def clear_job(task: Task):
