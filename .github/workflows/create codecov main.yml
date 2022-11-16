@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: create coverage report in main
+name: create coverage report and perform unittest in main
 on:
   push:
     branches: [ "main"]
@@ -29,34 +29,19 @@ jobs:
         pip install google-api-python-client
         pip install google-auth-oauthlib
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with unittest
+      run: |
+        python manage.py test
     - name: create coverage report
       run: |
-  
         coverage run manage.py test
         coverage report
         coverage xml
-    - name: Overwrite file
-      uses: "DamianReeves/write-file-action@master"
-      with:
-        path: result/.coverage
-        write-mode: overwrite
-        contents: |
-          GITHUB_PATH/.coverage
-    - name: Overwrite file xml
-      uses: "DamianReeves/write-file-action@master"
-      with:
-        path: result/coverage.xml
-        write-mode: overwrite
-        contents: |
-          GITHUB_PATH/coverage.xml
-
-    - name: Commit & Push
-      uses: Andro999b/push@v1.3
-      with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
-          force: false
-          message: 'Overwritten by Github Actions'
     - name: Upload coverage report using Github Action
       uses: codecov/codecov-action@v3.1.1
