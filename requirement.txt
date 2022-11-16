@@ -1,6 +1,8 @@
-Django>=4.1
+Django==4.1.3
 python-decouple==3.6
 django-allauth==0.51.0
-google-api-python-client
+google-api-python-client==2.66.0
 google-auth-oauthlib
 pytest-django
+django_apscheduler
+discordwebhook
