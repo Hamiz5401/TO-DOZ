@@ -128,12 +128,15 @@ margin-left:4rem;
                     <tbody>
                     {% for task in task_list %}
                     <tr>
-
-
-                        <td>{{task.title}}</td>
-                        <td>{{task.subject}}</td>
+                        <td><a href="{% url 'To_DoZ:detail' task.to_do_list.pk task.pk %}" style="text-decoration: none;color:black;">{{task.title}}</a></td>
+                        <td>{{task.to_do_list.subject}}</td>
                         <td>{{task.deadline}}</td>
+                        {% if task.is_late == True %}
                         <td style="text-align: center;"><a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">DONE</a></td>
+                        {% else %}
+                        <td style="text-align: center;"><a href="{% url 'To_DoZ:done' task.pk %}" class="late_done_button">Redone</a></td>
+                        {% endif %}
+
 
                     </tr>
                     {% endfor %}

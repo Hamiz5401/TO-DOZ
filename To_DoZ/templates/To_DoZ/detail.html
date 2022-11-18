@@ -1,5 +1,4 @@
 <style>
-
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,8 +60,11 @@
                         deadline: {{task.deadline}}
                     </p>
                     <p>
-                        detail: {{task.detail}}
+                        detail:
                     </p>
+                    <div style="white-space: pre-line">
+                        {{task.detail}}
+                    </div>
 
                     {% if task.status == True%}
                     <a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">Redone</a>
