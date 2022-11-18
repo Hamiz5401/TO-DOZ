@@ -1,14 +1,19 @@
 <style>
+body {
+font-size: 20px;
+
+}
 .sorting{
 margin-left:4rem;
 margin-bottom:2rem;
 }
 .main-table{
 margin-left:4rem;
+
 }
 
 .content-table {
-
+    width: 95%;
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
@@ -22,6 +27,7 @@ margin-left:4rem;
     color: #ffffff;
     text-align: left;
     font-weight: bold;
+
 }
 
 .content-table th,
@@ -112,10 +118,10 @@ margin-left:4rem;
                     <thead>
                     <tr>
 
-                        <th>Task</th>
-                        <th>Subject</th>
-                        <th>Deadline</th>
-                        <th>Button</th>
+                        <th style="width:400px;">Task</th>
+                        <th style="width:400px;">Subject</th>
+                        <th style="width:175px;">Deadline</th>
+                        <th style="width:100px;">Button</th>
 
                     </tr>
                     </thead>
@@ -127,7 +133,7 @@ margin-left:4rem;
                         <td>{{task.title}}</td>
                         <td>{{task.subject}}</td>
                         <td>{{task.deadline}}</td>
-                        <td><a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">DONE</a></td>
+                        <td style="text-align: center;"><a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">DONE</a></td>
 
                     </tr>
                     {% endfor %}
