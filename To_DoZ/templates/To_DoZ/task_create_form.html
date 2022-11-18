@@ -47,7 +47,9 @@
                 </p>
                 <p>
                     <label for="id_detail">Detail: </label>
-                    <input type="text" name="detail" maxlength="1000" id="id_detail">
+<!--                    <input type="text" name="detail" maxlength="1000" id="id_detail">-->
+                    <br>
+                    <textarea name="detail" maxlength="1000" required id="id_detail" rows="20" cols="50"></textarea>
                 </p>
                 <p>
                     <label for="id_priority">Priority: </label>
@@ -59,8 +61,7 @@
                 </p>
                 <p>
                     <label for="id_deadline">Deadline: </label>
-                    <input type="text" name="deadline" id="id_deadline">
-                    Example: 2022-11-11 16:00:00
+                    <input type="datetime-local" name="deadline" id="id_deadline">
                 </p>
                 <input type="submit" value="save" class="done_button">
             </form>

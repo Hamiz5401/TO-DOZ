@@ -47,8 +47,9 @@
                     </p>
                     <p>
                         <label for="id_detail">Detail: </label>
-                        <input type="text" name="detail" value="{{task.detail}}" maxlength="1000" required
-                               id="id_detail">
+                        <br>
+<!--                        <input type="text" name="detail" value="{{task.detail}}" maxlength="1000" required id="id_detail">-->
+                        <textarea name="detail" maxlength="1000" required id="id_detail" rows="20" cols="50">{{task.detail}}</textarea>
                     </p>
                     <p>
                         <label for="id_priority">Priority: </label>
@@ -60,7 +61,7 @@
                     </p>
                     <p>
                         <label for="id_deadline">Deadline: </label>
-                        <input type="text" name="deadline" id="id_deadline" value="{{task.deadline}}">
+                        <input type="datetime-local" name="deadline" id="id_deadline" value="{{task.deadline}}">
                     </p>
                     <input type="submit" value="Update" class="done_button">
                 </form>

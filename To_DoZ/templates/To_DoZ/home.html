@@ -1,7 +1,11 @@
 <style>
 .image1{
 margin-left:4rem;
-display:relative;
+display: flex;
+}
+
+.image1 a {
+margin: 2rem 2rem 0rem 0rem;
 }
 </style>
 <!DOCTYPE html>
@@ -14,7 +18,7 @@ display:relative;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-DOZ</title>
-
+<script src="https://kit.fontawesome.com/3f17ef7211.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <header>
@@ -41,9 +45,16 @@ display:relative;
         </div>
         <div class="image1">
       <a href="{% url 'To_DoZ:table' %}">
-         <img src="https://www.clipartmax.com/png/small/265-2652368_calendar-icons-23-free-png-vector-eps-jpg-ai-format-calendar-icon.png" width="50" height="50">
+          <i class="far fa-calendar-check" style='font-size:36px'></i>
       </a>
+            <a href="{% url 'To_DoZ:discord_create_form' %}">
+                <i class='fab fa-discord' style='font-size:36px'></i>
+            </a>
+
         </div>
+
+
+
 
         <section class="header-info">
             {% for todolist in todolist_list %}

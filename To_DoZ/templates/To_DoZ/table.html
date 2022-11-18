@@ -1,14 +1,17 @@
 <style>
-* {
-    /* Change your font family */
-    font-family: sans-serif;
+.sorting{
+margin-left:4rem;
+margin-bottom:2rem;
+}
+.main-table{
+margin-left:4rem;
 }
 
 .content-table {
+
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
-    min-width: 400px;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -24,10 +27,11 @@
 .content-table th,
 .content-table td {
     padding: 12px 15px;
+    border-left: 1px solid rgba(221, 221, 221, 0.5);
 }
 
 .content-table tbody tr {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 2px solid #dddddd;
 }
 
 .content-table tbody tr:nth-of-type(even) {
@@ -38,10 +42,7 @@
     border-bottom: 2px solid #009879;
 }
 
-.content-table tbody tr.active-row {
-    font-weight: bold;
-    color: #009879;
-}
+
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,30 +79,33 @@
         </div>
 
         <section class="header-info">
-            <form>
-                <label for="sort">Sort by</label>
-                <select name="sort_by" id="sort">
-                    <option value="deadline">deadline</option>
-                    <option value="-deadline">-deadline</option>
-                </select>
-                <label for="status">Status</label>
-                <select name="status" id="status">
-                    <option value="">All</option>
-                    <option value="False">In progress</option>
-                    <option value="True">Done</option>
-                </select>
-                <input type="checkbox" name="priority" value="True">
-                <label for="priority">Priority</label>
-                <label for="list">List</label>
-                <select name="list" id="list">
-                    <option value="">All</option>
-                    {% for list in lists %}
-                    <option value="{{list.pk}}">{{list.subject}}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit">
-            </form>
-            <div>
+            <div class="sorting">
+                <form>
+                    <label for="sort">Sort by</label>
+                    <select name="sort_by" id="sort">
+                        <option value="deadline">deadline</option>
+                        <option value="-deadline">-deadline</option>
+                    </select>
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                        <option value="">All</option>
+                        <option value="False">In progress</option>
+                        <option value="True">Done</option>
+                    </select>
+                    <input type="checkbox" name="priority" value="True">
+                    <label for="priority">Priority</label>
+                    <label for="list">List</label>
+                    <select name="list" id="list">
+                        <option value="">All</option>
+                        {% for list in lists %}
+                        <option value="{{list.pk}}">{{list.subject}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit">
+                </form>
+            </div>
+
+            <div class="main-table">
 
                 <hr>
                 <table class="content-table">
@@ -111,6 +115,7 @@
                         <th>Task</th>
                         <th>Subject</th>
                         <th>Deadline</th>
+                        <th>Button</th>
 
                     </tr>
                     </thead>
@@ -122,6 +127,7 @@
                         <td>{{task.title}}</td>
                         <td>{{task.subject}}</td>
                         <td>{{task.deadline}}</td>
+                        <td><a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">DONE</a></td>
 
                     </tr>
                     {% endfor %}

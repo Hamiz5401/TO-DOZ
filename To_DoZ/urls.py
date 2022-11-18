@@ -19,5 +19,7 @@ urlpatterns = [
     path('detail/<int:pk_list>/<int:pk>/delete', views.TaskDeleteView.as_view(), name='delete_task'),
     
     path('detail/<int:pk_task>/done', views.done, name='done'),
-    path('get_classroom_data', views.create_classroom_data, name='get_data')
+    path('get_classroom_data', views.create_classroom_data, name='get_data'),
+
+    path('discord_create_form/', views.DiscordCreateView.as_view(), name='discord_create_form')
 ]
