@@ -1,12 +1,5 @@
 <style>
-.detail {
-margin-left: 4rem;
-width: 90%;
-}
-.detail p{
-font-size: 1.5rem;
-margin-bottom:1rem;
-}
+
 </style>
 
 <!DOCTYPE html>
@@ -18,9 +11,7 @@ margin-bottom:1rem;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <!--    <link rel="stylesheet" href="style.css">-->
+    <title>To-DOZ</title>
 </head>
 <body>
 <header>
@@ -54,20 +45,20 @@ margin-bottom:1rem;
                 </p>
                 <p>
                     <label for="id_detail">Detail: </label>
-                    <input type="text" name="detail" maxlength="1000" id="id_detail">
+                    <br>
+                    <textarea name="detail" maxlength="1000" required id="id_detail" rows="20" cols="50"></textarea>
                 </p>
                 <p>
                     <label for="id_priority">Priority: </label>
-                    <input type="checkbox" name="priority" id="id_priority">
+                    <input type="checkbox" name="status" id="id_priority">
                 </p>
                 <p>
                     <label for="id_status">Status: </label>
-                    <input type="checkbox" name="status" id="id_status">
+                    <input type="checkbox" name="priority" id="id_status">
                 </p>
                 <p>
                     <label for="id_deadline">Deadline: </label>
-                    <input type="text" name="deadline" id="id_deadline">
-                    Example: 2022-11-11 16:00:00
+                    <input type="datetime-local" name="deadline" id="id_deadline">
                 </p>
                 <input type="submit" value="save" class="done_button">
             </form>

@@ -1,12 +1,5 @@
 <style>
-.detail {
-margin-left: 4rem;
-width: 90%;
-}
-.detail p{
-font-size: 1.5rem;
-margin-bottom:1rem;
-}
+
 </style>
 
 <!DOCTYPE html>
@@ -18,7 +11,7 @@ margin-bottom:1rem;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>To-DOZ</title>
 
     <!--    <link rel="stylesheet" href="style.css">-->
 </head>
@@ -46,30 +39,32 @@ margin-bottom:1rem;
 
         <section class="header-info">
             <div class="detail">
-                            <form method="post">
-                {% csrf_token %}
-                <p>
-                    <label for="id_title">Title: </label>
-                    <input type="text" name="title" value="{{task.title}}" maxlength="200" required id="id_title">
-                </p>
-                <p>
-                    <label for="id_detail">Detail: </label>
-                    <input type="text" name="detail" value="{{task.detail}}" maxlength="1000" required id="id_detail">
-                </p>
-                <p>
-                    <label for="id_priority">Priority: </label>
-                    <input type="checkbox" name="priority" id="id_priority">
-                </p>
-                <p>
-                    <label for="id_status">Status: </label>
-                    <input type="checkbox" name="status" id="id_status">
-                </p>
-                <p>
-                    <label for="id_deadline">Deadline: </label>
-                    <input type="text" name="deadline" id="id_deadline">
-                </p>
-                <input type="submit" value="Update" class="done_button">
-            </form>
+                <form method="post">
+                    {% csrf_token %}
+                    <p>
+                        <label for="id_title">Title: </label>
+                        <input type="text" name="title" value="{{task.title}}" maxlength="200" required id="id_title">
+                    </p>
+                    <p>
+                        <label for="id_detail">Detail: </label>
+                        <br>
+<!--                        <input type="text" name="detail" value="{{task.detail}}" maxlength="1000" required id="id_detail">-->
+                        <textarea name="detail" maxlength="1000" required id="id_detail" rows="20" cols="50">{{task.detail}}</textarea>
+                    </p>
+                    <p>
+                        <label for="id_priority">Priority: </label>
+                        <input type="checkbox" name="status" id="id_priority">
+                    </p>
+                    <p>
+                        <label for="id_status">Status: </label>
+                        <input type="checkbox" name="priority" id="id_status">
+                    </p>
+                    <p>
+                        <label for="id_deadline">Deadline: </label>
+                        <input type="datetime-local" name="deadline" id="id_deadline" value="{{task.deadline}}">
+                    </p>
+                    <input type="submit" value="Update" class="done_button">
+                </form>
             </div>
 
 
