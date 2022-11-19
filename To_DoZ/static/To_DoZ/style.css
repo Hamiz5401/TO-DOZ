@@ -373,3 +373,38 @@ margin-bottom:1rem;
 }
 
 
+.inputBox {
+position:relative;
+width:500px;
+}
+.inputBox input {
+width:100%;
+padding:20px;
+border:1px solid rgba(255, 255, 255, 0.25);
+background: #1d2b3a;
+border-radius:10px;
+outline:none;
+color: #fff;
+font-size:1rem;
+}
+
+.inputBox span {
+position:absolute;
+left:0;
+padding:10px;
+pointer-events:none;
+font-size:2rem;
+color: rgba(255, 255, 255, 0.25);
+text-transform: uppercase;
+transition:0.5s;
+}
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span {
+color: #00dfc4;
+transform: translateX(20px) translateY(-14px);
+font-size:1.3rem;
+padding: 0 10px;
+background: #1d2b3a;
+border-left: 1px solid #00dfc4;
+border-right: 1px solid #00dfc4;
+}

@@ -42,13 +42,14 @@
                 <form method="post">
                     {% csrf_token %}
                     <p>
-                        <label for="id_title">Title: </label>
+                    <div class="inputBox">
                         <input type="text" name="title" value="{{task.title}}" maxlength="200" required id="id_title">
+                        <span>Title</span>
+                    </div>
                     </p>
                     <p>
                         <label for="id_detail">Detail: </label>
                         <br>
-<!--                        <input type="text" name="detail" value="{{task.detail}}" maxlength="1000" required id="id_detail">-->
                         <textarea name="detail" maxlength="1000" required id="id_detail" rows="20" cols="50">{{task.detail}}</textarea>
                     </p>
                     <p>

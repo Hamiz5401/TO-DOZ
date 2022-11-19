@@ -10,6 +10,7 @@ font-size: 1.5rem;
 margin-bottom:1rem;
 }
 
+
 </style>
 
 <!DOCTYPE html>
@@ -50,8 +51,10 @@ margin-bottom:1rem;
             <div class="detail">
                 <form method="post">{% csrf_token %}
                     <p>
-                        <label for="id_subject">Subject :  </label>
+                    <div class="inputBox">
                         <input type="text" name="subject" maxlength="200" required id="id_subject">
+                        <span>Subject</span>
+                    </div>
                     </p>
                     <input type="submit" value="save" class="done_button">
                 </form>
