@@ -128,7 +128,7 @@ margin-left:4rem;
                     <tbody>
                     {% for task in task_list %}
                     <tr>
-                        <td><a href="{% url 'To_DoZ:detail' task.to_do_list.pk task.pk %}" style="text-decoration: none;color:black;">{{task.title}}</a></td>
+                        <td class="task-name"><a href="{% url 'To_DoZ:detail' task.to_do_list.pk task.pk %}" style="text-decoration: none;color:black;">{{task.title}}</a></td>
                         <td>{{task.to_do_list.subject}}</td>
                         <td>{{task.deadline}}</td>
                         {% if task.status == False %}
