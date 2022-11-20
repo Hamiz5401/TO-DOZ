@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import ToDoList, Task, Discord_url
+from .models import ToDoList, Task, Discord_url, Google_token
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -20,11 +20,6 @@ from django.utils import timezone
 
 import os.path
 
-SCOPES = [
-    'https://www.googleapis.com/auth/classroom.courses.readonly',
-    'https://www.googleapis.com/auth/classroom.coursework.me'
-]
-
 
 @method_decorator(login_required, name="dispatch")
 class HomeView(generic.ListView):
@@ -33,7 +28,8 @@ class HomeView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        Task.objects.filter(deadline=None).update(deadline=timezone.datetime(year=9999, month=1, day=1, hour=0, minute=0))
+        Task.objects.filter(deadline=None).update(
+            deadline=timezone.datetime(year=9999, month=1, day=1, hour=0, minute=0))
         return ToDoList.objects.filter(user=user)
 
     def get_context_data(self, **kwargs):
@@ -186,6 +182,10 @@ class DiscordCreateView(CreateView):
     def get_success_url(self) -> str:
         return reverse("To_DoZ:home")
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(DiscordCreateView, self).form_valid(form)
+
 
 @method_decorator(login_required, name="dispatch")
 class DiscordUpdateView(UpdateView):
@@ -212,6 +212,10 @@ def done(request, pk_task):
 def create_classroom_data(request):
     user = request.user
     if user.socialaccount_set.exists():
+        SCOPES = [
+            'https://www.googleapis.com/auth/classroom.courses.readonly',
+            'https://www.googleapis.com/auth/classroom.coursework.me'
+        ]
 
         creds = None
         if os.path.exists('token.json'):
@@ -221,10 +225,18 @@ def create_classroom_data(request):
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'To_DoZ/credentials.json', SCOPES)
+                    'To_DoZ/credentials.json', [
+                        'https://www.googleapis.com/auth/classroom.courses.readonly',
+                        'https://www.googleapis.com/auth/classroom.coursework.me'
+                    ])
                 creds = flow.run_local_server(port=0)
-            with open('token.json', 'w') as token:
-                token.write(creds.to_json())
+            # with open('token.json', 'w') as token:
+            #     token.write(creds.to_json())
+            Google_token.objects.create(user=user,
+                                        token=creds.token,
+                                        refresh_token=creds.refresh_token,
+                                        token_url=creds.token_uri,
+                                        expiry=datetime.datetime.strptime(creds.expiry, '%Y-%m-%dT%H:%M:%S.%f%z'),)
 
         try:
             service = build('classroom', 'v1', credentials=creds)
