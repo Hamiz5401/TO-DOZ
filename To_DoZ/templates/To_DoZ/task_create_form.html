@@ -37,35 +37,39 @@
 
         <section class="header-info">
             <div class="detail">
-                            <form method="post">
-                {% csrf_token %}
-                <p>
+                <form method="post">
+                    {% csrf_token %}
+                    <p>
 
                     <div class="inputBox">
                         <input type="text" name="title" maxlength="200" required id="id_title">
-                                <span>Title</span>
+                        <span>Title</span>
                     </div>
 
-                </p>
-                <p>
-                    <label for="id_detail">Detail: </label>
-                    <br>
-                    <textarea name="detail" maxlength="1000" required id="id_detail" rows="20" cols="50"></textarea>
-                </p>
-                <p>
-                    <label for="id_priority">Priority: </label>
-                    <input type="checkbox" name="status" id="id_priority">
-                </p>
-                <p>
-                    <label for="id_status">Status: </label>
-                    <input type="checkbox" name="priority" id="id_status">
-                </p>
-                <p>
-                    <label for="id_deadline">Deadline: </label>
-                    <input type="datetime-local" name="deadline" id="id_deadline">
-                </p>
-                <input type="submit" value="save" class="done_button">
-            </form>
+                    </p>
+                    <p>
+                        <label for="id_detail">Detail: </label>
+                        <br>
+                    <div style="position:relative;">
+                        <textarea class="textarea" placeholder="Enter Detail ..." name="detail" maxlength="1000" required id="id_detail"></textarea>
+
+                    </div>
+
+                    </p>
+                    <p>
+                        <label for="id_priority">Priority: </label>
+                        <input type="checkbox" name="status" id="id_priority">
+                    </p>
+                    <p>
+                        <label for="id_status">Status: </label>
+                        <input type="checkbox" name="priority" id="id_status">
+                    </p>
+                    <p>
+                        <label for="id_deadline">Deadline: </label>
+                        <input type="datetime-local" name="deadline" id="id_deadline">
+                    </p>
+                    <input type="submit" value="save" class="done_button">
+                </form>
             </div>
 
 

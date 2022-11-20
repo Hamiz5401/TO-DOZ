@@ -186,6 +186,10 @@ class DiscordCreateView(CreateView):
     def get_success_url(self) -> str:
         return reverse("To_DoZ:home")
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(DiscordCreateView, self).form_valid(form)
+
 
 @method_decorator(login_required, name="dispatch")
 class DiscordUpdateView(UpdateView):

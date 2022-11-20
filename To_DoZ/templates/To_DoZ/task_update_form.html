@@ -1,4 +1,28 @@
 <style>
+.textarea {
+background-color: #dddddd;
+color: #666666;
+padding:1rem;
+border-radius: 10px;
+border: 2px solid transparent;
+outline: none;
+font-size: 1rem;
+line-height: 1.4;
+width:500px;
+height:300px;
+transition: all 0.2s;
+}
+.textarea:hover {
+cursor: pointer;
+background-color: #eeeeee;
+}
+
+.textarea:focus {
+cursor:text;
+color:#333333;
+background-color: white;
+border-color: #333333;
+}
 
 </style>
 
@@ -50,7 +74,10 @@
                     <p>
                         <label for="id_detail">Detail: </label>
                         <br>
-                        <textarea name="detail" maxlength="1000" required id="id_detail" rows="20" cols="50">{{task.detail}}</textarea>
+                    <div style="position:relative;">
+                        <textarea class="textarea" placeholder="Enter Detail ..." name="detail" maxlength="1000" required id="id_detail">{{task.detail}}</textarea>
+                    </div>
+
                     </p>
                     <p>
                         <label for="id_priority">Priority: </label>

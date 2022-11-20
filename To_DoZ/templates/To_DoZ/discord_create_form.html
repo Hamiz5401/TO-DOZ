@@ -41,8 +41,12 @@
                 <form method="post">
                     {% csrf_token %}
                     <p>
-                        <label for="id_url">Discord Webhook URL: </label>
+
+
+                                            <div class="inputBox">
                         <input type="text" name="url" required id="id_url">
+                        <span>Discord Webhook URL</span>
+                </div>
                     </p>
 
                     <input type="submit" value="save" class="done_button">

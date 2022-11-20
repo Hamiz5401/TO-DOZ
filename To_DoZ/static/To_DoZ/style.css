@@ -381,11 +381,15 @@ width:500px;
 width:100%;
 padding:20px;
 border:1px solid rgba(255, 255, 255, 0.25);
-background: #1d2b3a;
+background-color: #dddddd;
 border-radius:10px;
 outline:none;
-color: #fff;
+color: #666666;
 font-size:1rem;
+}
+.inputBox input:hover {
+cursor: pointer;
+background-color: #eeeeee;
 }
 
 .inputBox span {
@@ -394,17 +398,50 @@ left:0;
 padding:10px;
 pointer-events:none;
 font-size:2rem;
-color: rgba(255, 255, 255, 0.25);
+color: rgb(133, 133, 133);
 text-transform: uppercase;
 transition:0.5s;
 }
 .inputBox input:valid ~ span,
 .inputBox input:focus ~ span {
-color: #00dfc4;
+color: #4caf50;
 transform: translateX(20px) translateY(-14px);
 font-size:1.3rem;
 padding: 0 10px;
 background: #1d2b3a;
-border-left: 1px solid #00dfc4;
-border-right: 1px solid #00dfc4;
+border-left: 1px solid #4caf50;
+border-right: 1px solid #4caf50;
+}
+
+.inputBox input:focus {
+cursor:text;
+color:#333333;
+background-color: white;
+border-color: #333333;
+}
+
+
+.textarea {
+background-color: #dddddd;
+color: #666666;
+padding:1rem;
+border-radius: 10px;
+border: 2px solid transparent;
+outline: none;
+font-size: 1rem;
+line-height: 1.4;
+width:500px;
+height:300px;
+transition: all 0.2s;
+}
+.textarea:hover {
+cursor: pointer;
+background-color: #eeeeee;
+}
+
+.textarea:focus {
+cursor:text;
+color:#333333;
+background-color: white;
+border-color: #333333;
 }

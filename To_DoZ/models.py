@@ -17,7 +17,7 @@ class ToDoList(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=200)
-    detail = models.CharField(max_length=1000, default=None, null=True, blank=True)
+    detail = models.CharField(max_length=1000, null=True, blank=True)
     priority = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
     deadline = models.DateTimeField(null=True, blank=True)

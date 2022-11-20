@@ -1,4 +1,17 @@
 <style>
+    .detail-detail {
+    white-space: pre-line;
+    margin-bottom:4rem;
+    display:flex;
+    width:100%;
+    background: #dddddd;
+    border-radius:16px;
+    }
+    .detail-detail p {
+    font-size:0.5rem;
+    padding:2rem;
+    padding-top:0rem;
+    }
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,8 +75,11 @@
                     <p>
                         detail:
                     </p>
-                    <div style="white-space: pre-line">
-                        {{task.detail}}
+                    <div class="detail-detail">
+                        <p>
+                            {{task.detail}}
+                        </p>
+
                     </div>
 
                     {% if task.status == True%}
