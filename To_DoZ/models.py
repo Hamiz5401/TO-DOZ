@@ -33,7 +33,7 @@ class Task(models.Model):
 
 class Discord_url(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    url = models.CharField(max_length=200)
+    url = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return f"{self.url}"

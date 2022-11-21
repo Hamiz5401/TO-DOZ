@@ -48,9 +48,16 @@ margin: 2rem 2rem 0rem 0rem;
       <a href="{% url 'To_DoZ:table' %}">
           <i class="far fa-calendar-check" style='font-size:36px'></i>
       </a>
-            <a href="{% url 'To_DoZ:discord_create_form' %}">
+
+            {% if discord %}
+            <a href="{% url 'To_DoZ:discord_update_form' discord.pk %}">
                 <i class='fab fa-discord' style='font-size:36px'></i>
             </a>
+            {% else %}
+            <a href="{% url 'To_DoZ:discord_create_form'  %}">
+                <i class='fab fa-discord' style='font-size:36px'></i>
+            </a>
+            {% endif %}
 
         </div>
 
