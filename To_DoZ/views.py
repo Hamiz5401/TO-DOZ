@@ -37,7 +37,13 @@ class HomeView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["user"] = self.request.user
+        user = self.request.user
+        context["user"] = user
+        try:
+            context["discord"] = Discord_url.objects.get(user=user)
+        except:
+            context["discord"] = ''
+
         return context
 
 

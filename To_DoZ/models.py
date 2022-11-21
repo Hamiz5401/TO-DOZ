@@ -17,7 +17,7 @@ class ToDoList(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=200)
-    detail = models.CharField(max_length=1000, default=None, null=True, blank=True)
+    detail = models.CharField(max_length=1000, null=True, blank=True)
     priority = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
     deadline = models.DateTimeField(null=True, blank=True)
@@ -33,7 +33,7 @@ class Task(models.Model):
 
 class Discord_url(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    url = models.CharField(max_length=200)
+    url = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return f"{self.url}"

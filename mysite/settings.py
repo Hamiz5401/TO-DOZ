@@ -153,4 +153,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
 SIGNUP_REDIRECT_URL = '/accounts/login'
