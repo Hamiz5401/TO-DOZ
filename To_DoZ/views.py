@@ -244,7 +244,7 @@ def create_classroom_data(request):
                                         token_url=creds.token_uri,
                                         client_id=creds.client_id,
                                         client_secret=creds.client_secret,
-                                        expiry=datetime.datetime.strptime(str(creds.expiry), '%Y-%m-%d %H:%M:%S.%f'))
+                                        expiry=timezone.datetime.strptime(str(creds.expiry), '%Y-%m-%d %H:%M:%S.%f'))
         try:
             service = build('classroom', 'v1', credentials=creds)
 
