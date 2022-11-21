@@ -249,7 +249,7 @@ def create_classroom_data(request):
         try:
             service = build('classroom', 'v1', credentials=creds)
 
-            results = service.courses().list(pageSize=10).execute()
+            results = service.courses().list(pageSize=5).execute()
             courses = results.get('courses', [])
 
             if not courses:
