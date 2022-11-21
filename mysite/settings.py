@@ -140,7 +140,7 @@ AUTHENTICATION_BACKENDS = (
  'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 5
+SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -153,3 +153,4 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+SIGNUP_REDIRECT_URL = '/accounts/login'
