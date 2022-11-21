@@ -1,1 +1,1 @@
-web gunicorn TO-DOZ.wsgi:apllication --log-file -
+web gunicorn mysite.wsgi:apllication --log-file -
