@@ -42,8 +42,8 @@ class Discord_url(models.Model):
 class Google_token(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     token = models.CharField(max_length=500)
-    refresh_token = models.CharField(max_length=500)
+    refresh_token = models.CharField(max_length=500, null=True)
     token_url = models.CharField(max_length=500)
     client_id = models.CharField(max_length=500)
     client_secret = models.CharField(max_length=500)
-    expiry = models.CharField(max_length=500)
+    expiry = models.DateTimeField()
