@@ -165,3 +165,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 django_heroku.settings(locals())
+
+CSRF_TRUSTED_ORIGINS = ["https://todoz-phukit.herokuapp.com"]
