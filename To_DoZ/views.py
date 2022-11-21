@@ -19,9 +19,9 @@ from .jobs import add_job, clear_job
 from django.utils import timezone
 
 SCOPES = [
-            'https://www.googleapis.com/auth/classroom.courses.readonly',
-            'https://www.googleapis.com/auth/classroom.coursework.me'
-        ]
+    'https://www.googleapis.com/auth/classroom.courses.readonly',
+    'https://www.googleapis.com/auth/classroom.coursework.me'
+]
 
 
 @method_decorator(login_required, name="dispatch")
@@ -225,8 +225,8 @@ def create_classroom_data(request):
                                 client_id=g_token.client_id,
                                 client_secret=g_token.client_secret,
                                 expiry=g_token.expiry)
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
+        if not creds or creds.expiry <= timezone.now():
+            if creds and creds.expiry >= timezone.now() and creds.refresh_token:
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
@@ -238,7 +238,7 @@ def create_classroom_data(request):
                                         token_url=creds.token_uri,
                                         client_id=creds.client_id,
                                         client_secret=creds.client_secret,
-                                        expiry=timezone.datetime.strptime(str(creds.expiry), '%Y-%m-%d %H:%M:%S.%f'))
+                                        expiry=datetime.datetime.strptime(str(creds.expiry), '%Y-%m-%d %H:%M:%S.%f'))
         try:
             service = build('classroom', 'v1', credentials=creds)
 
