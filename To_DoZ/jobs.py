@@ -7,7 +7,7 @@ from django.utils import timezone
 
 
 def add_noti_discord(task: Task, user, time):
-    if Discord_url.objects.filter(user=user).exists():
+    if Discord_url.objects.filter(user=user).exists() and task.status is not True:
         dis = Discord_url.objects.filter(user=user)
         dis_url = dis[0]
         discord = Discord(url=dis_url)
@@ -34,4 +34,3 @@ def clear_job(task: Task):
         if scheduler.get_job(job_id) is not None:
             scheduler.remove_job(job_id)
             print(f"{task.title} has deleted it schedule.")
-

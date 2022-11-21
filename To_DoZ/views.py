@@ -18,7 +18,10 @@ from discordwebhook import Discord
 from .jobs import add_job, clear_job
 from django.utils import timezone
 
-import os.path
+SCOPES = [
+            'https://www.googleapis.com/auth/classroom.courses.readonly',
+            'https://www.googleapis.com/auth/classroom.coursework.me'
+        ]
 
 
 @method_decorator(login_required, name="dispatch")
@@ -212,32 +215,30 @@ def done(request, pk_task):
 def create_classroom_data(request):
     user = request.user
     if user.socialaccount_set.exists():
-        SCOPES = [
-            'https://www.googleapis.com/auth/classroom.courses.readonly',
-            'https://www.googleapis.com/auth/classroom.coursework.me'
-        ]
 
         creds = None
-        if os.path.exists('token.json'):
-            creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+        if Google_token.objects.filter(user=user).exists():
+            g_token = Google_token.objects.get(user=user)
+            creds = Credentials(token=g_token.token,
+                                refresh_token=g_token.refresh_token,
+                                token_uri=g_token.token_url,
+                                client_id=g_token.client_id,
+                                client_secret=g_token.client_secret,
+                                expiry=g_token.expiry)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'To_DoZ/credentials.json', [
-                        'https://www.googleapis.com/auth/classroom.courses.readonly',
-                        'https://www.googleapis.com/auth/classroom.coursework.me'
-                    ])
+                    'To_DoZ/credentials.json', SCOPES)
                 creds = flow.run_local_server(port=0)
-            # with open('token.json', 'w') as token:
-            #     token.write(creds.to_json())
             Google_token.objects.create(user=user,
                                         token=creds.token,
                                         refresh_token=creds.refresh_token,
                                         token_url=creds.token_uri,
-                                        expiry=datetime.datetime.strptime(creds.expiry, '%Y-%m-%dT%H:%M:%S.%f%z'),)
-
+                                        client_id=creds.client_id,
+                                        client_secret=creds.client_secret,
+                                        expiry=creds.expiry)
         try:
             service = build('classroom', 'v1', credentials=creds)
 

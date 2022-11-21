@@ -46,5 +46,4 @@ class Google_token(models.Model):
     token_url = models.CharField(max_length=500)
     client_id = models.CharField(max_length=500)
     client_secret = models.CharField(max_length=500)
-    scope = models.JSONField(max_length=500)
     expiry = models.CharField(max_length=500)
