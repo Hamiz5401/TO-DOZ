@@ -6,3 +6,4 @@ google-auth-oauthlib
 pytest-django
 django_apscheduler
 discordwebhook
+APScheduler

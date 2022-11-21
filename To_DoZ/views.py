@@ -238,13 +238,14 @@ def create_classroom_data(request):
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'To_DoZ/credentials.json', SCOPES)
                 creds = flow.run_local_server(port=0)
-            Google_token.objects.create(user=user,
-                                        token=creds.token,
-                                        refresh_token=creds.refresh_token,
-                                        token_url=creds.token_uri,
-                                        client_id=creds.client_id,
-                                        client_secret=creds.client_secret,
-                                        expiry=datetime.datetime.strptime(str(creds.expiry), '%Y-%m-%d %H:%M:%S.%f'))
+            if not Google_token.objects.filter(user=user).exists():
+                Google_token.objects.create(user=user,
+                                            token=creds.token,
+                                            refresh_token=creds.refresh_token,
+                                            token_url=creds.token_uri,
+                                            client_id=creds.client_id,
+                                            client_secret=creds.client_secret,
+                                            expiry=timezone.datetime.strptime(str(creds.expiry), '%Y-%m-%d %H:%M:%S.%f'))
         try:
             service = build('classroom', 'v1', credentials=creds)
 
