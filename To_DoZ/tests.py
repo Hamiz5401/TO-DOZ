@@ -7,7 +7,8 @@ from django.utils import timezone
 from . import views
 from .models import Task, ToDoList, User
 
-from selenium import webdriver
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 
 
@@ -49,12 +50,14 @@ class ClassroomTest(TestCase):
         ToDoList.objects.create(subject='subtest1', user=User.objects.get(pk=1))
 
 
-class TestSelenium(TestCase):
+class TestSelenium(StaticLiveServerTestCase):
     """Tests of the Selenium E2E."""
 
     def setUp(self):
+        options = ChromeOptions()
+        options.headless = True
 
-        self.browser = webdriver.Chrome('To_DoZ/chromedriver.exe')
+        self.browser = Chrome(options=options)
         
     def login(self):
         user = "test"
