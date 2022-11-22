@@ -23,6 +23,5 @@ urlpatterns = [
     path('To-Doz/', include('To_DoZ.urls')),
     path("", RedirectView.as_view(url="/To-Doz/")),
     path('accounts/', include('allauth.urls')),
-    path("signup/", views.signup, name="signup")
 
 ]
