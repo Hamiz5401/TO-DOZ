@@ -4,9 +4,11 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from To_DoZ import views
-from To_DoZ.models import Task, ToDoList, User
+from . import views
+from .models import Task, ToDoList, User
 
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 class QuestionModelTests(TestCase):
@@ -39,7 +41,45 @@ class ClassroomTest(TestCase):
     def test_user(self):
         User.objects.create(username='test1', password='1234')
         ToDoList.objects.create(subject='subtest1', user=User.objects.get(pk=1))
-        self.assertEqual(type(views.create_classroom_data(ToDoList.objects.get(pk=1))),type(HttpResponseRedirect(reverse("To_DoZ:home"))))
+        self.assertEqual(type(views.create_classroom_data(ToDoList.objects.get(pk=1))),
+                         type(HttpResponseRedirect(reverse("To_DoZ:home"))))
+
     def test_user_social(self):
         User.objects.create(username='test1', password='1234')
         ToDoList.objects.create(subject='subtest1', user=User.objects.get(pk=1))
+
+
+class TestSelenium(TestCase):
+    """Tests of the Selenium E2E."""
+
+    def setUp(self):
+
+        self.browser = webdriver.Chrome()
+        self.browser.implicitly_wait(10)
+
+    def test_page_access(self):
+        url = "https://todoz-phukit.herokuapp.com/To-Doz/"
+        self.browser.get(url)
+        self.assertNotEqual(url, self.browser.current_url)
+        url = "https://todoz-phukit.herokuapp.com/accounts/login/"
+        self.browser.get(url)
+        self.assertEqual(url, self.browser.current_url)
+
+    def test_page_title(self):
+        url = "https://todoz-phukit.herokuapp.com/To-Doz/"
+        self.browser.get(url)
+        self.assertIn("TO-DOZ", self.browser.title)
+
+    def test_login(self):
+        user = "test"
+        password = "test_todoz"
+        url = "https://todoz-phukit.herokuapp.com/accounts/login/"
+        self.browser.get(url)
+        self.browser.find_element(By.NAME, 'login').send_keys(user)
+        self.browser.find_element(By.NAME, 'password').send_keys(password)
+        self.browser.find_element(By.CLASS_NAME, 'button__text').click()
+        self.assertNotEqual(url, self.browser.current_url)
+
+
+
+

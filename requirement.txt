@@ -7,3 +7,4 @@ pytest-django
 django_apscheduler
 discordwebhook
 APScheduler
+selenium
