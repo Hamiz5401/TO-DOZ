@@ -38,7 +38,7 @@ body {
 font-weight: bold;
 font-size: 30px;
 padding: 30px;
-padding-top: 60px;
+padding-top:0;
 padding-bottom: 0;
 color: black;
 }
@@ -96,6 +96,26 @@ color: black;
 	outline: none;
 }
 
+.previous {
+  background-color: #f1f1f1;
+font-weight: bold;
+font-size: 2rem;
+color: black;
+  width:3rem;
+  display: flex;
+  justify-content: center;
+}
+.previous a{
+  text-decoration: none;
+  color: black;
+  padding: 8px 16px;
+}
+
+.previous a:hover {
+  background-color: #ddd;
+  color: black;
+  cursor:pointer;
+}
 
 </style>
 <!DOCTYPE html>
@@ -113,6 +133,11 @@ color: black;
 <div class="container">
     <div class="screen">
         <div class="screen__content">
+
+            <div class="previous">
+                <a onclick="history.back()">&#8249;</a>
+            </div>
+            <br>
             <div class="title">
                 To-DoZ
             </div>
@@ -148,6 +173,12 @@ color: black;
                 </button>
 
             </form>
+                {# If you have a password_reset template, then add here #}
+<!--                <p>-->
+<!--                    <a href="{% url 'account_reset_password' %}" class="input_button">Forgot password?</a>-->
+<!--                </p>-->
+
+
         </div>
     </div>
 </div>
