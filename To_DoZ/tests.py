@@ -98,6 +98,4 @@ class TestSelenium(TestCase):
         self.assertEqual(home, self.browser.current_url)
 
         elements = self.browser.find_elements(By.TAG_NAME, 'h3')
-        for element in elements:
-            print(element)
-        self.assertEqual(1, len(element))
+        self.assertEqual(1, len(elements))
