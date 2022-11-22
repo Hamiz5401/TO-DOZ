@@ -8,3 +8,4 @@ django_apscheduler
 discordwebhook
 APScheduler
 selenium
+django-heroku
