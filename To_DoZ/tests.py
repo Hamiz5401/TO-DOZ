@@ -54,8 +54,7 @@ class TestSelenium(TestCase):
 
     def setUp(self):
 
-        self.browser = webdriver.Chrome()
-        self.browser.implicitly_wait(10)
+        self.browser = webdriver.Chrome('To_DoZ/chromedriver.exe')
         
     def login(self):
         user = "test"
@@ -109,7 +108,7 @@ class TestSelenium(TestCase):
         elements = self.browser.find_elements(By.TAG_NAME, 'h3')
         self.assertEqual(0, len(elements))
 
-    def test_add_list(self):
+    def test_add_task(self):
         self.login()
         
         # create list
