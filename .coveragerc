@@ -1,7 +1,6 @@
 # .coveragerc to control coverage.py
 [run]
 branch = True
-source=To_Doz
 omit=To_Doz\__init__.py,To_Doz\migrations\*,manage.py,mysite\*
 [report]
 exclude_lines =

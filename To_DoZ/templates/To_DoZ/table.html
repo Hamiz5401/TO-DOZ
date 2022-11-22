@@ -1,48 +1,154 @@
+<style>
+body {
+font-size: 20px;
+
+}
+.sorting{
+margin-left:4rem;
+margin-bottom:2rem;
+}
+.main-table{
+margin-left:4rem;
+}
+
+.content-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+    border-left: 1px solid rgba(221, 221, 221, 0.5);
+}
+
+.content-table tbody tr {
+    border-bottom: 2px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+</style>
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TO-DOZ</title>
 
 </head>
-
 <body>
-    <div>
-        {% for task in task_list %}
-        {{task.title}} : call "task" to get more infomation Ex. task.deadline
-        <br>
-        {% endfor %}
-        <form>
-            <label for="sort">Sort by</label>
-            <select name="sort_by" id="sort">
-                <option value="deadline">deadline</option>
-                <option value="-deadline">-deadline</option>
-            </select>
-            <label for="status">Status</label>
-            <select name="status" id="status">
-                <option value="">All</option>
-                <option value="False">In progress</option>
-                <option value="True">Done</option>
-            </select>
-            <input type="checkbox" name="priority" value="True">
-            <label for="priority">Priority</label>
-            <label for="list">List</label>
-            <select name="list" id="list">
-                <option value="">All</option>
-                {% for list in lists %}
-                <option value="{{list.pk}}">{{list.subject}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-    </div>
-    <div></div>
-</body>
+<header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
+                <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
+            </ul>
+            <div class="logo">
+                <a href="{% url 'To_DoZ:home' %}" class="solid_button">TO-DOZ</a>
+            </div>
+            <div class="account">
+                <a>{{user}}</a>
+                <a href="{% url 'account_logout' %}" class="logout_button">Log out</a>
+            </div>
 
+        </nav>
+
+        <div class="page">
+            <h1>TABLE VIEW</h1>
+        </div>
+
+        <section class="header-info">
+            <div class="sorting">
+                <form>
+                    <label for="sort">Sort by</label>
+                    <select name="sort_by" id="sort">
+                        <option value="deadline">deadline</option>
+                        <option value="-deadline">-deadline</option>
+                    </select>
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                        <option value="">All</option>
+                        <option value="False">In progress</option>
+                        <option value="True">Done</option>
+                    </select>
+                    <input type="checkbox" name="priority" value="True">
+                    <label for="priority">Priority</label>
+                    <label for="list">List</label>
+                    <select name="list" id="list">
+                        <option value="">All</option>
+                        {% for list in lists %}
+                        <option value="{{list.pk}}">{{list.subject}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit">
+                </form>
+            </div>
+
+            <div class="main-table">
+
+                <hr>
+                <table class="content-table">
+                    <thead>
+                    <tr>
+
+                        <th style="">Task</th>
+                        <th style="">Subject</th>
+                        <th style="width:225px;">Deadline</th>
+                        <th style="width:150px;">Button</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task in task_list %}
+                    <tr>
+                        <td><div class="task-name"><a href="{% url 'To_DoZ:detail' task.to_do_list.pk task.pk %}" style="text-decoration: none;color:black;">{{task.title}}</a></div></td>
+                        <td>{{task.to_do_list.subject}}</td>
+                        <td>{{task.deadline}}</td>
+                        {% if task.status == False %}
+                        <td style="text-align: center;"><a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">DONE</a></td>
+                        {% else %}
+                        <td style="text-align: center;"><a href="{% url 'To_DoZ:done' task.pk %}" class="late_done_button">Redone</a></td>
+                        {% endif %}
+
+
+                    </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+        </section>
+    </div>
+</header>
+</body>
 </html>
