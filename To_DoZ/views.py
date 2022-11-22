@@ -2,6 +2,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 import datetime
 import pytz
+import time
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -215,7 +216,7 @@ def done(request, pk_task):
 def create_classroom_data(request):
     user = request.user
     if user.socialaccount_set.exists():
-
+        start = time.time()
         creds = None
         if Google_token.objects.filter(user=user).exists():
             g_token = Google_token.objects.get(user=user)
@@ -232,17 +233,19 @@ def create_classroom_data(request):
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'To_DoZ/credentials.json', SCOPES)
                 creds = flow.run_local_server(port=0)
-            Google_token.objects.create(user=user,
-                                        token=creds.token,
-                                        refresh_token=creds.refresh_token,
-                                        token_url=creds.token_uri,
-                                        client_id=creds.client_id,
-                                        client_secret=creds.client_secret,
-                                        expiry=datetime.datetime.strptime(str(creds.expiry), '%Y-%m-%d %H:%M:%S.%f'))
+            if not Google_token.objects.filter(user=user).exists():
+                Google_token.objects.create(user=user,
+                                            token=creds.token,
+                                            refresh_token=creds.refresh_token,
+                                            token_url=creds.token_uri,
+                                            client_id=creds.client_id,
+                                            client_secret=creds.client_secret,
+                                            expiry=timezone.datetime.strptime(str(creds.expiry),
+                                                                              '%Y-%m-%d %H:%M:%S.%f'))
         try:
             service = build('classroom', 'v1', credentials=creds)
 
-            results = service.courses().list(pageSize=10).execute()
+            results = service.courses().list(pageSize=10, fields="courses(id,name)").execute()
             courses = results.get('courses', [])
 
             if not courses:
@@ -252,15 +255,18 @@ def create_classroom_data(request):
                 if not ToDoList.objects.filter(user=user, subject=g_data['name'].replace('/', "-")).exists():
                     ToDoList.objects.create(
                         user=user, subject=g_data['name'].replace('/', "-"), classroom_API=True)
-                classwork = service.courses().courseWork().list(
-                    courseId=g_data['id']).execute()
+                classwork = service.courses().courseWork().list(courseId=g_data['id'],
+                                                                fields="courseWork(courseId,id,title,dueDate,dueTime,"
+                                                                       "description)").execute()
                 if 'courseWork' in classwork:
                     for work in classwork['courseWork']:
                         if g_data['id'] != work['courseId']:
                             continue
                         submit = service.courses().courseWork().studentSubmissions().list(courseId=g_data['id'],
                                                                                           courseWorkId=work[
-                                                                                              'id']).execute()
+                                                                                              'id'],
+                                                                                          fields="studentSubmissions("
+                                                                                                 "state)").execute()
                         g_classroom_todo = ToDoList.objects.get(
                             user=user, subject=g_data['name'].replace('/', "-"))
                         submit_data = submit['studentSubmissions'][0]
@@ -303,6 +309,8 @@ def create_classroom_data(request):
                 dis_url = dis[0]
                 discord = Discord(url=dis_url)
                 discord.post(content=f"{user} has update google classroom data.")
+            end = time.time()
+            print(end - start)
         except HttpError as error:
             print('An error occurred: %s' % error)
         return HttpResponseRedirect(reverse("To_DoZ:home"))
