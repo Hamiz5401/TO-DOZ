@@ -80,6 +80,24 @@ class TestSelenium(TestCase):
         self.browser.find_element(By.CLASS_NAME, 'button__text').click()
         self.assertNotEqual(url, self.browser.current_url)
 
+    def test_add_list(self):
+        user = "test"
+        password = "test_todoz"
+        url = "https://todoz-phukit.herokuapp.com/accounts/login/"
+        self.browser.get(url)
+        self.browser.find_element(By.NAME, 'login').send_keys(user)
+        self.browser.find_element(By.NAME, 'password').send_keys(password)
+        self.browser.find_element(By.CLASS_NAME, 'button__text').click()
+        
+        self.browser.find_element(By.CLASS_NAME, 'add_todo_button').click()
+        to_do_list = "Test1"
+        self.browser.find_element(By.NAME, 'subject').send_keys(to_do_list)
+        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
+        
+        home = "https://todoz-phukit.herokuapp.com/To-Doz/"
+        self.assertEqual(home, self.browser.current_url)
 
-
-
+        elements = self.browser.find_elements(By.TAG_NAME, 'h3')
+        for element in elements:
+            print(element)
+        self.assertEqual(1, len(element))
