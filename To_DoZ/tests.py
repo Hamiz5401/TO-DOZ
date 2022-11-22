@@ -99,3 +99,9 @@ class TestSelenium(TestCase):
 
         elements = self.browser.find_elements(By.TAG_NAME, 'h3')
         self.assertEqual(1, len(elements))
+        
+        self.browser.find_element(By.PARTIAL_LINK_TEXT, 'DELETE').click()
+        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
+        
+        elements = self.browser.find_elements(By.TAG_NAME, 'h3')
+        self.assertEqual(0, len(elements))
