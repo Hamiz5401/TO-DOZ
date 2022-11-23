@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+
+To_DoZ/credentials.json
