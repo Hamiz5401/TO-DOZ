@@ -250,9 +250,10 @@ def create_classroom_data(request):
                                             client_secret=creds.client_secret,
                                             expiry=timezone.datetime.strptime(str(creds.expiry),
                                                                               '%Y-%m-%d %H:%M:%S.%f'))
+        for _ in range(3):
+            print("Google token Created")
         try:
             service = build('classroom', 'v1', credentials=creds)
-
             results = service.courses().list(pageSize=10, fields="courses(id,name)").execute()
             courses = results.get('courses', [])
 
