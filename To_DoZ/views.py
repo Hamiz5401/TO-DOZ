@@ -240,7 +240,7 @@ def create_classroom_data(request):
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'To_DoZ/credentials.json', SCOPES)
-                creds = flow.run_local_server(bind_host="0.0.0.0")
+                creds = flow.run_local_server(port=0)
             if not Google_token.objects.filter(user=user).exists():
                 Google_token.objects.create(user=user,
                                             token=creds.token,
