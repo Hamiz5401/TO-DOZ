@@ -18,6 +18,7 @@ from googleapiclient.errors import HttpError
 from discordwebhook import Discord
 from .jobs import add_job, clear_job
 from django.utils import timezone
+from threading import Thread
 
 SCOPES = [
     'https://www.googleapis.com/auth/classroom.courses.readonly',
@@ -221,6 +222,8 @@ def done(request, pk_task):
 
 def create_classroom_data(request):
     user = request.user
+    for _ in range(10):
+        print(" I am fetching !!!!")
     if user.socialaccount_set.exists():
         start = time.time()
         creds = None
@@ -322,3 +325,9 @@ def create_classroom_data(request):
         return HttpResponseRedirect(reverse("To_DoZ:home"))
     else:
         return HttpResponseRedirect(reverse("To_DoZ:home"))
+
+
+def add_classroom(request):
+    x = Thread(target=create_classroom_data, args=(request,))
+    x.start()
+    return HttpResponseRedirect(reverse("To_DoZ:home"))
