@@ -328,6 +328,6 @@ def create_classroom_data(request):
 
 
 def add_classroom(request):
-    x = Thread(target=create_classroom_data, args=(request,))
-    x.start()
+    Hamiz = Thread(target=create_classroom_data, args=(request,))
+    Hamiz.start()
     return HttpResponseRedirect(reverse("To_DoZ:home"))
