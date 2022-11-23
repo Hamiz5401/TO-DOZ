@@ -223,6 +223,8 @@ def done(request, pk_task):
 def create_classroom_data(request):
     user = request.user
     if user.socialaccount_set.exists():
+        for _ in range(3):
+            print("Social account exist")
         creds = None
         if Google_token.objects.filter(user=user).exists():
             g_token = Google_token.objects.get(user=user)
@@ -254,6 +256,8 @@ def create_classroom_data(request):
             results = service.courses().list(pageSize=10, fields="courses(id,name)").execute()
             courses = results.get('courses', [])
 
+            for _ in range(3):
+                print("Classroom Running")
             if not courses:
                 print('No courses found.')
 
