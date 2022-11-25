@@ -7,7 +7,7 @@
     font-family: 'Kanit', sans-serif;
 }
 body {
-	background: #fff;
+	background: linear-gradient(90deg, #1EEBA7, #10B981);
 }
 .container {
 margin: 0 auto;
@@ -444,4 +444,25 @@ cursor:text;
 color:#333333;
 background-color: white;
 border-color: #333333;
+}
+
+.previous {
+  background-color: #f1f1f1;
+font-weight: bold;
+font-size: 2rem;
+color: black;
+  width:3rem;
+  display: flex;
+  justify-content: center;
+}
+.previous a{
+  text-decoration: none;
+  color: black;
+  padding: 8px 16px;
+}
+
+.previous a:hover {
+  background-color: #ddd;
+  color: black;
+  cursor:pointer;
 }
