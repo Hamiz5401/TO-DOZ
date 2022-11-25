@@ -1,7 +1,14 @@
+
 <style>
 body {
 font-size: 20px;
 
+}
+.detail {
+background-color: #f3f3f3;
+padding:2em;
+border-radius:16px;
+margin-right:0;
 }
 .sorting{
 margin-left:4rem;
@@ -37,6 +44,7 @@ margin-left:4rem;
 
 .content-table tbody tr {
     border-bottom: 2px solid #dddddd;
+    background-color: #fff;
 }
 
 .content-table tbody tr:nth-of-type(even) {
@@ -70,7 +78,6 @@ color: black;
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'To_DoZ/style.css' %}">
 <head>
     <meta charset="UTF-8">
@@ -105,7 +112,8 @@ color: black;
         </div>
 
         <section class="header-info">
-            <div class="sorting">
+            <div class="detail">
+                            <div class="sorting">
                 <form>
                     <label for="sort">Sort by</label>
                     <select name="sort_by" id="sort">
@@ -118,8 +126,8 @@ color: black;
                         <option value="False">In progress</option>
                         <option value="True">Done</option>
                     </select>
-                    <input type="checkbox" name="priority" value="True">
                     <label for="priority">Priority</label>
+                    <input type="checkbox" name="priority" value="True">
                     <label for="list">List</label>
                     <select name="list" id="list">
                         <option value="">All</option>
@@ -166,6 +174,7 @@ color: black;
                 </table>
 
 
+            </div>
             </div>
 
 
