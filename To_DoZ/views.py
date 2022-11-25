@@ -78,8 +78,9 @@ class TableView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["user"] = self.request.user
-        context["lists"] = ToDoList.objects.all()
+        user = self.request.user
+        context["user"] = user
+        context["lists"] = ToDoList.objects.filter(user=user)
         return context
 
 
