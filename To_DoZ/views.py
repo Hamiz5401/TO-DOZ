@@ -223,9 +223,10 @@ def done(request, pk_task):
 
 def create_classroom_data(request):
     user = request.user
+    for _ in range(10):
+        print(" I am fetching !!!!")
     if user.socialaccount_set.exists():
-        for _ in range(3):
-            print("Social account exist")
+        start = time.time()
         creds = None
         if Google_token.objects.filter(user=user).exists():
             g_token = Google_token.objects.get(user=user)
@@ -251,15 +252,12 @@ def create_classroom_data(request):
                                             client_secret=creds.client_secret,
                                             expiry=timezone.datetime.strptime(str(creds.expiry),
                                                                               '%Y-%m-%d %H:%M:%S.%f'))
-        for _ in range(3):
-            print("Google token Created")
         try:
             service = build('classroom', 'v1', credentials=creds)
+
             results = service.courses().list(pageSize=10, fields="courses(id,name)").execute()
             courses = results.get('courses', [])
 
-            for _ in range(3):
-                print("Classroom Running")
             if not courses:
                 print('No courses found.')
 
@@ -321,6 +319,8 @@ def create_classroom_data(request):
                 dis_url = dis[0]
                 discord = Discord(url=dis_url)
                 discord.post(content=f"{user} has update google classroom data.")
+            end = time.time()
+            print(end - start)
         except HttpError as error:
             print('An error occurred: %s' % error)
         return HttpResponseRedirect(reverse("To_DoZ:home"))
