@@ -46,7 +46,26 @@ margin-left:4rem;
 .content-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
+    .previous {
+  background-color: #f1f1f1;
+font-weight: bold;
+font-size: 2rem;
+color: black;
+  width:3rem;
+  display: flex;
+  justify-content: center;
+}
+.previous a{
+  text-decoration: none;
+  color: black;
+  padding: 8px 16px;
+}
 
+.previous a:hover {
+  background-color: #ddd;
+  color: black;
+  cursor:pointer;
+}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,6 +99,9 @@ margin-left:4rem;
 
         <div class="page">
             <h1>TABLE VIEW</h1>
+        </div>
+        <div class="previous">
+            <a href="{% url 'To_DoZ:home' %}">&#8249;</a>
         </div>
 
         <section class="header-info">
