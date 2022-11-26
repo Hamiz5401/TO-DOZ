@@ -241,13 +241,16 @@ def create_classroom_data(request):
             if creds and creds.expiry >= timezone.now() and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/")
-                # print(flow.redirect_uri())
-                # creds = flow.run_local_server(port=0)
-                authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true')
-                request.session['state'] = state
-                return HttpResponseRedirect(authorization_url)
+                if request['state'] == None:
+                    flow = InstalledAppFlow.from_client_secrets_file(
+                        'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/")
+                    # flow = InstalledAppFlow.from_client_secrets_file(
+                    #     'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/")
+                    # print(flow.redirect_uri())
+                    # creds = flow.run_local_server(port=0)
+                    authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true')
+                    request.session['state'] = state
+                    return HttpResponseRedirect(authorization_url)
                 
             if not Google_token.objects.filter(user=user).exists():
                 flow = InstalledAppFlow.from_client_secrets_file(
@@ -344,4 +347,3 @@ def create_classroom_data(request):
 def add_classroom(request):
     Hamiz = Thread(target=create_classroom_data, args=(request,))
     Hamiz.start()
-    return HttpResponseRedirect(reverse("To_DoZ:home"))
