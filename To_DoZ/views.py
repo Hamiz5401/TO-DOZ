@@ -123,7 +123,8 @@ class TaskCreateView(CreateView):
         return reverse("To_DoZ:home")
 
     def form_valid(self, form):
-        form.instance.to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
+        form.instance.to_do_list = ToDoList.objects.get(
+            pk=self.kwargs["pk_list"])
         form.instance.user = self.request.user
         return super(TaskCreateView, self).form_valid(form)
 
@@ -241,8 +242,16 @@ def create_classroom_data(request):
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'To_DoZ/credentials.json', SCOPES)
-                creds = flow.run_local_server(port=0)
+                    'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/")
+                # print(flow.redirect_uri())
+                # creds = flow.run_local_server(port=0)
+                authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true')
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/", state=state)
+                
+                authorization_response = request.build_absolute_uri()
+                flow.fetch_token(authorization_response=authorization_response)
+                creds = flow.credentials
             if not Google_token.objects.filter(user=user).exists():
                 Google_token.objects.create(user=user,
                                             token=creds.token,
@@ -298,7 +307,7 @@ def create_classroom_data(request):
                                 detail=work['description'] if 'description' in work else "No description",
                                 deadline=duetime,
                                 status=True if submit_data['state'] == "TURNED_IN"
-                                               or submit_data['state'] == "RETURNED" else False, )
+                                or submit_data['state'] == "RETURNED" else False, )
                             if Discord_url.objects.filter(user=user).exists():
                                 add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
                                         user)
@@ -308,7 +317,7 @@ def create_classroom_data(request):
                                                     'description'] if 'description' in work else "No description",
                                                 deadline=duetime,
                                                 status=True if submit_data['state'] == "TURNED_IN"
-                                                               or submit_data['state'] == "RETURNED" else False,
+                                                or submit_data['state'] == "RETURNED" else False,
                                                 to_do_list=g_classroom_todo,
                                                 user=user)
                             if Discord_url.objects.filter(user=user).exists():
@@ -318,7 +327,8 @@ def create_classroom_data(request):
                 dis = Discord_url.objects.filter(user=user)
                 dis_url = dis[0]
                 discord = Discord(url=dis_url)
-                discord.post(content=f"{user} has update google classroom data.")
+                discord.post(
+                    content=f"{user} has update google classroom data.")
             end = time.time()
             print(end - start)
         except HttpError as error:
