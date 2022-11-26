@@ -123,7 +123,8 @@ class TaskCreateView(CreateView):
         return reverse("To_DoZ:home")
 
     def form_valid(self, form):
-        form.instance.to_do_list = ToDoList.objects.get(pk=self.kwargs["pk_list"])
+        form.instance.to_do_list = ToDoList.objects.get(
+            pk=self.kwargs["pk_list"])
         form.instance.user = self.request.user
         return super(TaskCreateView, self).form_valid(form)
 
@@ -240,11 +241,26 @@ def create_classroom_data(request):
             if creds and creds.expiry >= timezone.now() and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    'To_DoZ/credentials.json', SCOPES)
-                flow.redirect_uri = 'https://todoz-phukit.herokuapp.com/To-Doz'
-                creds = flow.run_local_server(port=0)
+                if request['state'] == None:
+                    flow = InstalledAppFlow.from_client_secrets_file(
+                        'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/")
+                    # flow = InstalledAppFlow.from_client_secrets_file(
+                    #     'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/")
+                    # print(flow.redirect_uri())
+                    # creds = flow.run_local_server(port=0)
+                    authorization_url, state = flow.authorization_url(access_type='offline',
+                                                                      include_granted_scopes='true')
+                    request.session['state'] = state
+                    return HttpResponseRedirect(authorization_url)
+
             if not Google_token.objects.filter(user=user).exists():
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/",
+                    state=state)
+
+                authorization_response = request.build_absolute_uri()
+                flow.fetch_token(authorization_response=authorization_response)
+                creds = flow.credentials
                 Google_token.objects.create(user=user,
                                             token=creds.token,
                                             refresh_token=creds.refresh_token,
@@ -319,7 +335,8 @@ def create_classroom_data(request):
                 dis = Discord_url.objects.filter(user=user)
                 dis_url = dis[0]
                 discord = Discord(url=dis_url)
-                discord.post(content=f"{user} has update google classroom data.")
+                discord.post(
+                    content=f"{user} has update google classroom data.")
             end = time.time()
             print(end - start)
         except HttpError as error:
@@ -332,4 +349,3 @@ def create_classroom_data(request):
 def add_classroom(request):
     Hamiz = Thread(target=create_classroom_data, args=(request,))
     Hamiz.start()
-    return HttpResponseRedirect(reverse("To_DoZ:home"))
