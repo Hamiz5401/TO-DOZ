@@ -246,13 +246,16 @@ def create_classroom_data(request):
                 # print(flow.redirect_uri())
                 # creds = flow.run_local_server(port=0)
                 authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true')
+                request.session['state'] = state
+                return HttpResponseRedirect(authorization_url)
+                
+            if not Google_token.objects.filter(user=user).exists():
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/", state=state)
                 
                 authorization_response = request.build_absolute_uri()
                 flow.fetch_token(authorization_response=authorization_response)
                 creds = flow.credentials
-            if not Google_token.objects.filter(user=user).exists():
                 Google_token.objects.create(user=user,
                                             token=creds.token,
                                             refresh_token=creds.refresh_token,
