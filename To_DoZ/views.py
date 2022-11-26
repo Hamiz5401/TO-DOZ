@@ -256,7 +256,7 @@ def create_classroom_data(request):
             if not Google_token.objects.filter(user=user).exists():
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/",
-                    state=state)
+                    )
 
                 authorization_response = request.build_absolute_uri()
                 flow.fetch_token(authorization_response=authorization_response)
