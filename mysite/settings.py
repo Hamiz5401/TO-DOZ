@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY', default='missing-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default="127.0.0.1")
+ALLOWED_HOSTS = ["9b40-49-229-127-127.jp.ngrok.io", "127.0.0.1"]
 
 
 # Application definition
@@ -141,7 +141,7 @@ AUTHENTICATION_BACKENDS = (
  'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 1
+SITE_ID = 4
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
