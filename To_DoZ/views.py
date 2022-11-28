@@ -242,16 +242,19 @@ def create_classroom_data(request):
                             client_secret=g_token.client_secret,
                             expiry=g_token.expiry)
 
-    if creds and creds.expiry >= timezone.now() and creds.refresh_token:
+    if creds and creds.expiry >= timezone.now() and creds.refresh_token is not None:
         # If credential already exists, Refresh the token.
         creds.refresh(Request())
     # Authorize user by using Google again.
-    elif not creds and request.GET.get("state", "") == "":
+    if not creds and request.GET.get("state", "") == "":
         return redirect_auth(request)
 
     # Store the Credential.
     if not Google_token.objects.filter(user=user).exists():
-        creds = create_credential(creds, request)
+        try:
+            creds = create_credential(creds, request)
+        except:
+            return HttpResponseRedirect(reverse("To_DoZ:home"))
         Google_token.objects.create(user=user,
                                     token=creds.token,
                                     refresh_token=creds.refresh_token,
@@ -265,7 +268,7 @@ def create_classroom_data(request):
     creds.expiry = False
     try:
         service = build('classroom', 'v1', credentials=creds)
-        results = service.courses().list(pageSize=10, fields="courses(id,name)").execute()
+        results = service.courses().list(pageSize=1, fields="courses(id,name)").execute()
         courses = results.get('courses', [])
 
         if not courses:
@@ -332,7 +335,6 @@ def create_classroom_data(request):
 
 def create_duetime_google_task(work):
     if 'dueDate' not in work or 'dueTime' not in work:
-        print('deadline suppose to be None')
         return None
     duetime = datetime.datetime(year=work['dueDate']['year'],
                                 month=work['dueDate']['month'],
@@ -346,7 +348,8 @@ def create_duetime_google_task(work):
 def redirect_auth(request):
     flow = InstalledAppFlow.from_client_secrets_file(
         'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/get_classroom_data")
-    authorization_url, state = flow.authorization_url(access_type='online', include_granted_scopes='true')
+    authorization_url, state = flow.authorization_url(access_type='online', include_granted_scopes='true',
+                                                      prompt='consent')
     request.session['state'] = state
     # redirect user
     return HttpResponseRedirect(authorization_url)
