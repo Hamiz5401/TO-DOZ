@@ -336,13 +336,20 @@ def create_classroom_data(request):
 def create_duetime_google_task(work):
     if 'dueDate' not in work or 'dueTime' not in work:
         return None
-    duetime = datetime.datetime(year=work['dueDate']['year'],
-                                month=work['dueDate']['month'],
-                                day=work['dueDate']['day'],
-                                hour=work['dueTime']['hours'],
-                                minute=0 if 'minutes' not in work['dueTime'] else work['dueTime']['minutes'],
-                                tzinfo=pytz.timezone("UTC"))
-    return duetime
+    due_hrs = 0
+    due_mins = 0
+    if 'dueTime' in work:
+        dueTime = work['dueTime']
+        if 'hours' in dueTime:
+            due_hrs = dueTime['hours']
+        if 'minutes' in dueTime:
+            due_mins = dueTime['minutes']
+    return datetime.datetime(year=work['dueDate']['year'],
+                             month=work['dueDate']['month'],
+                             day=work['dueDate']['day'],
+                             hour=due_hrs,
+                             minute=due_mins,
+                             tzinfo=pytz.timezone("UTC"))
 
 
 def redirect_auth(request):
