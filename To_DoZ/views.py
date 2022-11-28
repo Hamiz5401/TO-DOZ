@@ -348,7 +348,7 @@ def create_duetime_google_task(work):
 def redirect_auth(request):
     flow = InstalledAppFlow.from_client_secrets_file(
         'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/get_classroom_data")
-    authorization_url, state = flow.authorization_url(access_type='online', include_granted_scopes='true',
+    authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true',
                                                       prompt='consent')
     request.session['state'] = state
     # redirect user
@@ -361,11 +361,8 @@ def create_credential(creds, request):
         state=request.GET.get("state", ""))
     authorization_response = request.build_absolute_uri()
     # Note: Make it think that it always connected to https
-    print(authorization_response[0:7])
-    print(authorization_response[0:7] == "http://")
     if authorization_response[0:7] == "http://":
         authorization_response = "https://" + authorization_response[7:]
-        print("after trick = " + authorization_response)
     flow.fetch_token(authorization_response=authorization_response)
     creds = flow.credentials
     return creds
