@@ -24,7 +24,10 @@ from django.contrib.auth.models import User
 
 SCOPES = [
     'https://www.googleapis.com/auth/classroom.courses.readonly',
-    'https://www.googleapis.com/auth/classroom.coursework.me'
+    'https://www.googleapis.com/auth/classroom.coursework.me',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'openid'
 ]
 
 
@@ -35,8 +38,6 @@ class HomeView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        Task.objects.filter(deadline=None).update(
-            deadline=timezone.datetime(year=9999, month=1, day=1, hour=0, minute=0))
         return ToDoList.objects.filter(user=user)
 
     def get_context_data(self, **kwargs):
@@ -226,21 +227,14 @@ def done(request, pk_task):
 
 def create_classroom_data(request):
     user = request.user
-    for _ in range(10):
-        print(" I am fetching !!!!")
-
-    # print(type(user))
-    # user = SocialAccount.objects.get(uid="104936108479784767601")
-    # user = User.objects.get(id=4)
     if not user.socialaccount_set.exists():
         # If user doesn't exists, Return them to Home.
         return HttpResponseRedirect(reverse("To_DoZ:home"))
 
-
-    start = time.time()
     creds = None
     if Google_token.objects.filter(user=user).exists():
         g_token = Google_token.objects.get(user=user)
+        # get user created token
         creds = Credentials(token=g_token.token,
                             refresh_token=g_token.refresh_token,
                             token_uri=g_token.token_url,
@@ -248,57 +242,35 @@ def create_classroom_data(request):
                             client_secret=g_token.client_secret,
                             expiry=g_token.expiry)
 
-    if not creds or creds.expiry <= timezone.now():
-        if creds and creds.expiry >= timezone.now() and creds.refresh_token:
-            # If credeital already exists, Refresh the token.
-            creds.refresh(Request())
-        else:
-            # Authorize user by using Google again.
-            if request.GET.get("state", "") == "":
-                # flow = InstalledAppFlow.from_client_secrets_file(
-                #     'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/")
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/get_classroom_data")
-                # print(flow.redirect_uri())
-                # creds = flow.run_local_server(port=0)
-                authorization_url, state = flow.authorization_url(access_type='online', include_granted_scopes='true')
-                request.session['state'] = state
-                print("I'm redirecting!")
-                return HttpResponseRedirect(authorization_url)
-            
-        print("Here!!")
-        # Store the Credential.
-        if not Google_token.objects.filter(user=user).exists():
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/get_classroom_data", state=request.GET.get("state", ""))
-            
-            authorization_response = request.build_absolute_uri()
-            print(authorization_response)
-            # Note: Make it think that it always connected to https
-            if authorization_response[0:8] == "http://":
-                authorization_response = "https://" + authorization_response[7:]
-            flow.fetch_token(authorization_response=authorization_response)
-            creds = flow.credentials
-            Google_token.objects.create(user=user,
-                                        token=creds.token,
-                                        refresh_token=creds.refresh_token,
-                                        token_url=creds.token_uri,
-                                        client_id=creds.client_id,
-                                        client_secret=creds.client_secret,
-                                        expiry=timezone.datetime.strptime(str(creds.expiry),
-                                                                            '%Y-%m-%d %H:%M:%S.%f'))
-    # Get data from Google Classroom API.     
-    print("I'm Getting the data from Classroom.")  
+    if creds and creds.expiry >= timezone.now() and creds.refresh_token:
+        # If credential already exists, Refresh the token.
+        creds.refresh(Request())
+    # Authorize user by using Google again.
+    elif not creds and request.GET.get("state", "") == "":
+        return redirect_auth(request)
+
+    # Store the Credential.
+    if not Google_token.objects.filter(user=user).exists():
+        creds = create_credential(creds, request)
+        Google_token.objects.create(user=user,
+                                    token=creds.token,
+                                    refresh_token=creds.refresh_token,
+                                    token_url=creds.token_uri,
+                                    client_id=creds.client_id,
+                                    client_secret=creds.client_secret,
+                                    expiry=timezone.datetime.strptime(str(creds.expiry),
+                                                                      '%Y-%m-%d %H:%M:%S.%f'))
+    # Get data from Google Classroom API.
     # Note: Trick the credential to think that it is not expired.
-    creds.expiry = False                                                  
+    creds.expiry = False
     try:
         service = build('classroom', 'v1', credentials=creds)
         results = service.courses().list(pageSize=10, fields="courses(id,name)").execute()
         courses = results.get('courses', [])
 
-        print(courses)
         if not courses:
             print('No courses found.')
+            return HttpResponseRedirect(reverse("To_DoZ:home"))
 
         for g_data in courses:
             if not ToDoList.objects.filter(user=user, subject=g_data['name'].replace('/', "-")).exists():
@@ -306,67 +278,91 @@ def create_classroom_data(request):
                     user=user, subject=g_data['name'].replace('/', "-"), classroom_API=True)
             classwork = service.courses().courseWork().list(courseId=g_data['id'],
                                                             fields="courseWork(courseId,id,title,dueDate,dueTime,"
-                                                                    "description)").execute()
-            if 'courseWork' in classwork:
-                for work in classwork['courseWork']:
-                    if g_data['id'] != work['courseId']:
-                        continue
-                    submit = service.courses().courseWork().studentSubmissions().list(courseId=g_data['id'],
-                                                                                        courseWorkId=work[
-                                                                                            'id'],
-                                                                                        fields="studentSubmissions("
-                                                                                                "state)").execute()
-                    g_classroom_todo = ToDoList.objects.get(
-                        user=user, subject=g_data['name'].replace('/', "-"))
-                    submit_data = submit['studentSubmissions'][0]
-                    duetime = datetime.datetime(year=work['dueDate']['year'] if 'dueDate' in work else 9999,
-                                                month=work['dueDate']['month'] if 'dueDate' in work else 1,
-                                                day=work['dueDate']['day'] if 'dueDate' in work else 1,
-                                                hour=(work['dueTime']['hours']) if 'dueTime' in work
-                                                                                    and 'hours' in work[
-                                                                                        'dueTime'] else 0,
-                                                minute=work['dueTime']['minutes'] if 'dueTime' in work
-                                                                                        and 'minutes' in work[
-                                                                                            'dueTime'] else 0,
-                                                tzinfo=pytz.timezone("UTC"))
-                    if Task.objects.filter(title=work['title'],
-                                            to_do_list=g_classroom_todo,
-                                            user=user).exists():
-                        Task.objects.filter(to_do_list=g_classroom_todo, title=work['title'], user=user).update(
-                            title=work['title'],
-                            detail=work['description'] if 'description' in work else "No description",
-                            deadline=duetime,
-                            status=True if submit_data['state'] == "TURNED_IN"
-                            or submit_data['state'] == "RETURNED" else False, )
-                        if Discord_url.objects.filter(user=user).exists():
-                            add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
-                                    user)
-                    else:
-                        Task.objects.create(title=work['title'],
-                                            detail=work[
-                                                'description'] if 'description' in work else "No description",
-                                            deadline=duetime,
-                                            status=True if submit_data['state'] == "TURNED_IN"
-                                            or submit_data['state'] == "RETURNED" else False,
-                                            to_do_list=g_classroom_todo,
-                                            user=user)
-                        if Discord_url.objects.filter(user=user).exists():
-                            add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
-                                    user)
+                                                                   "description)").execute()
+            if 'courseWork' not in classwork:
+                continue
+
+            for work in classwork['courseWork']:
+                if g_data['id'] != work['courseId']:
+                    continue
+                # get user submit data
+                submit = service.courses().courseWork().studentSubmissions().list(courseId=g_data['id'],
+                                                                                  courseWorkId=work[
+                                                                                      'id'],
+                                                                                  fields="studentSubmissions("
+                                                                                         "state)").execute()
+                g_classroom_todo = ToDoList.objects.get(
+                    user=user, subject=g_data['name'].replace('/', "-"))
+                submit_data = submit['studentSubmissions'][0]
+                duetime = create_duetime_google_task(work)
+                if Task.objects.filter(title=work['title'],
+                                       to_do_list=g_classroom_todo,
+                                       user=user).exists():
+                    Task.objects.filter(to_do_list=g_classroom_todo, title=work['title'], user=user).update(
+                        title=work['title'],
+                        detail=work['description'] if 'description' in work else "No description",
+                        deadline=duetime,
+                        status=True if submit_data['state'] == "TURNED_IN"
+                                       or submit_data['state'] == "RETURNED" else False, )
+                    if Discord_url.objects.filter(user=user).exists():
+                        add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
+                                user)
+                else:
+                    Task.objects.create(title=work['title'],
+                                        detail=work[
+                                            'description'] if 'description' in work else "No description",
+                                        deadline=duetime,
+                                        status=True if submit_data['state'] == "TURNED_IN"
+                                                       or submit_data['state'] == "RETURNED" else False,
+                                        to_do_list=g_classroom_todo,
+                                        user=user)
+                    if Discord_url.objects.filter(user=user).exists():
+                        add_job(Task.objects.get(to_do_list=g_classroom_todo, title=work['title'], user=user),
+                                user)
         if Discord_url.objects.filter(user=user).exists():
             dis = Discord_url.objects.filter(user=user)
             dis_url = dis[0]
             discord = Discord(url=dis_url)
             discord.post(
                 content=f"{user} has update google classroom data.")
-        end = time.time()
-        print(end - start)
     except HttpError as error:
         print('An error occurred: %s' % error)
     return HttpResponseRedirect(reverse("To_DoZ:home"))
 
 
+def create_duetime_google_task(work):
+    if 'dueDate' not in work or 'dueTime' not in work:
+        print('deadline suppose to be None')
+        return None
+    duetime = datetime.datetime(year=work['dueDate']['year'],
+                                month=work['dueDate']['month'],
+                                day=work['dueDate']['day'],
+                                hour=work['dueTime']['hours'],
+                                minute=0 if 'minutes' not in work['dueTime'] else work['dueTime']['minutes'],
+                                tzinfo=pytz.timezone("UTC"))
+    return duetime
 
-def add_classroom(request):
-    Hamiz = Thread(target=create_classroom_data, args=(request,))
-    Hamiz.start()
+
+def redirect_auth(request):
+    flow = InstalledAppFlow.from_client_secrets_file(
+        'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/get_classroom_data")
+    authorization_url, state = flow.authorization_url(access_type='online', include_granted_scopes='true')
+    request.session['state'] = state
+    # redirect user
+    return HttpResponseRedirect(authorization_url)
+
+
+def create_credential(creds, request):
+    flow = InstalledAppFlow.from_client_secrets_file(
+        'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/get_classroom_data",
+        state=request.GET.get("state", ""))
+    authorization_response = request.build_absolute_uri()
+    # Note: Make it think that it always connected to https
+    print(authorization_response[0:7])
+    print(authorization_response[0:7] == "http://")
+    if authorization_response[0:7] == "http://":
+        authorization_response = "https://" + authorization_response[7:]
+        print("after trick = " + authorization_response)
+    flow.fetch_token(authorization_response=authorization_response)
+    creds = flow.credentials
+    return creds
