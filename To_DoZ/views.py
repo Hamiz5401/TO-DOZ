@@ -28,7 +28,6 @@ SCOPES = [
     'https://www.googleapis.com/auth/userinfo.profile',
     'https://www.googleapis.com/auth/userinfo.email',
     'openid',
-    'https://www.googleapis.com/auth/classroom.coursework.me'
 ]
 
 
@@ -209,6 +208,7 @@ class DiscordUpdateView(UpdateView):
     model = Discord_url
     template_name = "To_DoZ/discord_update_form.html"
     fields = ["url"]
+    context_object_name = "discord_url"
 
     def get_success_url(self) -> str:
         return reverse("To_DoZ:home")

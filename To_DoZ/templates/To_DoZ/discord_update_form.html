@@ -64,12 +64,13 @@ color: black;
                     {% csrf_token %}
                     <p>
                     <div class="inputBox">
-                        <input type="text" name="url" id="id_url">
+                        <input type="text" name="url" id="id_url" value="{{discord_url.url}}">
                         <span>Discord Webhook URL</span>
                     </div>
                     </p>
 
                     <input type="submit" value="save" class="done_button">
+                    <button onclick="document.getElementById('id_url').value = ''" class="done_button">Clear input field</button>
                 </form>
             </div>
 
