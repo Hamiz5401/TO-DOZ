@@ -9,7 +9,7 @@ class TestSelenium(StaticLiveServerTestCase):
 
     def setUp(self):
         options = ChromeOptions()
-        options.headless = config("HEADLESS", cast=bool, default=False)
+        options.headless = config("HEADLESS", cast=bool, default=True)
         self.browser = Chrome(options=options)
         self.login()
         self.clear_data()
