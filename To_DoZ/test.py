@@ -55,7 +55,7 @@ class TestSelenium(StaticLiveServerTestCase):
 
     def setUp(self):
         options = ChromeOptions()
-        options.headless = True
+        options.headless = False
 
         self.browser = Chrome(options=options)
         
@@ -91,63 +91,6 @@ class TestSelenium(StaticLiveServerTestCase):
         self.browser.find_element(By.CLASS_NAME, 'button__text').click()
         self.assertNotEqual(url, self.browser.current_url)
 
-    def test_add_list(self):
-        self.login()
-        
-        self.browser.find_element(By.CLASS_NAME, 'add_todo_button').click()
-        to_do_list = "Test1"
-        self.browser.find_element(By.NAME, 'subject').send_keys(to_do_list)
-        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
-        
-        home = "https://todoz-phukit.herokuapp.com/To-Doz/"
-        self.assertEqual(home, self.browser.current_url)
-
-        elements = self.browser.find_elements(By.TAG_NAME, 'h3')
-        self.assertEqual(1, len(elements))
-        
-        self.browser.find_element(By.PARTIAL_LINK_TEXT, 'DELETE').click()
-        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
-        
-        elements = self.browser.find_elements(By.TAG_NAME, 'h3')
-        self.assertEqual(0, len(elements))
-
-    def test_add_task(self):
-        self.login()
-        
-        # create list
-        self.browser.find_element(By.CLASS_NAME, 'add_todo_button').click()
-        to_do_list = "Test1"
-        self.browser.find_element(By.NAME, 'subject').send_keys(to_do_list)
-        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
-        
-        home = "https://todoz-phukit.herokuapp.com/To-Doz/"
-        self.assertEqual(home, self.browser.current_url)
-        # test
-        elements = self.browser.find_elements(By.TAG_NAME, 'h3')
-        self.assertEqual(1, len(elements))
-
-        # create task
-        self.browser.find_element(By.CLASS_NAME, 'add_button').click()
-        to_do_task = "Task1"
-        self.browser.find_element(By.ID, 'id_title').send_keys(to_do_task)
-        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
-
-        self.assertEqual(home, self.browser.current_url)
-
-        # test
-        elements = self.browser.find_elements(By.CLASS_NAME, 'each_task')
-        self.assertEqual(1, len(elements))
-        
-        self.browser.find_element(By.LINK_TEXT, "Task1").click()
-        self.browser.find_element(By.LINK_TEXT, "delete").click()
-        self.browser.find_element(By.CLASS_NAME, "done_button").click()
-    
-        # test
-        elements = self.browser.find_elements(By.CLASS_NAME, 'each_task')
-        self.assertEqual(0, len(elements))
-        # delete list
-        self.browser.find_element(By.PARTIAL_LINK_TEXT, 'DELETE').click()
-        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
 
     def test_done_task(self):
         self.login()
