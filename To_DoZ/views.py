@@ -252,8 +252,18 @@ def create_classroom_data(request):
 
     # Store the Credential.
     if not Google_token.objects.filter(user=user).exists():
-        creds = create_credential(creds, request)
-
+        try:
+            creds = create_credential(creds, request)
+        except:
+            return HttpResponseRedirect(reverse("To_DoZ:home"))
+        Google_token.objects.create(user=user,
+                                    token=creds.token,
+                                    refresh_token=creds.refresh_token,
+                                    token_url=creds.token_uri,
+                                    client_id=creds.client_id,
+                                    client_secret=creds.client_secret,
+                                    expiry=timezone.datetime.strptime(str(creds.expiry),
+                                                                      '%Y-%m-%d %H:%M:%S.%f'))
     # Get data from Google Classroom API.
     # Note: Trick the credential to think that it is not expired.
     creds.expiry = False
