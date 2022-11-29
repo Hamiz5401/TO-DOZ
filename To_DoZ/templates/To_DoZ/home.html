@@ -11,6 +11,12 @@ display: flex;
 .image1 a {
 margin: 2rem 2rem 0rem 0rem;
 }
+
+.card-priority {
+border-left: 0.255rem solid orange;
+padding: 0.625rem;
+padding-top:0.2rem;
+}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +114,7 @@ margin: 2rem 2rem 0rem 0rem;
                     {% if task.is_late == False %}
                     {% if task.priority == True %}
                     <div class="each_task">
-                        <div class="card">
+                        <div class="card-priority">
                             <div class="task-name">
                                 <a href="{% url 'To_DoZ:detail' todolist.pk task.pk %}">{{task.title}}</a>
                             </div>

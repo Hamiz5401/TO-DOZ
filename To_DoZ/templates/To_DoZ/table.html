@@ -162,7 +162,7 @@ color: black;
                         {% if task.status == False %}
                         <td style="text-align: center;"><a href="{% url 'To_DoZ:done' task.pk %}" class="done_button">DONE</a></td>
                         {% else %}
-                        <td style="text-align: center;"><a href="{% url 'To_DoZ:done' task.pk %}" class="late_done_button">Redone</a></td>
+                        <td style="text-align: center;"><a href="{% url 'To_DoZ:done' task.pk %}" class="late_done_button">Undone</a></td>
                         {% endif %}
 
 

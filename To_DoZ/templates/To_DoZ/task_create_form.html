@@ -19,6 +19,7 @@ color: black;
   color: black;
   cursor:pointer;
 }
+
 </style>
 
 <!DOCTYPE html>
@@ -35,7 +36,7 @@ color: black;
 <body>
 <header>
     <div class="container">
-        <nav>
+        <nav style="z-index:10;">
             <ul>
                 <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
                 <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
@@ -50,7 +51,7 @@ color: black;
 
         </nav>
 
-        <div class="page">
+        <div class="page"  style="z-index:10;">
             <h1>Create Task</h1>
         </div>
         <div class="previous">
@@ -63,7 +64,7 @@ color: black;
                     {% csrf_token %}
                     <p>
 
-                    <div class="inputBox">
+                    <div class="inputBox" style="z-index:1;">
                         <input type="text" name="title" maxlength="200" required id="id_title">
                         <span>Title</span>
                     </div>
@@ -79,12 +80,12 @@ color: black;
 
                     </p>
                     <p>
-                        <label for="id_priority">Priority: </label>
-                        <input type="checkbox" name="status" id="id_priority">
+                        <label for="id_priority">High Priority: </label>
+                        <input type="checkbox" name="priority" id="id_priority">
                     </p>
                     <p>
-                        <label for="id_status">Status: </label>
-                        <input type="checkbox" name="priority" id="id_status">
+                        <label for="id_status">Done: </label>
+                        <input type="checkbox" name="status" id="id_status">
                     </p>
                     <p>
                         <label for="id_deadline">Deadline: </label>

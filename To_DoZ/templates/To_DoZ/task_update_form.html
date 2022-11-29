@@ -59,7 +59,7 @@ color: black;
 <body>
 <header>
     <div class="container">
-        <nav>
+        <nav style="z-index:10;">
             <ul>
                 <li><a href="{% url 'To_DoZ:home' %}" class="nav_button">Home</a></li>
                 <li><a href="{% url 'To_DoZ:history' %}" class="nav_button">History</a></li>
@@ -74,7 +74,7 @@ color: black;
 
         </nav>
 
-        <div class="page">
+        <div class="page" style="z-index:10;">
             <h1>Edit Task</h1>
         </div>
         <div class="previous">
@@ -86,7 +86,7 @@ color: black;
                 <form method="post">
                     {% csrf_token %}
                     <p>
-                    <div class="inputBox">
+                    <div class="inputBox" style="z-index:1;">
                         <input type="text" name="title" value="{{task.title}}" maxlength="200" id="id_title">
                         <span>Title</span>
                     </div>
