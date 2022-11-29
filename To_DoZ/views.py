@@ -354,7 +354,7 @@ def create_duetime_google_task(work):
 
 def redirect_auth(request):
     flow = InstalledAppFlow.from_client_secrets_file(
-        'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/get_classroom_data")
+        'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/get_classroom_data")
     authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true',
                                                       prompt='consent')
     request.session['state'] = state
@@ -364,7 +364,7 @@ def redirect_auth(request):
 
 def create_credential(creds, request):
     flow = InstalledAppFlow.from_client_secrets_file(
-        'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8000/To-Doz/get_classroom_data",
+        'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/get_classroom_data",
         state=request.GET.get("state", ""))
     authorization_response = request.build_absolute_uri()
     # Note: Make it think that it always connected to https
