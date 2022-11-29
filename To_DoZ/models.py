@@ -25,6 +25,8 @@ class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def is_late(self):
+        if self.deadline is None:
+            return False
         return timezone.localtime() > self.deadline
 
     def __str__(self):
