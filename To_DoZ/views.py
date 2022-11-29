@@ -252,7 +252,11 @@ def create_classroom_data(request):
 
     # Store the Credential.
     if not Google_token.objects.filter(user=user).exists():
-        creds = create_credential(creds, request)
+        try:
+            creds = create_credential(creds, request)
+        except:
+            return HttpResponseRedirect(reverse("To_DoZ:home"))
+
         Google_token.objects.create(user=user,
                                     token=creds.token,
                                     refresh_token=creds.refresh_token,
