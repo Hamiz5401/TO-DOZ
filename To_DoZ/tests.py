@@ -1,3 +1,5 @@
+import unittest
+
 from django.http import HttpResponseRedirect
 
 from django.test import TestCase
@@ -55,10 +57,10 @@ class TestSelenium(StaticLiveServerTestCase):
 
     def setUp(self):
         options = ChromeOptions()
-        options.headless = True
+        options.headless = False
 
         self.browser = Chrome(options=options)
-        
+
     def login(self):
         user = "test"
         password = "test_todoz"
@@ -147,7 +149,7 @@ class TestSelenium(StaticLiveServerTestCase):
         self.assertEqual(0, len(elements))
         # delete list
         self.browser.find_element(By.PARTIAL_LINK_TEXT, 'DELETE').click()
-        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
+        self.browser.find_element(By.XPATH, "//input[@value='Confirm']").click()
 
     def test_done_task(self):
         self.login()
@@ -192,7 +194,7 @@ class TestSelenium(StaticLiveServerTestCase):
         self.browser.find_element(By.CLASS_NAME, 'add_todo_button').click()
         to_do_list = "Test1"
         self.browser.find_element(By.NAME, 'subject').send_keys(to_do_list)
-        self.browser.find_element(By.CLASS_NAME, 'done_button').click()
+        self.browser.find_element(By.CLASS_NAME, "done_button").click()
 
         # create tasks
         to_do_tasks = ("Task1", "Task2")
