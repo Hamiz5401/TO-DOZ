@@ -1,4 +1,12 @@
 <style>
+.detail {
+margin-left: 4rem;
+width: 90%;
+}
+.detail p{
+font-size: 1.5rem;
+margin-bottom:1rem;
+}
     .previous {
   background-color: #f1f1f1;
 font-weight: bold;
@@ -19,6 +27,7 @@ color: black;
   color: black;
   cursor:pointer;
 }
+
 </style>
 
 <!DOCTYPE html>
@@ -31,7 +40,6 @@ color: black;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TO-DOZ</title>
-
 </head>
 <body>
 <header>
@@ -52,27 +60,19 @@ color: black;
         </nav>
 
         <div class="page">
-            <h1>Discord Webhook</h1>
+            <h1>Delete Subject</h1>
         </div>
         <div class="previous">
-                <a href="{% url 'To_DoZ:home' %}">&#8249;</a>
-            </div>
+            <a href="{% url 'To_DoZ:home' %}">&#8249;</a>
+        </div>
 
         <section class="header-info">
             <div class="detail">
                 <form method="post">
                     {% csrf_token %}
-                    <p>
-                    <div class="inputBox">
-                        <input type="text" name="url" id="id_url" value="{{discord_url.url}}">
-                        <span>Discord Webhook URL</span>
-                    </div>
-                    </p>
+                    <p>Are you sure you want to unlink discord webhook?</p>
 
-                    <input type="submit" value="save" class="done_button">
-                    <a href="{% url 'To_DoZ:discord_delete_form' %}" class="done_button">
-                        DELETE
-                    </a>
+                    <input type="submit" value="Confirm" class="done_button">
                 </form>
             </div>
 

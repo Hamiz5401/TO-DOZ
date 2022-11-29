@@ -214,6 +214,14 @@ class DiscordUpdateView(UpdateView):
         return reverse("To_DoZ:home")
 
 
+@method_decorator(login_required, name="dispatch")
+class DiscordDeleteView(DeleteView):
+    model = Discord_url
+    template_name = "To_DoZ/discord_update_form.html"
+
+    def get_success_url(self) -> str:
+        return reverse("To_DoZ:home")
+
 @login_required
 def done(request, pk_task):
     task_object = Task.objects.get(pk=pk_task)

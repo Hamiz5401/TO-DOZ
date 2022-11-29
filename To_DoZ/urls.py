@@ -21,5 +21,6 @@ urlpatterns = [
     path('get_classroom_data', views.create_classroom_data, name='get_data'),
 
     path('discord_create_form/', views.DiscordCreateView.as_view(), name='discord_create_form'),
-    path('discord_update_form/<int:pk>', views.DiscordUpdateView.as_view(), name='discord_update_form')
+    path('discord_update_form/<int:pk>', views.DiscordUpdateView.as_view(), name='discord_update_form'),
+    path('discord_update_form/<int:pk>', views.DiscordDeleteView.as_view(), name='discord_delete_form')
 ]
