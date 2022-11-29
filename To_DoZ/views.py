@@ -251,18 +251,8 @@ def create_classroom_data(request):
 
     # Store the Credential.
     if not Google_token.objects.filter(user=user).exists():
-        try:
-            creds = create_credential(creds, request)
-        except:
-            return HttpResponseRedirect(reverse("To_DoZ:home"))
-        Google_token.objects.create(user=user,
-                                    token=creds.token,
-                                    refresh_token=creds.refresh_token,
-                                    token_url=creds.token_uri,
-                                    client_id=creds.client_id,
-                                    client_secret=creds.client_secret,
-                                    expiry=timezone.datetime.strptime(str(creds.expiry),
-                                                                      '%Y-%m-%d %H:%M:%S.%f'))
+        creds = create_credential(creds, request)
+
     # Get data from Google Classroom API.
     # Note: Trick the credential to think that it is not expired.
     creds.expiry = False
@@ -354,7 +344,7 @@ def create_duetime_google_task(work):
 
 def redirect_auth(request):
     flow = InstalledAppFlow.from_client_secrets_file(
-        'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/get_classroom_data")
+        'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8080/To-Doz/get_classroom_data")
     authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true',
                                                       prompt='consent')
     request.session['state'] = state
@@ -364,7 +354,7 @@ def redirect_auth(request):
 
 def create_credential(creds, request):
     flow = InstalledAppFlow.from_client_secrets_file(
-        'To_DoZ/credentials.json', SCOPES, redirect_uri="https://todoz-phukit.herokuapp.com/To-Doz/get_classroom_data",
+        'To_DoZ/credentials.json', SCOPES, redirect_uri="http://127.0.0.1:8080/To-Doz/get_classroom_data",
         state=request.GET.get("state", ""))
     authorization_response = request.build_absolute_uri()
     # Note: Make it think that it always connected to https
