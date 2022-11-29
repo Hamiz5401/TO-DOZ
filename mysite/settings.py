@@ -91,6 +91,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'OPTION': {
+            'CONN_MAX_AGE': '0',
+        }
     }
 }
 
@@ -165,9 +168,10 @@ SIGNUP_REDIRECT_URL = '/accounts/login'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-django_heroku.settings(locals())
-
 CSRF_TRUSTED_ORIGINS = ["https://todoz-phukit.herokuapp.com"]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
+
+django_heroku.settings(locals())
+DATABASES['default']['CONN_MAX_AGE'] = 0
