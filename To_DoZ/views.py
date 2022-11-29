@@ -269,7 +269,7 @@ def create_classroom_data(request):
     creds.expiry = False
     try:
         service = build('classroom', 'v1', credentials=creds)
-        results = service.courses().list(pageSize=1, fields="courses(id,name)").execute()
+        results = service.courses().list(pageSize=10, fields="courses(id,name)").execute()
         courses = results.get('courses', [])
 
         if not courses:
