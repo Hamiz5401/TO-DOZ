@@ -56,7 +56,7 @@ class TestSelenium(StaticLiveServerTestCase):
     def setUp(self):
         options = ChromeOptions()
         options.add_argument('--headless')
-        options.headless = False
+        options.headless = True
 
         self.browser = Chrome(options=options)
 
