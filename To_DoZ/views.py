@@ -18,9 +18,6 @@ from googleapiclient.errors import HttpError
 from discordwebhook import Discord
 from .jobs import add_job, clear_job
 from django.utils import timezone
-from threading import Thread
-from allauth.socialaccount.models import SocialAccount
-from django.contrib.auth.models import User
 
 SCOPES = [
     'https://www.googleapis.com/auth/classroom.courses.readonly',

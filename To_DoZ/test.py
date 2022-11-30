@@ -7,10 +7,6 @@ from django.utils import timezone
 from . import views
 from .models import Task, ToDoList, User
 
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium.webdriver import Chrome, ChromeOptions
-from selenium.webdriver.common.by import By
-
 
 class QuestionModelTests(TestCase):
 
