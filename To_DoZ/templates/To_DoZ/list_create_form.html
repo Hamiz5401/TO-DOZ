@@ -70,14 +70,15 @@ color: black;
 
         <section class="header-info">
             <div class="detail">
-                <form method="post">{% csrf_token %}
+                onsubmit="create_title.disabled = true; return true;
+                <form method="post" onsubmit="create_list.disable = true; return true">{% csrf_token %}
                     <p>
                     <div class="inputBox">
                         <input type="text" name="subject" maxlength="200" required id="id_subject">
                         <span>Subject</span>
                     </div>
                     </p>
-                    <input type="submit" value="save" class="done_button">
+                    <input type="submit" value="save" class="done_button" name="create_list">
                 </form>
             </div>
 
